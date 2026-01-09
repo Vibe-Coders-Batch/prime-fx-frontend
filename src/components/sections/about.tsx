@@ -38,28 +38,26 @@ const VALUES = [
 export function About() {
   return (
     <section
-      className="py-16 bg-background relative overflow-hidden"
+      className="py-10 sm:py-12 md:py-16 bg-background relative overflow-hidden"
       id="about"
       aria-labelledby="about-heading"
     >
-      {/* Background Gradients */}
       <div
         className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/4 w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] bg-primary/5 rounded-full blur-[80px] sm:blur-[100px]" />
+        <div className="absolute bottom-0 right-1/4 w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] bg-blue-500/5 rounded-full blur-[80px] sm:blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* About Us Header & Content */}
-        <header className="text-center mb-16 max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <header className="text-center mb-10 sm:mb-12 md:mb-16 max-w-4xl mx-auto">
           <motion.h2
             id="about-heading"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 mb-6"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 mb-4 sm:mb-6"
           >
             About PRIME E-LEARNING & TRAINING
           </motion.h2>
@@ -69,7 +67,7 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="space-y-6 text-muted-foreground text-lg leading-relaxed"
+            className="space-y-4 sm:space-y-6 text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed"
           >
             <p>
               PRIME E-LEARNING & TRAINING is a next-generation, online-only
@@ -93,9 +91,8 @@ export function About() {
           </motion.div>
         </header>
 
-        {/* Mission & Vision */}
         <div
-          className="grid md:grid-cols-2 gap-8 mb-24"
+          className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 md:mb-24"
           role="group"
           aria-label="Mission and Vision"
         >
@@ -104,10 +101,10 @@ export function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-card border border-border/50 rounded-2xl p-8 hover:border-primary/50 transition-colors duration-300"
+            className="bg-card border border-border/50 rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 hover:border-primary/50 transition-colors duration-300"
           >
-            <h3 className="text-2xl font-bold mb-4 text-foreground">Mission</h3>
-            <p className="text-muted-foreground leading-relaxed">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">Mission</h3>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
               To make high-quality education accessible to everyone—regardless of
               background, academic history, or financial limitations—by providing
               practical, outcome-driven online learning that empowers real career
@@ -120,10 +117,10 @@ export function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="bg-card border border-border/50 rounded-2xl p-8 hover:border-blue-500/50 transition-colors duration-300"
+            className="bg-card border border-border/50 rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 hover:border-blue-500/50 transition-colors duration-300"
           >
-            <h3 className="text-2xl font-bold mb-4 text-foreground">Vision</h3>
-            <p className="text-muted-foreground leading-relaxed">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">Vision</h3>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
               To become a global catalyst for second-career success by building an
               inclusive, technology-driven learning ecosystem that unlocks
               opportunities for millions of aspiring learners.
@@ -131,20 +128,19 @@ export function About() {
           </motion.article>
         </div>
 
-        {/* Values */}
         <div aria-labelledby="values-heading">
           <motion.h3
             id="values-heading"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-2xl md:text-3xl font-bold text-center mb-12"
+            className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12"
           >
             Our Core Values
           </motion.h3>
 
           <ul
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 list-none p-0"
             role="list"
             aria-label="Core values"
           >
@@ -156,11 +152,11 @@ export function About() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <article className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 hover:bg-card hover:border-primary/20 transition-all duration-300 h-full">
-                  <h4 className="text-xl font-semibold mb-3 text-foreground">
+                <article className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 hover:bg-card hover:border-primary/20 transition-all duration-300 h-full">
+                  <h4 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-foreground">
                     {value.title}
                   </h4>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-xs sm:text-sm">
                     {value.description}
                   </p>
                 </article>

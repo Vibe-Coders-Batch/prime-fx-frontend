@@ -29,28 +29,28 @@ export function CourseCard({ course }: CourseCardProps) {
             className="h-full w-full object-cover transition-transform group-hover:scale-105"
           />
           {course.category && (
-            <Badge className="absolute top-2 right-2 bg-black/70 hover:bg-black/80 backdrop-blur-sm">
+            <Badge className="absolute top-2 right-2 bg-black/70 hover:bg-black/80 backdrop-blur-sm text-[10px] sm:text-xs">
               {course.category.name}
             </Badge>
           )}
         </div>
       )}
-      <CardHeader className="flex-1">
+      <CardHeader className="flex-1 p-3 sm:p-4 md:p-6">
         <div className="flex justify-between items-start gap-2">
-          <CardTitle className="text-lg group-hover:line-clamp-none line-clamp-2">{course.title}</CardTitle>
+          <CardTitle className="text-sm sm:text-base md:text-lg group-hover:line-clamp-none line-clamp-2">{course.title}</CardTitle>
         </div>
-        <CardDescription className="line-clamp-3 group-hover:line-clamp-none mt-2">
+        <CardDescription className="line-clamp-2 sm:line-clamp-3 group-hover:line-clamp-none mt-1.5 sm:mt-2 text-xs sm:text-sm">
           {course.description}
         </CardDescription>
 
-        <div className="flex items-center gap-1 mt-2 text-sm text-yellow-500 font-medium">
+        <div className="flex items-center gap-1 mt-1.5 sm:mt-2 text-xs sm:text-sm text-yellow-500 font-medium">
           <span>4.8</span>
-          <Star className="h-4 w-4 fill-current" />
+          <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
           <span className="text-muted-foreground ml-1">(120)</span>
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <CardContent className="pt-0 px-3 sm:px-4 md:px-6 pb-2">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
           {course.instructor && (
             <span>
               By {course.instructor.firstName} {course.instructor.lastName}
@@ -58,15 +58,15 @@ export function CourseCard({ course }: CourseCardProps) {
           )}
         </div>
       </CardContent>
-      <CardFooter className="flex items-center justify-between border-t p-4 bg-muted/20">
-        <span className="text-lg font-bold text-primary">
+      <CardFooter className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-0 border-t p-3 sm:p-4 bg-muted/20">
+        <span className="text-base sm:text-lg font-bold text-primary">
           {course.currency} {parseFloat(course.price).toFixed(2)}
         </span>
         <Link
           href={`/learner/courses/${course.courseId}`}
           className="w-full sm:w-auto"
         >
-          <Button size="sm" className="w-full">
+          <Button size="sm" className="w-full text-xs sm:text-sm">
             View Details
           </Button>
         </Link>
