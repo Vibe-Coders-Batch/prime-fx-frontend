@@ -1,0 +1,154 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+export function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Scale the hole from 0 to 50 (enough to cover screen)
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
+
+  // Fade out text as hole expands
+  const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
+
+  // Reveal "Trade with Precision" only after hole expands (0.5)
+  const revealedContentOpacity = useTransform(
+    scrollYProgress,
+    [0.5, 0.6],
+    [0, 1]
+  );
+  const revealedContentScale = useTransform(
+    scrollYProgress,
+    [0.5, 0.6],
+    [0, 1]
+  );
+  const revealedContentY = useTransform(
+    scrollYProgress,
+    [0.5, 0.7],
+    ["100%", "0%"]
+  );
+
+  const headlineWords = "Master the Global Markets".split(" ");
+
+  return (
+    <div ref={containerRef} className="relative h-[250vh] bg-background">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Background Layer (Revealed Content) */}
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+          {/* Placeholder for Video/Image */}
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center opacity-30 grayscale" />
+          <div className="relative z-10 flex flex-col items-center justify-center">
+            {/* The Pill */}
+            <motion.div
+              style={{
+                scale: revealedContentScale,
+                opacity: revealedContentOpacity,
+              }}
+              className="mb-6 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-xs font-bold tracking-widest text-primary-gold uppercase"
+            >
+              Live Classes & Tests
+            </motion.div>
+
+            {/* The Text (Slide Up) */}
+            <div className="overflow-hidden">
+              <motion.h2
+                style={{ y: revealedContentY, opacity: revealedContentOpacity }}
+                className="text-4xl md:text-6xl font-bold text-white mb-6"
+              >
+                Trade with Precision
+              </motion.h2>
+            </div>
+
+            <motion.p
+              style={{ opacity: revealedContentOpacity }}
+              className="text-lg md:text-xl text-slate-400 max-w-2xl text-center mb-8 px-4"
+            >
+              Join the elite community of traders mastering the markets with
+              institutional-grade strategies and real-time mentorship.
+            </motion.p>
+
+            <motion.div style={{ opacity: revealedContentOpacity }}>
+              <Link href="/login">
+                <Button className="bg-primary-gold text-primary-dark hover:bg-foreground hover:text-background text-lg px-8 py-6 font-semibold">
+                  Start Your Journey
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Mask Layer (The "Hole") */}
+        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+          <motion.div
+            style={{ scale }}
+            className="w-10 h-10 bg-transparent rounded-full shadow-[0_0_0_500vmax_var(--color-background)]"
+          />
+        </div>
+
+        {/* Initial Content Layer */}
+        <motion.div
+          style={{ opacity: textOpacity, y: textY }}
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
+        >
+          <h1 className="text-6xl md:text-9xl font-bold text-foreground tracking-tighter text-center px-4 flex flex-wrap justify-center gap-x-4 gap-y-2">
+            {headlineWords.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: 0.2 + i * 0.1,
+                  duration: 0.8,
+                  ease: "easeOut",
+                }}
+              >
+                {word === "Global" || word === "Markets" ? (
+                  <span className="text-primary-gold">{word}</span>
+                ) : (
+                  word
+                )}
+              </motion.span>
+            ))}
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.8 }}
+            className="mt-6 text-xl md:text-2xl text-muted-foreground max-w-3xl text-center px-4 leading-relaxed"
+          >
+            For Students, Professionals, and Aspirants. The ultimate ecosystem
+            for financial literacy.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4, duration: 0.8 }}
+            className="mt-10 flex flex-col sm:flex-row gap-4"
+          >
+            <Link href="/login">
+              <Button className="bg-primary-gold text-primary-dark hover:bg-white text-lg px-8 py-6 font-bold">
+                Start Journey
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              className="bg-transparent border-foreground/20 text-foreground hover:bg-foreground hover:text-background text-lg px-8 py-6"
+            >
+              View Curriculum
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
