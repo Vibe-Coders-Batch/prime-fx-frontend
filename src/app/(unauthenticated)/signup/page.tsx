@@ -58,7 +58,7 @@ export default function SignupPage() {
   const onSubmit = async (data: SignupFormData) => {
     const [firstName, ...lastNameParts] = data.fullName.split(" ");
     const lastName = lastNameParts.join(" ");
-    
+
     try {
       await registerUser.mutateAsync({
         email: data.email,
@@ -66,9 +66,14 @@ export default function SignupPage() {
         firstName,
         lastName,
       });
-      toast.success("Account created! Please check your email to verify your account.");
-    } catch (error: any) {
-      const errorMessage = error?.message || "Registration failed. Please try again.";
+      toast.success(
+        "Account created! Please check your email to verify your account."
+      );
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Registration failed. Please try again.";
       toast.error(errorMessage);
     }
   };
@@ -80,74 +85,103 @@ export default function SignupPage() {
       image={<AnimatedBarChart />}
     >
       <div className="space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">Create Account</h2>
+        <header className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Create Account
+          </h1>
           <p className="text-muted-foreground">
             Begin your application for PRIME E-LEARNING & TRAINING.
           </p>
-        </div>
+        </header>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6"
+          aria-label="Registration form"
+        >
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground/80 font-normal">Email Address</Label>
+            <Label htmlFor="email" className="text-foreground/80 font-normal">
+              Email Address
+            </Label>
             <Input
               id="email"
               type="email"
+              autoComplete="email"
               className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
               {...register("email")}
               disabled={registerUser.isPending}
+              aria-describedby={errors.email ? "email-error" : undefined}
             />
             {errors.email && (
-              <p className="text-xs text-destructive">{errors.email.message}</p>
-            )}
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-foreground/80 font-normal">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
-              {...register("password")}
-              disabled={registerUser.isPending}
-            />
-            {errors.password && (
-              <p className="text-xs text-destructive">{errors.password.message}</p>
-            )}
-            {!errors.password && (
-              <p className="text-xs text-muted-foreground">
-                Must include uppercase, lowercase, number, and special character (@$!%*?&)
+              <p id="email-error" className="text-xs text-destructive" role="alert">
+                {errors.email.message}
               </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="fullName" className="text-foreground/80 font-normal">Full Name</Label>
+            <Label htmlFor="password" className="text-foreground/80 font-normal">
+              Password
+            </Label>
             <Input
-              id="fullName"
-              type="text"
+              id="password"
+              type="password"
+              autoComplete="new-password"
               className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
-              {...register("fullName")}
+              {...register("password")}
               disabled={registerUser.isPending}
+              aria-describedby={
+                errors.password ? "password-error" : "password-hint"
+              }
             />
-             {errors.fullName && (
-              <p className="text-xs text-destructive">{errors.fullName.message}</p>
+            {errors.password ? (
+              <p id="password-error" className="text-xs text-destructive" role="alert">
+                {errors.password.message}
+              </p>
+            ) : (
+              <p id="password-hint" className="text-xs text-muted-foreground">
+                Must include uppercase, lowercase, number, and special character
+                (@$!%*?&)
+              </p>
             )}
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full bg-[#E3B558] hover:bg-[#d4a74d] text-black font-semibold h-11" 
+          <div className="space-y-2">
+            <Label htmlFor="fullName" className="text-foreground/80 font-normal">
+              Full Name
+            </Label>
+            <Input
+              id="fullName"
+              type="text"
+              autoComplete="name"
+              className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
+              {...register("fullName")}
+              disabled={registerUser.isPending}
+              aria-describedby={errors.fullName ? "fullname-error" : undefined}
+            />
+            {errors.fullName && (
+              <p id="fullname-error" className="text-xs text-destructive" role="alert">
+                {errors.fullName.message}
+              </p>
+            )}
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-[#E3B558] hover:bg-[#d4a74d] text-black font-semibold h-11"
             disabled={registerUser.isPending}
           >
             {registerUser.isPending ? "Creating Account..." : "Create Account"}
           </Button>
 
           <div className="text-center text-sm pt-4">
-              <span className="text-muted-foreground">Already a member? </span>
-              <Link href="/login" className="text-[#E3B558] hover:underline font-medium">
-                Sign In
-              </Link>
+            <span className="text-muted-foreground">Already a member? </span>
+            <Link
+              href="/login"
+              className="text-[#E3B558] hover:underline font-medium"
+            >
+              Sign In
+            </Link>
           </div>
         </form>
       </div>

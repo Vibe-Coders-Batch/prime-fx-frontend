@@ -12,14 +12,10 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Scale the hole from 0 to 50 (enough to cover screen)
   const scale = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
-
-  // Fade out text as hole expands
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
 
-  // Reveal "Trade with Precision" only after hole expands (0.5)
   const revealedContentOpacity = useTransform(
     scrollYProgress,
     [0.5, 0.6],
@@ -39,14 +35,23 @@ export function Hero() {
   const headlineWords = "Master the Global Markets".split(" ");
 
   return (
-    <div ref={containerRef} className="relative h-[250vh] bg-background">
+    <section
+      ref={containerRef}
+      className="relative h-[250vh] bg-background"
+      aria-label="Hero section - Master the Global Markets"
+    >
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Background Layer (Revealed Content) */}
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
-          {/* Placeholder for Video/Image */}
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center opacity-30 grayscale" />
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center opacity-30 grayscale"
+            role="img"
+            aria-label="Financial markets background"
+          />
           <div className="relative z-10 flex flex-col items-center justify-center">
-            {/* The Pill */}
             <motion.div
               style={{
                 scale: revealedContentScale,
@@ -57,14 +62,15 @@ export function Hero() {
               Live Classes & Tests
             </motion.div>
 
-            {/* The Text (Slide Up) */}
             <div className="overflow-hidden">
-              <motion.h2
+              <motion.p
                 style={{ y: revealedContentY, opacity: revealedContentOpacity }}
                 className="text-4xl md:text-6xl font-bold text-white mb-6"
+                role="heading"
+                aria-level={2}
               >
                 Trade with Precision
-              </motion.h2>
+              </motion.p>
             </div>
 
             <motion.p
@@ -76,7 +82,7 @@ export function Hero() {
             </motion.p>
 
             <motion.div style={{ opacity: revealedContentOpacity }}>
-              <Link href="/login">
+              <Link href="/login" aria-label="Start your trading journey - Login to get started">
                 <Button className="bg-primary-gold text-primary-dark hover:bg-foreground hover:text-background text-lg px-8 py-6 font-semibold">
                   Start Your Journey
                 </Button>
@@ -86,7 +92,10 @@ export function Hero() {
         </div>
 
         {/* Mask Layer (The "Hole") */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+        <div
+          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+          aria-hidden="true"
+        >
           <motion.div
             style={{ scale }}
             className="w-10 h-10 bg-transparent rounded-full shadow-[0_0_0_500vmax_var(--color-background)]"
@@ -94,7 +103,7 @@ export function Hero() {
         </div>
 
         {/* Initial Content Layer */}
-        <motion.div
+        <motion.header
           style={{ opacity: textOpacity, y: textY }}
           className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
@@ -129,26 +138,29 @@ export function Hero() {
             for financial literacy.
           </motion.p>
 
-          <motion.div
+          <motion.nav
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4, duration: 0.8 }}
             className="mt-10 flex flex-col sm:flex-row gap-4"
+            aria-label="Hero actions"
           >
-            <Link href="/login">
+            <Link href="/login" aria-label="Start your learning journey">
               <Button className="bg-primary-gold text-primary-dark hover:bg-white text-lg px-8 py-6 font-bold">
                 Start Journey
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              className="bg-transparent border-foreground/20 text-foreground hover:bg-foreground hover:text-background text-lg px-8 py-6"
-            >
-              View Curriculum
-            </Button>
-          </motion.div>
-        </motion.div>
+            <Link href="#curriculum" aria-label="View our curriculum and course offerings">
+              <Button
+                variant="outline"
+                className="bg-transparent border-foreground/20 text-foreground hover:bg-foreground hover:text-background text-lg px-8 py-6"
+              >
+                View Curriculum
+              </Button>
+            </Link>
+          </motion.nav>
+        </motion.header>
       </div>
-    </div>
+    </section>
   );
 }
