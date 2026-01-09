@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PropsWithChildren } from "react";
 
 const siteUrl = "https://paet.ltd";
 const siteName = "PRIME E-Learning & Training";
@@ -24,10 +25,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CoursesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function CoursesLayout({ children }: PropsWithChildren) {
   return <>{children}</>;
 }
