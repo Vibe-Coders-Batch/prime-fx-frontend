@@ -108,65 +108,68 @@ export default function PaymentManagementPage() {
         ) : (
           <Card>
             <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Payment ID</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Gateway</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredPayments.map((payment) => (
-                    <TableRow key={payment.paymentId}>
-                      <TableCell className="font-mono text-xs">
-                        {payment.paymentId}
-                      </TableCell>
-                      <TableCell>
-                        {payment.currency} {parseFloat(String(payment.amount)).toFixed(2)}
-                      </TableCell>
-                      <TableCell>
-                        <span className="px-2 py-1 text-xs rounded bg-muted">
-                          {payment.gateway}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span
-                          className={`px-2 py-1 text-xs rounded ${
-                            payment.status === "SUCCESS" ||
-                            payment.status === "COMPLETED"
-                              ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                              : payment.status === "PENDING"
-                              ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
-                              : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
-                          }`}
-                        >
-                          {payment.status}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        {new Date(payment.createdAt).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            toast.info(
-                              `Payment details for ${payment.paymentId} - Feature coming soon`
-                            );
-                          }}
-                        >
-                          View Details
-                        </Button>
-                      </TableCell>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[120px]">Payment ID</TableHead>
+                      <TableHead className="min-w-[100px]">Amount</TableHead>
+                      <TableHead className="min-w-[80px] hidden sm:table-cell">Gateway</TableHead>
+                      <TableHead className="min-w-[80px]">Status</TableHead>
+                      <TableHead className="min-w-[100px] hidden md:table-cell">Date</TableHead>
+                      <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredPayments.map((payment) => (
+                      <TableRow key={payment.paymentId}>
+                        <TableCell className="font-mono text-xs truncate max-w-[150px]">
+                          {payment.paymentId}
+                        </TableCell>
+                        <TableCell className="whitespace-nowrap">
+                          {payment.currency} {parseFloat(String(payment.amount)).toFixed(2)}
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          <span className="px-2 py-1 text-xs rounded bg-muted">
+                            {payment.gateway}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <span
+                            className={`px-2 py-1 text-xs rounded whitespace-nowrap ${
+                              payment.status === "SUCCESS" ||
+                              payment.status === "COMPLETED"
+                                ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                                : payment.status === "PENDING"
+                                ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
+                                : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
+                            }`}
+                          >
+                            {payment.status}
+                          </span>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          {new Date(payment.createdAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              toast.info(
+                                `Payment details for ${payment.paymentId} - Feature coming soon`
+                              );
+                            }}
+                          >
+                            <span className="hidden sm:inline">View Details</span>
+                            <span className="sm:hidden">View</span>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         )}

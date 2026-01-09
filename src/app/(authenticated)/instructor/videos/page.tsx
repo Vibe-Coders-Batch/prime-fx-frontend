@@ -180,11 +180,11 @@ export default function InstructorVideosPage() {
           }}
         />
       ) : (
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold">All Videos</h2>
-              <p className="text-muted-foreground mt-1">
+              <h2 className="text-xl sm:text-2xl font-bold">All Videos</h2>
+              <p className="text-muted-foreground mt-1 text-sm sm:text-base">
                 {videoLessons.length} video
                 {videoLessons.length !== 1 ? "s" : ""} across{" "}
                 {new Set(videoLessons.map((v) => v.courseId)).size} course
@@ -194,14 +194,15 @@ export default function InstructorVideosPage() {
               </p>
             </div>
             <Link href="/instructor/courses/new">
-              <Button>
+              <Button className="w-full sm:w-auto">
                 <BookOpen className="h-4 w-4 mr-2" />
-                Create Course
+                <span className="hidden sm:inline">Create Course</span>
+                <span className="sm:hidden">New Course</span>
               </Button>
             </Link>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {videoLessons.map((video, index) => (
               <motion.div
                 key={video.lessonId}
@@ -256,39 +257,38 @@ export default function InstructorVideosPage() {
                   </CardHeader>
 
                   <CardContent className="mt-auto pt-0">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap sm:flex-nowrap">
                       <Button
                         variant="outline"
-                        className="flex-1"
+                        className="flex-1 min-w-[80px]"
                         size="sm"
                         onClick={() => {
-                          console.log('[InstructorVideos] Preview clicked for lesson:', video.lessonId);
                           setPreviewLessonId(video.lessonId);
                         }}
                         disabled={video.status !== "READY"}
                       >
-                        <Play className="h-4 w-4 mr-2" />
-                        Preview
+                        <Play className="h-4 w-4 sm:mr-2" />
+                        <span className="hidden sm:inline">Preview</span>
                       </Button>
 
                       <Link
                         href={`/instructor/courses/${video.courseId}/edit`}
-                        className="flex-1"
+                        className="flex-1 min-w-[80px]"
                       >
                         <Button variant="outline" className="w-full" size="sm">
-                          <Edit className="h-4 w-4 mr-2" />
-                          Edit
+                          <Edit className="h-4 w-4 sm:mr-2" />
+                          <span className="hidden sm:inline">Edit</span>
                         </Button>
                       </Link>
 
                       <Link
                         href={`/courses/${video.courseSlug}`}
                         target="_blank"
-                        className="flex-1"
+                        className="flex-1 min-w-[80px]"
                       >
                         <Button variant="ghost" className="w-full" size="sm">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          View
+                          <ExternalLink className="h-4 w-4 sm:mr-2" />
+                          <span className="hidden sm:inline">View</span>
                         </Button>
                       </Link>
                     </div>

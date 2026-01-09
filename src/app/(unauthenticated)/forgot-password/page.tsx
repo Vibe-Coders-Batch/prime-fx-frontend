@@ -9,7 +9,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -22,11 +24,19 @@ export default function ForgotPasswordPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    formState: { isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
   });
+
+  useEffect(() => {
+    if (forgotPassword.isError) {
+      const errorMessage = forgotPassword.error instanceof Error 
+        ? forgotPassword.error.message 
+        : "Failed to send reset email. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [forgotPassword.isError, forgotPassword.error]);
 
   const onSubmit = (data: ForgotPasswordFormData) => {
     forgotPassword.mutate(data);
@@ -71,6 +81,16 @@ export default function ForgotPasswordPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {forgotPassword.isError && (
+              <div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                <span>
+                  {forgotPassword.error instanceof Error 
+                    ? forgotPassword.error.message 
+                    : "Failed to send reset email. Please try again."}
+                </span>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input

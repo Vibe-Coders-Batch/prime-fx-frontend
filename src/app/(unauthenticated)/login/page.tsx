@@ -40,17 +40,15 @@ export default function LoginPage() {
     }
   }, [user, router]);
 
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      await login.mutateAsync(data);
-    } catch (error: unknown) {
+  function handleFormSubmit(data: LoginFormData) {
+    login.mutateAsync(data).catch((error: unknown) => {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Login failed. Please check your credentials.";
       toast.error(errorMessage);
-    }
-  };
+    });
+  }
 
   return (
     <AuthSplitLayout
@@ -58,25 +56,25 @@ export default function LoginPage() {
       subtitle="Access the institutional ecosystem designed for the next generation of traders."
       image={<AnimatedLineChart />}
     >
-      <div className="space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+      <div className="space-y-5 sm:space-y-6">
+        <header className="space-y-1.5 sm:space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Welcome Back
           </h1>
-          <p className="text-muted-foreground text-base">
+          <p className="text-muted-foreground text-sm sm:text-base">
             Enter your credentials to access the terminal.
           </p>
         </header>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6"
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="space-y-4 sm:space-y-5"
           aria-label="Login form"
         >
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label
               htmlFor="email"
-              className="text-foreground font-semibold text-sm"
+              className="text-foreground font-medium text-sm"
             >
               Email Address
             </Label>
@@ -84,7 +82,8 @@ export default function LoginPage() {
               id="email"
               type="email"
               autoComplete="email"
-              className="bg-background text-foreground border-input focus:ring-primary/20 focus:border-primary border-2"
+              placeholder="you@example.com"
+              className="h-11 sm:h-12 bg-background text-foreground border-border focus:ring-primary/20 focus:border-primary"
               {...register("email")}
               disabled={login.isPending}
               aria-describedby={errors.email ? "email-error" : undefined}
@@ -96,10 +95,10 @@ export default function LoginPage() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label
               htmlFor="password"
-              className="text-foreground font-semibold text-sm"
+              className="text-foreground font-medium text-sm"
             >
               Password
             </Label>
@@ -107,7 +106,8 @@ export default function LoginPage() {
               id="password"
               type="password"
               autoComplete="current-password"
-              className="bg-background text-foreground border-input focus:ring-primary/20 focus:border-primary border-2"
+              placeholder="••••••••"
+              className="h-11 sm:h-12 bg-background text-foreground border-border focus:ring-primary/20 focus:border-primary"
               {...register("password")}
               disabled={login.isPending}
               aria-describedby={errors.password ? "password-error" : undefined}
@@ -123,7 +123,6 @@ export default function LoginPage() {
             <Link
               href="/forgot-password"
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              tabIndex={3}
             >
               Forgot password?
             </Link>
@@ -131,35 +130,22 @@ export default function LoginPage() {
 
           <Button
             type="submit"
-            className="w-full bg-[#E3B558] hover:bg-[#d4a74d] text-black font-semibold h-11"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-11 sm:h-12"
             disabled={login.isPending}
           >
             {login.isPending ? "Signing in..." : "Sign In"}
           </Button>
 
-          <div className="space-y-4 text-center text-sm pt-4">
-            <div>
-              <span className="text-muted-foreground">
-                Don&apos;t have an account?{" "}
-              </span>
-              <Link
-                href="/signup"
-                className="text-[#E3B558] hover:underline font-semibold"
-              >
-                Apply for Access
-              </Link>
-            </div>
-            <div>
-              <span className="text-muted-foreground">
-                New to PRIME E-LEARNING & TRAINING?{" "}
-              </span>
-              <Link
-                href="#"
-                className="text-[#E3B558] hover:underline font-semibold"
-              >
-                Book a demo
-              </Link>
-            </div>
+          <div className="text-center text-sm pt-2 sm:pt-4">
+            <span className="text-muted-foreground">
+              Don&apos;t have an account?{" "}
+            </span>
+            <Link
+              href="/signup"
+              className="text-primary hover:underline font-semibold"
+            >
+              Apply for Access
+            </Link>
           </div>
         </form>
       </div>

@@ -100,66 +100,67 @@ export default function CompanyManagementPage() {
         ) : (
           <Card>
             <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Phone</TableHead>
-                    <TableHead>Created</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {(Array.isArray(companiesData) ? companiesData : []).map(
-                    (company: Company) => (
-                      <TableRow key={company.id}>
-                        <TableCell className="font-medium">
-                          {company.name}
-                        </TableCell>
-                        <TableCell>{company.email || "N/A"}</TableCell>
-                        <TableCell>{company.phone || "N/A"}</TableCell>
-                        <TableCell>
-                          {new Date(company.createdAt).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleEditClick(company)}
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              disabled={deleteCompany.isPending}
-                              onClick={async () => {
-                                if (
-                                  confirm(
-                                    `Are you sure you want to delete ${company.name}?`
-                                  )
-                                ) {
-                                  try {
-                                    await deleteCompany.mutateAsync(company.id);
-                                  } catch (error: any) {
-                                    // Error handled by hook
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[120px]">Name</TableHead>
+                      <TableHead className="min-w-[150px] hidden sm:table-cell">Email</TableHead>
+                      <TableHead className="min-w-[100px] hidden md:table-cell">Phone</TableHead>
+                      <TableHead className="min-w-[100px] hidden lg:table-cell">Created</TableHead>
+                      <TableHead className="text-right min-w-[140px]">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {(Array.isArray(companiesData) ? companiesData : []).map(
+                      (company: Company) => (
+                        <TableRow key={company.id}>
+                          <TableCell className="font-medium">
+                            {company.name}
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell truncate max-w-[200px]">{company.email || "N/A"}</TableCell>
+                          <TableCell className="hidden md:table-cell">{company.phone || "N/A"}</TableCell>
+                          <TableCell className="hidden lg:table-cell">
+                            {new Date(company.createdAt).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleEditClick(company)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                disabled={deleteCompany.isPending}
+                                onClick={async () => {
+                                  if (
+                                    confirm(
+                                      `Are you sure you want to delete ${company.name}?`
+                                    )
+                                  ) {
+                                    try {
+                                      await deleteCompany.mutateAsync(company.id);
+                                    } catch (error: any) {
+                                      // Error handled by hook
+                                    }
                                   }
-                                }
-                              }}
-                            >
-                              {deleteCompany.isPending
-                                ? "Deleting..."
-                                : "Delete"}
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  )}
-                </TableBody>
-              </Table>
+                                }}
+                              >
+                                <span className="hidden sm:inline">{deleteCompany.isPending ? "Deleting..." : "Delete"}</span>
+                                <span className="sm:hidden">Del</span>
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         )}

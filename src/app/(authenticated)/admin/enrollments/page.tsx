@@ -131,31 +131,31 @@ export default function EnrollmentManagementPage() {
                 <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Course</TableHead>
-                    <TableHead>Company</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Enrolled</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className="min-w-[120px]">User</TableHead>
+                    <TableHead className="min-w-[150px]">Course</TableHead>
+                    <TableHead className="min-w-[100px] hidden md:table-cell">Company</TableHead>
+                    <TableHead className="min-w-[80px]">Status</TableHead>
+                    <TableHead className="min-w-[100px] hidden sm:table-cell">Enrolled</TableHead>
+                    <TableHead className="text-right min-w-[80px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {enrollmentsData.data.map((enrollment: Enrollment) => (
                     <TableRow key={enrollment.enrollmentId}>
-                      <TableCell>
+                      <TableCell className="font-medium">
                         {enrollment.user
                           ? `${enrollment.user.firstName || ""} ${
                               enrollment.user.lastName || ""
                             }`.trim() || enrollment.user.email
                           : "N/A"}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="max-w-[200px] truncate">
                         {enrollment.course?.title || "Unknown Course"}
                       </TableCell>
-                      <TableCell>{enrollment.company?.name || "N/A"}</TableCell>
+                      <TableCell className="hidden md:table-cell">{enrollment.company?.name || "N/A"}</TableCell>
                       <TableCell>
                         <span
-                          className={`px-2 py-1 text-xs rounded ${
+                          className={`px-2 py-1 text-xs rounded whitespace-nowrap ${
                             enrollment.status === "ACTIVE"
                               ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
                               : enrollment.status === "COMPLETED"
@@ -166,7 +166,7 @@ export default function EnrollmentManagementPage() {
                           {enrollment.status}
                         </span>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden sm:table-cell">
                         {new Date(enrollment.enrolledAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell className="text-right">

@@ -55,28 +55,27 @@ export default function SignupPage() {
     }
   }, [user, router]);
 
-  const onSubmit = async (data: SignupFormData) => {
+  function handleFormSubmit(data: SignupFormData) {
     const [firstName, ...lastNameParts] = data.fullName.split(" ");
     const lastName = lastNameParts.join(" ");
 
-    try {
-      await registerUser.mutateAsync({
-        email: data.email,
-        password: data.password,
-        firstName,
-        lastName,
-      });
+    registerUser.mutateAsync({
+      email: data.email,
+      password: data.password,
+      firstName,
+      lastName,
+    }).then(() => {
       toast.success(
         "Account created! Please check your email to verify your account."
       );
-    } catch (error: unknown) {
+    }).catch((error: unknown) => {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Registration failed. Please try again.";
       toast.error(errorMessage);
-    }
-  };
+    });
+  }
 
   return (
     <AuthSplitLayout
@@ -84,30 +83,31 @@ export default function SignupPage() {
       subtitle="Start your journey to financial mastery. Institutional tools, real-time data, and expert mentorship."
       image={<AnimatedBarChart />}
     >
-      <div className="space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+      <div className="space-y-5 sm:space-y-6">
+        <header className="space-y-1.5 sm:space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Create Account
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm sm:text-base">
             Begin your application for PRIME E-LEARNING & TRAINING.
           </p>
         </header>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6"
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="space-y-4 sm:space-y-5"
           aria-label="Registration form"
         >
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground/80 font-normal">
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="email" className="text-foreground font-medium text-sm">
               Email Address
             </Label>
             <Input
               id="email"
               type="email"
               autoComplete="email"
-              className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
+              placeholder="you@example.com"
+              className="h-11 sm:h-12 bg-background text-foreground border-border focus:ring-primary/20 focus:border-primary"
               {...register("email")}
               disabled={registerUser.isPending}
               aria-describedby={errors.email ? "email-error" : undefined}
@@ -119,15 +119,16 @@ export default function SignupPage() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-foreground/80 font-normal">
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="password" className="text-foreground font-medium text-sm">
               Password
             </Label>
             <Input
               id="password"
               type="password"
               autoComplete="new-password"
-              className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
+              placeholder="••••••••"
+              className="h-11 sm:h-12 bg-background text-foreground border-border focus:ring-primary/20 focus:border-primary"
               {...register("password")}
               disabled={registerUser.isPending}
               aria-describedby={
@@ -146,15 +147,16 @@ export default function SignupPage() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="fullName" className="text-foreground/80 font-normal">
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="fullName" className="text-foreground font-medium text-sm">
               Full Name
             </Label>
             <Input
               id="fullName"
               type="text"
               autoComplete="name"
-              className="bg-background text-foreground border-input dark:bg-card dark:text-card-foreground focus:ring-primary/20"
+              placeholder="John Doe"
+              className="h-11 sm:h-12 bg-background text-foreground border-border focus:ring-primary/20 focus:border-primary"
               {...register("fullName")}
               disabled={registerUser.isPending}
               aria-describedby={errors.fullName ? "fullname-error" : undefined}
@@ -168,17 +170,17 @@ export default function SignupPage() {
 
           <Button
             type="submit"
-            className="w-full bg-[#E3B558] hover:bg-[#d4a74d] text-black font-semibold h-11"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-11 sm:h-12"
             disabled={registerUser.isPending}
           >
             {registerUser.isPending ? "Creating Account..." : "Create Account"}
           </Button>
 
-          <div className="text-center text-sm pt-4">
+          <div className="text-center text-sm pt-2 sm:pt-4">
             <span className="text-muted-foreground">Already a member? </span>
             <Link
               href="/login"
-              className="text-[#E3B558] hover:underline font-medium"
+              className="text-primary hover:underline font-semibold"
             >
               Sign In
             </Link>
