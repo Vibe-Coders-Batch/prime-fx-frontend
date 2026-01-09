@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SecureImage } from "@/components/ui/secure-image";
 
 export default function MyCoursesPage() {
   const [mounted, setMounted] = useState(false);
@@ -136,14 +137,10 @@ export default function MyCoursesPage() {
               >
                 <div className="aspect-video w-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5 relative">
                   {enrollment.course?.thumbnail ? (
-                    <img
+                    <SecureImage
                       src={enrollment.course.thumbnail}
                       alt={enrollment.course?.title || "Course thumbnail"}
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        // Hide broken image and show fallback
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center">
