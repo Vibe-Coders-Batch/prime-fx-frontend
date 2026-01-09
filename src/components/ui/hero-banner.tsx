@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Play,
@@ -14,7 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import type { Course } from "@/lib/api/services/courses";
+import type { Course, LessonInCourse } from "@/lib/api/services/courses";
+import { useAuthStore } from "@/lib/store/auth-store";
+import axios from "axios";
 
 interface HeroBannerProps {
   course: Course;
@@ -23,10 +25,13 @@ interface HeroBannerProps {
 
 export function HeroBanner({ course, className }: HeroBannerProps) {
   const [isMuted, setIsMuted] = useState(true);
-  const [showVideo, setShowVideo] = useState(false);
-  const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
+  const [signedVideoUrl, setSignedVideoUrl] = useState<string | null>(null);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { token } = useAuthStore();
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -34,65 +39,89 @@ export function HeroBanner({ course, className }: HeroBannerProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
 
-  // Default forex/crypto trading video for hero banner
-  const DEFAULT_FOREX_VIDEO =
-    "https://www.youtube.com/embed/8hly31xKli0?autoplay=1&mute=1&loop=1&playlist=8hly31xKli0&controls=0&modestbranding=1&rel=0&showinfo=0&start=0";
+  const freePreviewLesson = useMemo((): LessonInCourse | null => {
+    if (!course.sections) return null;
+
+    for (const section of course.sections) {
+      if (!section.lessons) continue;
+
+      for (const lesson of section.lessons) {
+        if (lesson.isFreePreview && lesson.type === "VIDEO") {
+          return lesson;
+        }
+      }
+    }
+    return null;
+  }, [course.sections]);
 
   useEffect(() => {
-    if (course.sections && course.sections.length > 0) {
-      const firstSection = course.sections[0];
-      const firstLesson = firstSection.lessons?.[0];
-      if (firstLesson?.videoUrl) {
-        setPreviewVideoUrl(firstLesson.videoUrl);
-        setShowVideo(true);
-      } else {
-        // Use default forex/crypto video if no course video
-        setPreviewVideoUrl(DEFAULT_FOREX_VIDEO);
-        setShowVideo(true);
+    async function fetchSignedVideoUrl() {
+      if (!freePreviewLesson) {
+        setSignedVideoUrl(null);
+        return;
       }
-    } else {
-      // Use default forex/crypto video if no sections
-      setPreviewVideoUrl(DEFAULT_FOREX_VIDEO);
-      setShowVideo(true);
+
+      const lessonId = freePreviewLesson.lessonId;
+      if (!lessonId || !token) {
+        setSignedVideoUrl(null);
+        return;
+      }
+
+      setIsVideoLoading(true);
+      setVideoError(false);
+
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const { data } = await axios.get(`${baseUrl}/lessons/${lessonId}/play`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (data.signedUrl) {
+          setSignedVideoUrl(data.signedUrl);
+        } else {
+          setVideoError(true);
+        }
+      } catch {
+        // Silently fall back to thumbnail on any error (403, 404, etc.)
+        setVideoError(true);
+      } finally {
+        setIsVideoLoading(false);
+      }
     }
-  }, [course]);
 
-  const isYouTubeUrl = (url: string) => {
-    return url.includes("youtube.com") || url.includes("youtu.be");
-  };
+    fetchSignedVideoUrl();
+  }, [freePreviewLesson, token]);
 
-  const getYouTubeEmbedUrl = (url: string) => {
-    let videoId = "";
-    if (url.includes("youtube.com/embed/")) {
-      videoId = url.split("youtube.com/embed/")[1].split("?")[0];
-    } else if (url.includes("youtube.com/watch?v=")) {
-      videoId = url.split("youtube.com/watch?v=")[1].split("&")[0];
-    } else if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split("?")[0];
-    }
-    return videoId
-      ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&showinfo=0&start=0`
-      : null;
-  };
+  const handleToggleMute = useCallback(() => {
+    setIsMuted((prev) => !prev);
+  }, []);
 
-  const totalDuration =
-    course.sections?.reduce((total, section) => {
-      const sectionDuration =
-        section.lessons?.reduce(
-          (sum, lesson) => sum + (lesson.duration || 0),
-          0
-        ) || 0;
-      return total + sectionDuration;
-    }, 0) || 0;
+  const totalDuration = useMemo(() => {
+    return (
+      course.sections?.reduce((total, section) => {
+        const sectionDuration =
+          section.lessons?.reduce(
+            (sum, lesson) => sum + (lesson.duration || 0),
+            0
+          ) || 0;
+        return total + sectionDuration;
+      }, 0) || 0
+    );
+  }, [course.sections]);
 
-  const formatDuration = (seconds: number) => {
+  const formatDuration = useCallback((seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     if (hours > 0) {
       return `${hours}h ${minutes}m`;
     }
     return `${minutes}m`;
-  };
+  }, []);
+
+  const showVideo = signedVideoUrl && !videoError && !isVideoLoading;
+  const showThumbnail = !showVideo && course.thumbnail;
 
   return (
     <div
@@ -105,20 +134,9 @@ export function HeroBanner({ course, className }: HeroBannerProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div className="absolute inset-0" style={{ opacity, scale }}>
-        {showVideo && previewVideoUrl && isYouTubeUrl(previewVideoUrl) ? (
-          <motion.iframe
-            src={getYouTubeEmbedUrl(previewVideoUrl) || previewVideoUrl}
-            className="absolute inset-0 w-full h-full object-cover"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            style={{ pointerEvents: "none" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          />
-        ) : showVideo && previewVideoUrl ? (
+        {showVideo ? (
           <motion.video
-            src={previewVideoUrl}
+            src={signedVideoUrl}
             autoPlay
             muted={isMuted}
             loop
@@ -127,8 +145,9 @@ export function HeroBanner({ course, className }: HeroBannerProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
+            onError={() => setVideoError(true)}
           />
-        ) : course.thumbnail ? (
+        ) : showThumbnail ? (
           <motion.img
             src={course.thumbnail}
             alt={course.title}
@@ -138,12 +157,12 @@ export function HeroBanner({ course, className }: HeroBannerProps) {
             transition={{ duration: 8, ease: "easeInOut" }}
           />
         ) : (
-          <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-primary/20 to-primary/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10" />
         )}
       </motion.div>
 
-      <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-black/20" />
-      <div className="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent" />
 
       <div className="relative z-10 h-full flex flex-col justify-end pb-8 sm:pb-16 md:pb-20 lg:pb-24 px-4 sm:px-8 md:px-12 lg:px-20 xl:px-32">
         <motion.div
@@ -229,12 +248,12 @@ export function HeroBanner({ course, className }: HeroBannerProps) {
                 <span>Info</span>
               </Button>
             </Link>
-            {previewVideoUrl && !isYouTubeUrl(previewVideoUrl) && (
+            {showVideo && (
               <Button
                 variant="ghost"
                 size="icon"
                 className="text-white hover:bg-white/20 rounded-full h-14 w-14 sm:h-16 sm:w-16 border-2 border-white/30 backdrop-blur-sm transition-all duration-300 hover:scale-110"
-                onClick={() => setIsMuted(!isMuted)}
+                onClick={handleToggleMute}
               >
                 {isMuted ? (
                   <VolumeX className="h-6 w-6 sm:h-7 sm:w-7" />

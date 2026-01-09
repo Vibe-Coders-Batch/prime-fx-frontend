@@ -138,15 +138,15 @@ export default function AdminCourseReviewPage({
       header={`Review: ${course.title}`}
       subtitle="Course Administration"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
           <Card>
             <CardHeader>
-              <CardTitle>Course Overview</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Course Overview</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex gap-4">
-                <div className="w-32 h-20 bg-muted rounded overflow-hidden flex-shrink-0">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="w-full sm:w-32 h-32 sm:h-20 bg-muted rounded overflow-hidden flex-shrink-0">
                   {course.thumbnail && (
                     <img
                       src={course.thumbnail}
@@ -155,14 +155,14 @@ export default function AdminCourseReviewPage({
                     />
                   )}
                 </div>
-                <div>
-                  <h3 className="font-semibold text-lg">{course.title}</h3>
-                  <p className="text-muted-foreground line-clamp-2">
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-base sm:text-lg">{course.title}</h3>
+                  <p className="text-muted-foreground line-clamp-2 text-sm">
                     {course.description}
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground block">
                     Instructor
@@ -246,7 +246,7 @@ export default function AdminCourseReviewPage({
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
           <Card className="border-primary/20 bg-primary/5">
             <CardHeader>
               <CardTitle>Review Actions</CardTitle>
@@ -257,15 +257,18 @@ export default function AdminCourseReviewPage({
             <CardContent>
               <Form {...form}>
                 <Tabs defaultValue="approve" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="approve" className="text-green-600">
-                      <CheckCircle className="h-4 w-4 mr-2" /> Approve
+                  <TabsList className="grid w-full grid-cols-3 h-auto">
+                    <TabsTrigger value="approve" className="text-green-600 text-xs sm:text-sm py-2">
+                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Approve</span>
                     </TabsTrigger>
-                    <TabsTrigger value="changes" className="text-orange-500">
-                      <AlertCircle className="h-4 w-4 mr-2" /> Changes
+                    <TabsTrigger value="changes" className="text-orange-500 text-xs sm:text-sm py-2">
+                      <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Changes</span>
                     </TabsTrigger>
-                    <TabsTrigger value="reject" className="text-red-500">
-                      <XCircle className="h-4 w-4 mr-2" /> Reject
+                    <TabsTrigger value="reject" className="text-red-500 text-xs sm:text-sm py-2">
+                      <XCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Reject</span>
                     </TabsTrigger>
                   </TabsList>
 

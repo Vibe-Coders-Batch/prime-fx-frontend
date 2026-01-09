@@ -82,7 +82,7 @@ export default function InstructorDashboardPage() {
   return (
     <PageLayout header="Dashboard">
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-3 mb-8">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-6 sm:mb-8">
         {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -94,7 +94,7 @@ export default function InstructorDashboardPage() {
                 <Icon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
+                <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
                 <p className="text-xs text-muted-foreground">
                   {stat.description}
                 </p>
@@ -105,11 +105,11 @@ export default function InstructorDashboardPage() {
       </div>
 
       {/* Quick Actions & Recent Courses */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-3">
         {/* Recent Courses */}
-        <Card className="md:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Recent Courses</CardTitle>
+        <Card className="lg:col-span-2 order-2 lg:order-1">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <CardTitle className="text-base sm:text-lg">Recent Courses</CardTitle>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/instructor/courses">View All</Link>
             </Button>
@@ -120,11 +120,11 @@ export default function InstructorDashboardPage() {
                 stats.recentCourses.map((course: any) => (
                   <div
                     key={course.courseId}
-                    className="flex items-center justify-between border-b last:border-0 pb-4 last:pb-0"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b last:border-0 pb-4 last:pb-0"
                   >
-                    <div className="space-y-1">
-                      <p className="font-medium leading-none">{course.title}</p>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <p className="font-medium leading-none text-sm sm:text-base truncate">{course.title}</p>
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground flex-wrap">
                         <Badge
                           variant={
                             course.status === "PUBLISHED"
@@ -140,13 +140,13 @@ export default function InstructorDashboardPage() {
                         <span>{course.enrollmentCount || 0} students</span>
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-shrink-0">
                       <Button variant="outline" size="sm" asChild>
                         <Link
                           href={`/instructor/courses/${course.courseId}/edit`}
                         >
-                          <FileEdit className="mr-2 h-3 w-3" />
-                          Edit
+                          <FileEdit className="h-3 w-3 sm:mr-2" />
+                          <span className="hidden sm:inline">Edit</span>
                         </Link>
                       </Button>
                       {course.status === "DRAFT" && (
@@ -184,9 +184,9 @@ export default function InstructorDashboardPage() {
                   </div>
                 ))
               ) : (
-                <div className="flex flex-col items-center justify-center py-8 text-center">
+                <div className="flex flex-col items-center justify-center py-6 sm:py-8 text-center">
                   <BookOpen className="h-8 w-8 text-muted-foreground mb-2" />
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     No courses created yet.
                   </p>
                   <Button variant="link" asChild className="mt-2">
@@ -201,24 +201,24 @@ export default function InstructorDashboardPage() {
         </Card>
 
         {/* Action Center */}
-        <Card>
+        <Card className="order-1 lg:order-2">
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="text-base sm:text-lg">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-2">
-            <Button className="w-full justify-start" asChild>
+            <Button className="w-full justify-start text-sm" asChild>
               <Link href="/instructor/courses/new">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Create New Course
               </Link>
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start text-sm" asChild>
               <Link href="/instructor/courses">
                 <BookOpen className="mr-2 h-4 w-4" />
                 Manage Courses
               </Link>
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start text-sm" asChild>
               <Link href="/instructor/videos">
                 <Video className="mr-2 h-4 w-4" />
                 View All Videos

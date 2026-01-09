@@ -5,19 +5,19 @@ export function Footer() {
 
   return (
     <footer
-      className="bg-primary-dark border-t border-white/10 py-12 px-6"
+      className="bg-primary-dark border-t border-white/10 py-8 sm:py-12 px-4 sm:px-6"
       role="contentinfo"
       aria-label="Site footer"
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="space-y-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-2 md:col-span-1">
           <Link href="/" aria-label="PRIME E-Learning & Training - Home">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
               PRIME{" "}
               <span className="text-primary-gold">E-LEARNING & TRAINING</span>
             </h2>
           </Link>
-          <p className="text-white/60 text-sm">
+          <p className="text-white/60 text-xs sm:text-sm">
             Dubai&apos;s Premier Financial Trading Academy. Master the markets
             with institutional-grade education.
           </p>

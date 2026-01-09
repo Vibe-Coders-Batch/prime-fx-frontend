@@ -388,7 +388,7 @@ export default function CoursePlayerPage({
                           className={cn(
                             "w-full px-4 py-3 text-left flex items-start gap-3 transition-colors text-sm relative",
                             isActive
-                              ? "bg-blue-50 dark:bg-blue-950/30 border-l-4 border-blue-600 pl-3"
+                              ? "bg-primary/10 border-l-4 border-primary pl-3"
                               : "hover:bg-muted/50",
                             !canAccess && "opacity-50 cursor-not-allowed"
                           )}

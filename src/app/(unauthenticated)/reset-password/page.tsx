@@ -9,13 +9,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { toast } from "sonner";
 
 const resetPasswordSchema = z
   .object({
-    newPassword: z.string().min(6, "Password must be at least 6 characters"),
+    newPassword: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -32,11 +33,19 @@ function ResetPasswordForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    formState: { isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
   });
+
+  useEffect(() => {
+    if (resetPassword.isError) {
+      const errorMessage = resetPassword.error instanceof Error 
+        ? resetPassword.error.message 
+        : "Failed to reset password. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [resetPassword.isError, resetPassword.error]);
 
   const onSubmit = (data: ResetPasswordFormData) => {
     if (!token) {
@@ -102,6 +111,16 @@ function ResetPasswordForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {resetPassword.isError && (
+              <div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                <span>
+                  {resetPassword.error instanceof Error 
+                    ? resetPassword.error.message 
+                    : "Failed to reset password. The link may have expired."}
+                </span>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="newPassword">New Password</Label>
               <Input

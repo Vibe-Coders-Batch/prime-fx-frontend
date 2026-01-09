@@ -99,7 +99,7 @@ function TiltCard({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       style={{ transform, transformStyle: "preserve-3d" }}
-      className={`group relative rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-colors hover:border-primary-gold/50 ${className}`}
+      className={`group relative rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8 backdrop-blur-sm transition-colors hover:border-primary-gold/50 ${className}`}
     >
       {/* Spotlight Glow */}
       <div
@@ -122,68 +122,67 @@ export function Curriculum() {
   return (
     <section
       id="curriculum"
-      className="py-20 px-6 bg-background relative overflow-hidden"
+      className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-background relative overflow-hidden"
       aria-labelledby="curriculum-heading"
     >
-      {/* Background Elements */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary-gold/5 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] md:w-[1000px] h-[300px] sm:h-[400px] md:h-[500px] bg-primary-gold/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] pointer-events-none"
         aria-hidden="true"
       />
 
       <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-20">
+        <header className="text-center mb-10 sm:mb-14 md:mb-20">
           <h2
             id="curriculum-heading"
-            className="text-4xl md:text-5xl font-bold text-foreground mb-6"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6"
           >
             Choose Your Path to Mastery.
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
             From novice to institutional trader. Select the tier that matches
             your ambition.
           </p>
         </header>
 
         <ul
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 list-none p-0"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 list-none p-0"
           role="list"
           aria-label="Course tiers"
         >
           {TIERS.map((tier, i) => (
             <li key={i}>
               <TiltCard
-                className={`min-h-[500px] flex flex-col ${
+                className={`min-h-[400px] sm:min-h-[450px] md:min-h-[500px] flex flex-col ${
                   tier.featured
                     ? "border-primary-gold/30 bg-primary-gold/5"
                     : "bg-card/50 border-border"
                 }`}
               >
                 <article className="flex flex-col h-full">
-                  <header className="mb-8">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">
+                  <header className="mb-5 sm:mb-6 md:mb-8">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 sm:mb-2">
                       {tier.name}
                     </h3>
-                    <p className="text-3xl font-bold text-primary-gold">
+                    <p className="text-2xl sm:text-3xl font-bold text-primary-gold">
                       {tier.price}
                     </p>
-                    <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+                    <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
                       {tier.description}
                     </p>
                   </header>
 
                   <ul
-                    className="space-y-4 mb-8 flex-grow list-none p-0"
+                    className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-grow list-none p-0"
                     role="list"
                     aria-label={`${tier.name} tier features`}
                   >
                     {tier.features.map((feature, j) => (
                       <li
                         key={j}
-                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                        className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground"
                       >
                         <Check
-                          className="w-5 h-5 text-primary-gold shrink-0"
+                          className="w-4 h-4 sm:w-5 sm:h-5 text-primary-gold shrink-0"
                           aria-hidden="true"
                         />
                         <span>{feature}</span>
@@ -197,7 +196,7 @@ export function Curriculum() {
                     className="mt-auto"
                   >
                     <Button
-                      className={`w-full ${
+                      className={`w-full h-10 sm:h-11 text-sm sm:text-base ${
                         tier.featured
                           ? "bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark"
                           : "bg-secondary text-secondary-foreground hover:bg-primary-gold hover:text-primary-dark"

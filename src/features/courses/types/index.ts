@@ -43,6 +43,7 @@ export interface Course {
 
 export interface CourseSection {
   id: string;
+  sectionId: string;
   courseId: string;
   title: string;
   description?: string | null;
@@ -54,13 +55,17 @@ export interface CourseSection {
 
 export interface Lesson {
   id: string;
+  lessonId: string;
   sectionId: string;
   title: string;
   description?: string | null;
+  type?: "VIDEO" | "TEXT" | "QUIZ";
   videoUrl?: string | null;
   resources?: { label: string; url: string }[];
   duration?: number | null;
   order: number;
+  isFreePreview?: boolean;
+  status?: string;
 }
 
 export interface CoursesResponse {

@@ -155,10 +155,10 @@ export default function ContentModerationPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Course Title</TableHead>
-                      <TableHead>Instructor</TableHead>
-                      <TableHead>Submitted</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead className="min-w-[150px]">Course Title</TableHead>
+                      <TableHead className="min-w-[120px] hidden md:table-cell">Instructor</TableHead>
+                      <TableHead className="min-w-[100px] hidden sm:table-cell">Submitted</TableHead>
+                      <TableHead className="text-right min-w-[180px]">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -166,30 +166,30 @@ export default function ContentModerationPage() {
                       <TableRow key={course.courseId}>
                         <TableCell className="font-medium">
                           <div className="flex flex-col">
-                            <span>{course.title}</span>
+                            <span className="line-clamp-1">{course.title}</span>
                             <span className="text-xs text-muted-foreground">
                               {course.category?.name}
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="hidden md:table-cell">
                           {course.instructor
                             ? `${course.instructor.firstName || ""} ${
                                 course.instructor.lastName || ""
                               }`.trim() || course.instructor.email
                             : "N/A"}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="hidden sm:table-cell">
                           {course.submittedAt
                             ? new Date(course.submittedAt).toLocaleDateString()
                             : "N/A"}
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
+                          <div className="flex justify-end gap-1 sm:gap-2 flex-wrap">
                             <Link href={`/learner/courses/${course.courseId}`}>
                               <Button variant="outline" size="sm">
-                                <Eye className="h-4 w-4 mr-1" />
-                                Review
+                                <Eye className="h-4 w-4 sm:mr-1" />
+                                <span className="hidden sm:inline">Review</span>
                               </Button>
                             </Link>
                             <Button
@@ -201,8 +201,8 @@ export default function ContentModerationPage() {
                               }}
                               disabled={approveCourse.isPending}
                             >
-                              <CheckCircle className="h-4 w-4 mr-1" />
-                              Approve
+                              <CheckCircle className="h-4 w-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Approve</span>
                             </Button>
                             <Button
                               variant="outline"
@@ -214,8 +214,8 @@ export default function ContentModerationPage() {
                               }}
                               disabled={rejectCourse.isPending}
                             >
-                              <XCircle className="h-4 w-4 mr-1" />
-                              Reject
+                              <XCircle className="h-4 w-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Reject</span>
                             </Button>
                           </div>
                         </TableCell>

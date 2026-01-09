@@ -140,62 +140,64 @@ export default function BulkEnrollmentPage() {
         ) : (
           <Card>
             <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Course</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Enrolled</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredEnrollments?.map((enrollment: Enrollment) => (
-                    <TableRow key={enrollment.enrollmentId}>
-                      <TableCell>
-                        {enrollment.user
-                          ? `${enrollment.user.firstName || ""} ${
-                              enrollment.user.lastName || ""
-                            }`.trim() || enrollment.user.email
-                          : "N/A"}
-                      </TableCell>
-                      <TableCell>
-                        {enrollment.course?.title || "Unknown Course"}
-                      </TableCell>
-                      <TableCell>
-                        <span
-                          className={`px-2 py-1 text-xs rounded ${
-                            enrollment.status === "ACTIVE"
-                              ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                              : enrollment.status === "COMPLETED"
-                              ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                              : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
-                          }`}
-                        >
-                          {enrollment.status}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        {new Date(enrollment.enrolledAt).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            toast.info(
-                              `Enrollment management for ${enrollment.enrollmentId} - Feature coming soon`
-                            );
-                          }}
-                        >
-                          Manage
-                        </Button>
-                      </TableCell>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[120px]">User</TableHead>
+                      <TableHead className="min-w-[150px]">Course</TableHead>
+                      <TableHead className="min-w-[80px]">Status</TableHead>
+                      <TableHead className="min-w-[100px] hidden sm:table-cell">Enrolled</TableHead>
+                      <TableHead className="text-right min-w-[80px]">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredEnrollments?.map((enrollment: Enrollment) => (
+                      <TableRow key={enrollment.enrollmentId}>
+                        <TableCell className="font-medium">
+                          {enrollment.user
+                            ? `${enrollment.user.firstName || ""} ${
+                                enrollment.user.lastName || ""
+                              }`.trim() || enrollment.user.email
+                            : "N/A"}
+                        </TableCell>
+                        <TableCell className="max-w-[200px] truncate">
+                          {enrollment.course?.title || "Unknown Course"}
+                        </TableCell>
+                        <TableCell>
+                          <span
+                            className={`px-2 py-1 text-xs rounded whitespace-nowrap ${
+                              enrollment.status === "ACTIVE"
+                                ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+                                : enrollment.status === "COMPLETED"
+                                ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                                : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
+                            }`}
+                          >
+                            {enrollment.status}
+                          </span>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          {new Date(enrollment.enrolledAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              toast.info(
+                                `Enrollment management for ${enrollment.enrollmentId} - Feature coming soon`
+                              );
+                            }}
+                          >
+                            Manage
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         )}
