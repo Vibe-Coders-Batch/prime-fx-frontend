@@ -51,13 +51,14 @@ export interface LessonInCourse {
   title: string;
   type: "VIDEO" | "TEXT" | "QUIZ";
   duration?: number;
-  url?: string; // from videoUrl? Schema likely `videoUrl`.
+  url?: string;
   videoUrl?: string;
   textContent?: string;
   description?: string;
-  questions?: QuizQuestionEntity[]; // Typed better if needed
+  questions?: QuizQuestionEntity[];
   order: number;
   status?: "DRAFT" | "PENDING_APPROVAL" | "PROCESSING" | "READY";
+  isFreePreview?: boolean;
 }
 
 export interface CreateCourseDto {

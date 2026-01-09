@@ -27,11 +27,9 @@ import { useCreatePayment } from "@/features/payments/hooks/use-payments";
 import { useAddToCart } from "@/features/cart/hooks/use-cart";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
-import Link from "next/link";
-import { SecureImage } from "@/components/ui/secure-image";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { CourseHeroBackground } from "@/components/course/course-hero-background";
 
 export default function CourseDetailPage({
   params,
@@ -246,42 +244,27 @@ export default function CourseDetailPage({
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Netflix-style Hero Section */}
+      <CourseHeroBackground course={course} className="-mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
-        <div className="border-b border-border space-y-4 pb-6">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Badge className="bg-blue-600 text-white hover:bg-blue-700">Bestseller</Badge>
-            {course.category && (
-              <Badge variant="secondary" className="bg-purple-600 text-white hover:bg-purple-700">
-                {course.category.name}
-              </Badge>
-            )}
+        {/* Course Info Bar */}
+        <div className="flex items-center gap-4 text-sm flex-wrap border-b border-border pb-6">
+          <Badge className="bg-blue-600 text-white hover:bg-blue-700">Bestseller</Badge>
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-foreground">4.6</span>
+            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">{course.title}</h1>
-          <div className="flex items-center gap-4 text-sm flex-wrap">
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-foreground">4.6</span>
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            </div>
-            <Link href="#" className="text-primary hover:underline underline-offset-2">
-              (1,234 ratings)
-            </Link>
-            <span className="text-muted-foreground">12,345 students</span>
-          </div>
+          <span className="text-muted-foreground">(1,234 ratings)</span>
+          <span className="text-muted-foreground">12,345 students</span>
+          <span className="text-muted-foreground">
+            {formatDuration(totalDuration)} total
+          </span>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
         {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Course Preview Video */}
-          {course.thumbnail && (
-            <div className="aspect-video w-full overflow-hidden rounded-lg bg-black shadow-lg border border-border">
-              <SecureImage
-                src={course.thumbnail}
-                alt={course.title}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          )}
 
           {/* What you'll learn */}
           {course.learningOutcomes && course.learningOutcomes.length > 0 && (
