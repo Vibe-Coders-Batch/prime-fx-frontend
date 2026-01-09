@@ -138,7 +138,7 @@ export function LandingPageClient() {
                         )}
                         <CardHeader className="flex-1">
                           <CardTitle className="line-clamp-2">
-                            <h3>{course.title}</h3>
+                            {course.title}
                           </CardTitle>
                           <CardDescription className="line-clamp-2">
                             {course.description}
@@ -255,7 +255,7 @@ export function LandingPageClient() {
                       <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer h-full border-none">
                         <CardHeader>
                           <CardTitle>
-                            <h3>{category.name}</h3>
+                            {category.name}
                           </CardTitle>
                           {category.description && (
                             <CardDescription className="line-clamp-2">

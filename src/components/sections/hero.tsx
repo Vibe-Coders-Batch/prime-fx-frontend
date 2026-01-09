@@ -40,8 +40,7 @@ export function Hero() {
       className="relative h-[250vh] bg-background"
       aria-label="Hero section - Master the Global Markets"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Background Layer (Revealed Content) */}
+      <div className="sticky top-0 h-screen h-[100dvh] overflow-hidden">
         <div
           className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black"
           aria-hidden="true"
@@ -51,13 +50,13 @@ export function Hero() {
             role="img"
             aria-label="Financial markets background"
           />
-          <div className="relative z-10 flex flex-col items-center justify-center">
+          <div className="relative z-10 flex flex-col items-center justify-center px-4">
             <motion.div
               style={{
                 scale: revealedContentScale,
                 opacity: revealedContentOpacity,
               }}
-              className="mb-6 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-xs font-bold tracking-widest text-primary-gold uppercase"
+              className="mb-4 sm:mb-6 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-[10px] sm:text-xs font-bold tracking-widest text-primary-gold uppercase"
             >
               Live Classes & Tests
             </motion.div>
@@ -65,7 +64,7 @@ export function Hero() {
             <div className="overflow-hidden">
               <motion.p
                 style={{ y: revealedContentY, opacity: revealedContentOpacity }}
-                className="text-4xl md:text-6xl font-bold text-white mb-6"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center"
                 role="heading"
                 aria-level={2}
               >
@@ -75,7 +74,7 @@ export function Hero() {
 
             <motion.p
               style={{ opacity: revealedContentOpacity }}
-              className="text-lg md:text-xl text-slate-400 max-w-2xl text-center mb-8 px-4"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl text-center mb-6 sm:mb-8 px-2"
             >
               Join the elite community of traders mastering the markets with
               institutional-grade strategies and real-time mentorship.
@@ -83,7 +82,7 @@ export function Hero() {
 
             <motion.div style={{ opacity: revealedContentOpacity }}>
               <Link href="/login" aria-label="Start your trading journey - Login to get started">
-                <Button className="bg-primary-gold text-primary-dark hover:bg-foreground hover:text-background text-lg px-8 py-6 font-semibold">
+                <Button className="bg-primary-gold text-primary-dark hover:bg-foreground hover:text-background text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 font-semibold">
                   Start Your Journey
                 </Button>
               </Link>
@@ -91,7 +90,6 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Mask Layer (The "Hole") */}
         <div
           className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
           aria-hidden="true"
@@ -102,12 +100,11 @@ export function Hero() {
           />
         </div>
 
-        {/* Initial Content Layer */}
         <motion.header
           style={{ opacity: textOpacity, y: textY }}
-          className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto px-4 pt-16 sm:pt-20"
         >
-          <h1 className="text-6xl md:text-9xl font-bold text-foreground tracking-tighter text-center px-4 flex flex-wrap justify-center gap-x-4 gap-y-2">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-foreground tracking-tighter text-center flex flex-wrap justify-center gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2">
             {headlineWords.map((word, i) => (
               <motion.span
                 key={i}
@@ -132,7 +129,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.8 }}
-            className="mt-6 text-xl md:text-2xl text-muted-foreground max-w-3xl text-center px-4 leading-relaxed"
+            className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl text-center leading-relaxed"
           >
             For Students, Professionals, and Aspirants. The ultimate ecosystem
             for financial literacy.
@@ -142,18 +139,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4, duration: 0.8 }}
-            className="mt-10 flex flex-col sm:flex-row gap-4"
+            className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0"
             aria-label="Hero actions"
           >
-            <Link href="/login" aria-label="Start your learning journey">
-              <Button className="bg-primary-gold text-primary-dark hover:bg-white text-lg px-8 py-6 font-bold">
+            <Link href="/login" aria-label="Start your learning journey" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto bg-primary-gold text-primary-dark hover:bg-white text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold">
                 Start Journey
               </Button>
             </Link>
-            <Link href="#curriculum" aria-label="View our curriculum and course offerings">
+            <Link href="#curriculum" aria-label="View our curriculum and course offerings" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="bg-transparent border-foreground/20 text-foreground hover:bg-foreground hover:text-background text-lg px-8 py-6"
+                className="w-full sm:w-auto bg-transparent border-foreground/20 text-foreground hover:bg-foreground hover:text-background text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6"
               >
                 View Curriculum
               </Button>
