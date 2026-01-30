@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Page Not Found | PRIME E-Learning & Training",
+  title: "Page Not Found | Prime Learning",
   description: "The page you're looking for doesn't exist or has been moved.",
   robots: {
     index: false,

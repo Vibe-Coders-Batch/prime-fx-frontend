@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import { PropsWithChildren } from "react";
 
 const siteUrl = "https://paet.ltd";
-const siteName = "PRIME E-Learning & Training";
+const siteName = "Prime Learning";
 
 export const metadata: Metadata = {
-  title: "Browse Courses | PRIME E-Learning & Training",
+  title: "Browse Courses | Prime Learning",
   description:
-    "Explore our comprehensive collection of trading courses, financial literacy programs, and professional development training. From beginner to advanced institutional strategies.",
+    "Explore our collection of courses across business, technology, finance, design, and professional skills.",
   alternates: {
     canonical: `${siteUrl}/learner/courses`,
   },
   openGraph: {
-    title: "Browse Courses | PRIME E-Learning & Training",
+    title: "Browse Courses | Prime Learning",
     description:
-      "Discover courses in trading, financial literacy, and professional development. Institutional-grade education for all skill levels.",
+      "Discover courses across business, technology, finance, design, and professional development.",
     url: `${siteUrl}/learner/courses`,
     siteName: siteName,
     type: "website",
