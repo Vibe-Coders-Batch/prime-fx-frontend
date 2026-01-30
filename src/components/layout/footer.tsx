@@ -11,9 +11,9 @@ export function Footer() {
     >
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
         <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-2 md:col-span-1">
-          <Link href="/" aria-label="PRIME E-Learning & Training - Home">
+          <Link href="/" aria-label="Prime Learning - Home">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
-              PRIME <span className="text-primary-gold">E-LEARNING & TRAINING</span>
+              Prime <span className="text-primary-gold">Learning</span>
             </h2>
           </Link>
           <p className="text-white/60 text-xs sm:text-sm">
@@ -125,7 +125,7 @@ export function Footer() {
       <div className="mt-12 pt-8 border-t border-white/5 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-sm text-center md:text-left">
-            © {currentYear} PRIME E-LEARNING & TRAINING. All rights reserved.
+            © {currentYear} Prime Learning. All rights reserved.
           </p>
           <nav aria-label="Social media links">
             <ul className="flex items-center gap-6">

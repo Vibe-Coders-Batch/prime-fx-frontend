@@ -76,15 +76,15 @@ export function Navbar() {
         href="/"
         className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tighter text-foreground"
       >
-        <span className="hidden sm:inline">PRIME </span>
-        <span className="text-primary hidden sm:inline">E-LEARNING & TRAINING</span>
-        <span className="sm:hidden">PRIME</span>
+        <span className="hidden sm:inline">Prime </span>
+        <span className="text-primary hidden sm:inline">Learning</span>
+        <span className="sm:hidden">Prime</span>
       </Link>
 
       {/* Nav Links */}
       <nav className="hidden md:flex items-center gap-6 lg:gap-8">
         {[
-          { label: "Why PRIME", href: "#why-prime-learning" },
+          { label: "Why Prime Learning", href: "#why-prime-learning" },
           { label: "Categories", href: "#categories" },
           { label: "Courses", href: "#courses" },
           { label: "How It Works", href: "#how-it-works" },

@@ -59,7 +59,7 @@ export function About() {
             viewport={{ once: true }}
             className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 mb-4 sm:mb-6"
           >
-            About PRIME E-LEARNING & TRAINING
+            About Prime Learning
           </motion.h2>
 
           <motion.div
@@ -70,7 +70,7 @@ export function About() {
             className="space-y-4 sm:space-y-6 text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed"
           >
             <p>
-              PRIME E-LEARNING & TRAINING is a next-generation, online-only
+              Prime Learning is a next-generation, online-only
               EdTech platform built to democratize access to high-quality
               learning. We believe that education should not be restricted by
               formal qualifications, expensive institutions, or rigid systems.
@@ -83,8 +83,8 @@ export function About() {
               Our platform offers practical, industry-aligned training modules
               that require no prior academic prerequisites. Whether you are
               starting a second career, upgrading your financial literacy, or
-              seeking to understand modern digital industries, PRIME E-LEARNING &
-              TRAINING makes learning accessible, flexible, and affordable. We are
+              seeking to understand modern digital industries, Prime Learning makes
+              learning accessible, flexible, and affordable. We are
               committed to enabling millions of learners worldwide with tools that
               strengthen confidence, capability, and career growth.
             </p>

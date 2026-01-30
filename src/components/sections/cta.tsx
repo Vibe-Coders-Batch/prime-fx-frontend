@@ -14,7 +14,7 @@ export function CTA() {
           id="cta-heading"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 sm:mb-6 md:mb-8 tracking-tight"
         >
-          Join PRIME E-Learning & Training Today
+          Join Prime Learning Today
         </h2>
         <p className="text-primary-foreground/80 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
           Start building skills that create real opportunities. Learn smarter, grow faster,
@@ -29,7 +29,7 @@ export function CTA() {
           <Link href="/signup" aria-label="Start learning today">
             <Button
               variant="outline"
-              className="w-full sm:w-auto border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground hover:text-primary text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold rounded-full"
+              className="w-full sm:w-auto bg-transparent border-primary-dark/30 text-primary-dark hover:bg-primary-dark hover:text-white text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold rounded-full"
             >
               Start Learning Today
             </Button>
