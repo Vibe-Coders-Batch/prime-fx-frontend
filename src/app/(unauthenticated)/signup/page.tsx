@@ -79,7 +79,7 @@ export default function SignupPage() {
 
   return (
     <AuthSplitLayout
-      title="PRIME E-LEARNING & TRAINING"
+      title="Prime Learning"
       subtitle="Create your account and start learning today."
       image={<AnimatedBarChart />}
     >
@@ -89,7 +89,7 @@ export default function SignupPage() {
             Create Account
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Join PRIME E-LEARNING & TRAINING in minutes.
+            Join Prime Learning in minutes.
           </p>
         </header>
 

@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 
 const siteUrl = "https://paet.ltd";
-const siteName = "PRIME E-Learning & Training";
+const siteName = "Prime Learning";
 
 export const metadata: Metadata = {
-  title: "Sign Up | PRIME E-Learning & Training",
+  title: "Sign Up | Prime Learning",
   description:
-    "Create your PRIME E-Learning & Training account. Start learning with expert-led courses, progress tracking, and certificates.",
+    "Create your Prime Learning account. Start learning with expert-led courses, progress tracking, and certificates.",
   alternates: {
     canonical: `${siteUrl}/signup`,
   },
   openGraph: {
-    title: "Sign Up | PRIME E-Learning & Training",
+    title: "Sign Up | Prime Learning",
     description:
-      "Start learning today with PRIME E-Learning & Training. Create your account in minutes.",
+      "Start learning today with Prime Learning. Create your account in minutes.",
     url: `${siteUrl}/signup`,
     siteName: siteName,
     type: "website",
