@@ -7,17 +7,8 @@ import { TrustStats } from "@/components/sections/trust-stats";
 import { CTA } from "@/components/sections/cta";
 import { useCourses } from "@/features/courses/hooks/use-courses";
 import { useMemo, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
-import { LandingPageSkeleton } from "@/components/ui/landing-page-skeleton";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
@@ -56,7 +47,6 @@ export function LandingPageClient() {
     },
   });
 
-  const isLoading = coursesLoading;
   const [activeTopicId, setActiveTopicId] = useState(TOPIC_TABS[0]?.id ?? "ai");
 
   const activeTopic = TOPIC_TABS.find((t) => t.id === activeTopicId) ?? TOPIC_TABS[0];
@@ -69,10 +59,6 @@ export function LandingPageClient() {
     });
     return (matches.length > 0 ? matches : list).slice(0, 8);
   }, [activeTopic?.keywords, featuredCourses?.data]);
-
-  if (isLoading) {
-    return <LandingPageSkeleton />;
-  }
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
@@ -88,14 +74,14 @@ export function LandingPageClient() {
         <TrustStats />
 
         {/* Udemy-style topics + carousel */}
-        <section className="py-16" aria-labelledby="skills-to-transform-heading">
+        <section id="courses" className="py-16" aria-labelledby="skills-to-transform-heading">
           <div className="container mx-auto px-4">
             <header className="max-w-4xl">
               <h2 id="skills-to-transform-heading" className="text-3xl font-bold">
                 Skills to transform your career and life
               </h2>
               <p className="mt-2 text-muted-foreground">
-                From critical skills to technical topics, PRIME E-Learning & Training supports your professional development.
+                From critical skills to technical topics, Prime Learning supports your professional development.
               </p>
             </header>
 
@@ -122,42 +108,45 @@ export function LandingPageClient() {
 
               <div className="mt-6">
                 <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                  {topicCourses.length === 0 ? (
+                  {coursesLoading ? (
+                    <div className="w-full">
+                      <p className="text-muted-foreground">Loading courses…</p>
+                    </div>
+                  ) : topicCourses.length === 0 ? (
                     <div className="w-full">
                       <p className="text-muted-foreground">No courses available yet. Check back soon!</p>
                     </div>
                   ) : (
                     topicCourses.map((course) => (
                       <div key={course.courseId} className="min-w-[280px] max-w-[280px]">
-                        <Card className="overflow-hidden border-border/60 hover:shadow-lg transition-shadow">
-                          {course.thumbnail && (
-                            <div className="relative aspect-video w-full">
+                        <Link
+                          href={`/learner/courses/${course.courseId}`}
+                          aria-label={`View ${course.title}`}
+                          className="group block"
+                        >
+                          <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted">
+                            {course.thumbnail ? (
                               <Image
                                 src={course.thumbnail}
                                 alt={`${course.title} course thumbnail`}
                                 fill
-                                className="object-cover"
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
                                 sizes="280px"
                               />
-                            </div>
-                          )}
-                          <CardHeader className="space-y-2">
-                            <CardTitle className="text-base line-clamp-2">{course.title}</CardTitle>
-                            <CardDescription className="text-xs line-clamp-2">
+                            ) : null}
+                          </div>
+                          <div className="mt-3 space-y-1">
+                            <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:underline">
+                              {course.title}
+                            </h3>
+                            <p className="text-xs text-muted-foreground line-clamp-2">
                               {course.description}
-                            </CardDescription>
+                            </p>
                             <div className="text-sm font-semibold">
                               {course.currency} {parseFloat(course.price).toFixed(2)}
                             </div>
-                          </CardHeader>
-                          <CardContent className="pt-0">
-                            <Link href={`/learner/courses/${course.courseId}`} aria-label={`View ${course.title}`}>
-                              <Button variant="outline" size="sm" className="w-full">
-                                View Course
-                              </Button>
-                            </Link>
-                          </CardContent>
-                        </Card>
+                          </div>
+                        </Link>
                       </div>
                     ))
                   )}
@@ -194,13 +183,13 @@ export function LandingPageClient() {
                 A Modern Learning Platform Built for Results
               </h2>
               <p className="text-muted-foreground">
-                PRIME E-Learning & Training is a premium, outcomes-driven learning ecosystem that
+                Prime Learning is a premium, outcomes-driven learning ecosystem that
                 blends academic rigor with practical application. Every course is
                 designed to deliver skills you can use immediately.
               </p>
             </motion.header>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <ul className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 list-none p-0" role="list">
               {[
                 {
                   icon: <Users className="h-5 w-5" />,
@@ -227,17 +216,17 @@ export function LandingPageClient() {
                     "Track your learning journey and earn credible certificates.",
                 },
               ].map((item) => (
-                <Card key={item.title} className="border-border/60">
-                  <CardHeader>
-                    <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      {item.icon}
-                    </div>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                </Card>
+                <li key={item.title} className="relative pl-12">
+                  <div className="absolute left-0 top-0 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-base font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                    {item.description}
+                  </p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
@@ -264,8 +253,10 @@ export function LandingPageClient() {
               </p>
             </motion.header>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[
+            <div className="max-w-5xl mx-auto">
+              <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
+              {(() => {
+                const items = [
                 {
                   icon: <Compass className="h-5 w-5" />,
                   title: "Business and Leadership",
@@ -308,17 +299,35 @@ export function LandingPageClient() {
                   description:
                     "MBA and MiM strategy, essays, interviews, research, and career planning.",
                 },
-              ].map((item) => (
-                <Card key={item.title} className="border-border/60">
-                  <CardHeader>
-                    <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      {item.icon}
-                    </div>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
+              ];
+
+                return items.map((item, idx) => {
+                  const isOddCount = items.length % 2 === 1;
+                  const isLast = idx === items.length - 1;
+                  const centerLast = isOddCount && isLast;
+
+                  return (
+                <div
+                  key={item.title}
+                  className={[
+                    "flex gap-4",
+                    centerLast ? "md:col-span-2 md:justify-self-center md:max-w-2xl" : "",
+                  ].join(" ")}
+                >
+                  <div className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-background/60 text-primary border border-border/40">
+                    {item.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold">{item.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+                  );
+                });
+              })()}
+              </div>
             </div>
 
             <div className="text-center mt-10">
@@ -343,180 +352,69 @@ export function LandingPageClient() {
                 Designed for Learners Who Want Results
               </h2>
               <p className="text-muted-foreground">
-                PRIME E-Learning & Training is built to support every stage of your growth.
+                Prime Learning is built to support every stage of your growth.
               </p>
             </motion.header>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {[
-                {
-                  title: "Personalised Learning Paths",
-                  description:
-                    "Choose courses aligned with your goals and experience level.",
-                },
-                {
-                  title: "Interactive Learning Experience",
-                  description:
-                    "Videos, quizzes, projects, and case-based learning.",
-                },
-                {
-                  title: "Mentor Support and Community",
-                  description:
-                    "Connect with instructors and fellow learners.",
-                },
-                {
-                  title: "Mobile Ready and On Demand",
-                  description:
-                    "Access your courses anytime, anywhere.",
-                },
-              ].map((item) => (
-                <Card key={item.title} className="border-border/60">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+              <div className="max-w-xl">
+                <ul className="space-y-4" role="list">
+                  {[
+                    {
+                      title: "Personalised Learning Paths",
+                      description:
+                        "Choose courses aligned with your goals and experience level.",
+                    },
+                    {
+                      title: "Interactive Learning Experience",
+                      description:
+                        "Videos, quizzes, projects, and case-based learning.",
+                    },
+                    {
+                      title: "Mentor Support and Community",
+                      description:
+                        "Connect with instructors and fellow learners.",
+                    },
+                    {
+                      title: "Mobile Ready and On Demand",
+                      description:
+                        "Access your courses anytime, anywhere.",
+                    },
+                  ].map((item) => (
+                    <li key={item.title} className="flex gap-3">
+                      <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <Check className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="font-semibold">{item.title}</p>
+                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="relative">
+                <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 blur-2xl" />
+                <div className="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-3xl bg-background/40 border border-border/30">
+                  <Image
+                    src="/illustrations/engineering_team.svg"
+                    alt=""
+                    fill
+                    className="object-contain p-8"
+                    priority={false}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Featured Courses Section */}
-        <section
-          id="courses"
-          className="py-16 bg-muted/50"
-          aria-labelledby="popular-courses-heading"
-        >
-          <div className="container mx-auto px-4">
-            <motion.header
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2
-                id="popular-courses-heading"
-                className="text-3xl font-bold mb-4"
-              >
-                Popular and New Courses
-              </h2>
-              <p className="text-muted-foreground">
-                Explore some of our most in-demand programs.
-              </p>
-            </motion.header>
-            {coursesLoading ? (
-              <div
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-                role="list"
-                aria-label="Loading courses"
-              >
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <Skeleton key={i} className="h-64" aria-hidden="true" />
-                ))}
-              </div>
-            ) : !featuredCourses?.data || featuredCourses.data.length === 0 ? (
-              <div className="text-center py-12" role="status">
-                <p className="text-muted-foreground">
-                  No courses available yet. Check back soon!
-                </p>
-              </div>
-            ) : (
-              <motion.ul
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.15,
-                    },
-                  },
-                }}
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0"
-                role="list"
-                aria-label="Popular and new courses"
-              >
-                {featuredCourses.data.slice(0, 6).map((course) => (
-                  <motion.li
-                    key={course.courseId}
-                    variants={{
-                      hidden: { opacity: 0, y: 30 },
-                      show: { opacity: 1, y: 0 },
-                    }}
-                    whileHover={{ scale: 1.03, y: -8 }}
-                    transition={{ duration: 0.3 }}
-                    className="h-full"
-                  >
-                    <article>
-                      <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 border-none h-full flex flex-col">
-                        {course.thumbnail && (
-                          <figure className="aspect-video w-full overflow-hidden relative shrink-0 m-0">
-                            <Image
-                              src={course.thumbnail}
-                              alt={`${course.title} course thumbnail`}
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              className="object-cover transition-transform duration-400 hover:scale-110"
-                              loading="lazy"
-                            />
-                          </figure>
-                        )}
-                        <CardHeader className="flex-1">
-                          <CardTitle className="line-clamp-2">
-                            {course.title}
-                          </CardTitle>
-                          <CardDescription className="line-clamp-2">
-                            {course.description}
-                          </CardDescription>
-                          {course.category && (
-                            <p className="text-xs text-muted-foreground mt-2">
-                              <span className="sr-only">Category: </span>
-                              {course.category.name}
-                            </p>
-                          )}
-                        </CardHeader>
-                        <CardContent>
-                          <div className="flex items-center justify-between">
-                            <span className="text-lg font-semibold">
-                              <span className="sr-only">Price: </span>
-                              {course.currency}{" "}
-                              {parseFloat(course.price).toFixed(2)}
-                            </span>
-                            <Link
-                              href={`/learner/courses/${course.courseId}`}
-                              aria-label={`View details for ${course.title}`}
-                            >
-                              <Button variant="outline" size="sm">
-                                View Course
-                              </Button>
-                            </Link>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </article>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            )}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="text-center mt-8"
-            >
-              <Link href="/learner/courses" aria-label="Browse all available courses">
-                <Button variant="outline">View All Courses</Button>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Plans (Udemy-style) */}
-        <section className="py-16" aria-labelledby="plans-heading">
+        {/* Plans */}
+        <section className="py-18 sm:py-20 relative" aria-labelledby="plans-heading">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-muted/20 to-transparent" aria-hidden="true" />
           <div className="container mx-auto px-4">
             <header className="max-w-4xl">
               <h2 id="plans-heading" className="text-3xl font-bold">
@@ -527,93 +425,119 @@ export function LandingPageClient() {
               </p>
             </header>
 
-            <div className="mt-8 grid gap-6 lg:grid-cols-3">
-              <Card className="border-border/60 overflow-hidden">
-                <div className="h-1 w-full bg-primary" />
-                <CardHeader>
-                  <CardTitle>Team Plan</CardTitle>
-                  <CardDescription>2 to 50 people — For your team</CardDescription>
-                  <Button variant="outline" className="w-fit">
-                    Start subscription
-                  </Button>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="font-semibold">From $X / month per user</p>
-                    <p className="text-sm text-muted-foreground">Billed annually. Cancel anytime.</p>
-                  </div>
-                  <ul className="space-y-2 text-sm">
-                    {[
-                      "Access to top courses",
-                      "Certification prep",
-                      "Goal-focused recommendations",
-                      "AI-powered coaching",
-                      "Analytics and adoption reports",
-                    ].map((t) => (
-                      <li key={t} className="flex gap-2">
-                        <Check className="h-4 w-4 text-emerald-600 mt-0.5" />
-                        <span>{t}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+            <div className="mt-10 grid gap-6 lg:grid-cols-3 items-stretch">
+              {[
+                {
+                  accent: "from-primary/25 to-transparent",
+                  icon: <Users className="h-5 w-5" />,
+                  title: "Team Plan",
+                  subtitle: "2 to 50 people — For your team",
+                  cta: "Start subscription",
+                  price: "From $X / month per user",
+                  note: "Billed annually. Cancel anytime.",
+                  bullets: [
+                    "Access to top courses",
+                    "Certification prep",
+                    "Goal-focused recommendations",
+                    "AI-powered coaching",
+                    "Analytics and adoption reports",
+                  ],
+                },
+                {
+                  accent: "from-secondary/25 to-transparent",
+                  icon: <BriefcaseBusiness className="h-5 w-5" />,
+                  title: "Enterprise Plan",
+                  subtitle: "More than 20 people — For your organisation",
+                  cta: "Request a demo",
+                  price: "Contact sales for pricing",
+                  bullets: [
+                    "Access to course library",
+                    "Certification prep",
+                    "Goal-focused recommendations",
+                    "AI-powered coaching",
+                    "Advanced analytics and insights",
+                    "Dedicated customer success team",
+                    "International course collection",
+                    "Customisable content",
+                  ],
+                },
+                {
+                  accent: "from-primary-gold/25 to-transparent",
+                  icon: <Wand2 className="h-5 w-5" />,
+                  title: "AI Fluency",
+                  subtitle: "From AI foundations to transformation",
+                  cta: "Contact Us",
+                  blocks: [
+                    {
+                      title: "AI Readiness Collection",
+                      description:
+                        "Build organisation-wide AI fluency fast with curated courses and guided learning.",
+                    },
+                    {
+                      title: "AI Growth Collection",
+                      description:
+                        "Scale AI and technical expertise with specialised courses and role-based learning paths.",
+                    },
+                  ],
+                },
+              ].map((plan) => (
+                <div
+                  key={plan.title}
+                  className="relative h-full rounded-3xl border border-border/30 bg-background/30 backdrop-blur-sm overflow-hidden shadow-[0_20px_60px_-45px_rgba(0,0,0,0.8)] hover:border-border/50 transition-colors"
+                >
+                  <div className={`absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${plan.accent}`} aria-hidden="true" />
+                  <div className="relative p-6 sm:p-7">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-muted/40 border border-border/30 text-primary-gold">
+                          {plan.icon}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-semibold">{plan.title}</h3>
+                          <p className="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
+                        </div>
+                      </div>
+                    </div>
 
-              <Card className="border-border/60 overflow-hidden">
-                <div className="h-1 w-full bg-secondary" />
-                <CardHeader>
-                  <CardTitle>Enterprise Plan</CardTitle>
-                  <CardDescription>More than 20 people — For your organisation</CardDescription>
-                  <Button variant="outline" className="w-fit">
-                    Request a demo
-                  </Button>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="font-semibold">Contact sales for pricing</p>
-                  <ul className="space-y-2 text-sm">
-                    {[
-                      "Access to course library",
-                      "Certification prep",
-                      "Goal-focused recommendations",
-                      "AI-powered coaching",
-                      "Advanced analytics and insights",
-                      "Dedicated customer success team",
-                      "International course collection",
-                      "Customisable content",
-                    ].map((t) => (
-                      <li key={t} className="flex gap-2">
-                        <Check className="h-4 w-4 text-emerald-600 mt-0.5" />
-                        <span>{t}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                    <div className="mt-5">
+                      <Button className="bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark">
+                        {plan.cta}
+                      </Button>
+                    </div>
 
-              <Card className="border-border/60 overflow-hidden">
-                <div className="h-1 w-full bg-foreground/80" />
-                <CardHeader>
-                  <CardTitle>AI Fluency</CardTitle>
-                  <CardDescription>From AI foundations to transformation</CardDescription>
-                  <Button variant="outline" className="w-fit">
-                    Contact Us
-                  </Button>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <p className="font-semibold">AI Readiness Collection</p>
-                    <p className="text-sm text-muted-foreground">
-                      Build organisation-wide AI fluency fast with curated courses and guided learning.
-                    </p>
+                    {"price" in plan ? (
+                      <div className="mt-6">
+                        <p className="font-semibold text-foreground">{plan.price}</p>
+                        {"note" in plan && plan.note ? (
+                          <p className="text-sm text-muted-foreground">{plan.note}</p>
+                        ) : null}
+                      </div>
+                    ) : null}
+
+                    {"bullets" in plan && Array.isArray(plan.bullets) ? (
+                      <ul className="mt-5 space-y-2.5 text-sm" role="list">
+                        {plan.bullets.map((t) => (
+                          <li key={t} className="flex gap-2">
+                            <Check className="h-4 w-4 text-emerald-400 mt-0.5" />
+                            <span className="text-foreground/90">{t}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+
+                    {"blocks" in plan && Array.isArray(plan.blocks) ? (
+                      <div className="mt-6 space-y-5">
+                        {plan.blocks.map((b) => (
+                          <div key={b.title} className="border-t border-border/30 pt-4 first:border-t-0 first:pt-0">
+                            <p className="font-semibold text-foreground/95">{b.title}</p>
+                            <p className="text-sm text-muted-foreground">{b.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
-                  <div>
-                    <p className="font-semibold">AI Growth Collection</p>
-                    <p className="text-sm text-muted-foreground">
-                      Scale AI and technical expertise with specialised courses and role-based learning paths.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -625,46 +549,67 @@ export function LandingPageClient() {
               Popular Skills
             </h2>
 
-            <div className="mt-8 grid gap-8 lg:grid-cols-4">
-              <Card className="border-border/60 lg:col-span-1">
-                <CardHeader>
-                  <CardTitle className="text-lg">Trending skills</CardTitle>
-                  <CardDescription>
-                    Explore courses across in-demand skills and career pathways.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Link href="/learner/courses" className="text-sm font-semibold text-primary hover:underline">
+            <div className="mt-8 grid gap-10 lg:grid-cols-4">
+              <div className="lg:col-span-1">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/illustrations/focused.svg"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className="opacity-80"
+                    aria-hidden="true"
+                  />
+                  <p className="text-lg font-semibold">Trending skills</p>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Explore courses across in-demand skills and career pathways.
+                </p>
+                <div className="mt-4 space-y-3">
+                  <Link href="/learner/courses" className="inline-block text-sm font-semibold text-primary hover:underline">
                     See trending skills →
                   </Link>
-                  <Link href="/learner/courses">
-                    <Button variant="outline" className="w-full">
-                      Show all trending skills
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                  <div>
+                    <Link href="/learner/courses">
+                      <Button variant="outline" className="w-full">
+                        Show all trending skills
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
-              <div className="lg:col-span-3 grid gap-6 md:grid-cols-3">
+              <div className="lg:col-span-3 grid gap-8 md:grid-cols-3">
                 {[
                   {
                     title: "Development",
                     items: ["Python", "Web Development", "Data Science"],
+                    imageSrc: "/illustrations/engineering_team.svg",
                   },
                   {
                     title: "Design",
                     items: ["UX Design", "Graphic Design", "Product Design"],
+                    imageSrc: "/window.svg",
                   },
                   {
                     title: "Business",
                     items: ["Project Management", "Business Strategy", "Power BI"],
+                    imageSrc: "/illustrations/analytics_setup.svg",
                   },
                 ].map((col) => (
-                  <Card key={col.title} className="border-border/60">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{col.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
+                  <div key={col.title}>
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src={col.imageSrc}
+                        alt=""
+                        width={32}
+                        height={32}
+                        className="opacity-80"
+                        aria-hidden="true"
+                      />
+                      <p className="text-lg font-semibold">{col.title}</p>
+                    </div>
+                    <div className="mt-3 space-y-3">
                       {col.items.map((item) => (
                         <Link
                           key={item}
@@ -674,8 +619,8 @@ export function LandingPageClient() {
                           {item} →
                         </Link>
                       ))}
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -698,7 +643,7 @@ export function LandingPageClient() {
               <p className="text-muted-foreground">Getting started is simple.</p>
             </motion.header>
 
-            <div className="grid gap-6 md:grid-cols-3">
+            <ol className="relative grid gap-10 md:grid-cols-3" aria-label="Getting started steps">
               {[
                 {
                   step: "1",
@@ -716,18 +661,22 @@ export function LandingPageClient() {
                   description: "Complete the course and showcase your achievement.",
                 },
               ].map((item) => (
-                <Card key={item.step} className="border-border/60">
-                  <CardHeader>
-                    <p className="text-sm font-semibold text-primary">Step {item.step}</p>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                </Card>
+                <li key={item.step} className="relative">
+                  <div className="flex items-start gap-4">
+                    <div className="shrink-0 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
+                      {item.step}
+                    </div>
+                    <div>
+                      <p className="text-lg font-semibold">{item.title}</p>
+                      <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+                    </div>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ol>
 
             <div className="text-center mt-10">
-              <Link href="/signup" aria-label="Get started with PRIME E-Learning & Training">
+              <Link href="/signup" aria-label="Get started with Prime Learning">
                 <Button>Get Started</Button>
               </Link>
             </div>
@@ -748,62 +697,37 @@ export function LandingPageClient() {
                 Who We Serve
               </h2>
               <p className="text-muted-foreground">
-                PRIME E-Learning & Training supports individuals and organisations.
+                Prime Learning supports individuals and organisations.
               </p>
             </motion.header>
 
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-10 md:grid-cols-3">
               {[
                 {
+                  icon: <GraduationCap className="h-5 w-5" />,
                   title: "Students and Graduates",
                   description: "Build strong foundations and career readiness.",
                 },
                 {
+                  icon: <BriefcaseBusiness className="h-5 w-5" />,
                   title: "Working Professionals",
                   description: "Upskill or reskill for career growth.",
                 },
                 {
+                  icon: <Users className="h-5 w-5" />,
                   title: "Organisations and Teams",
                   description: "Train and develop your workforce.",
                 },
               ].map((item) => (
-                <Card key={item.title} className="border-border/60">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                </Card>
+                <div key={item.title} className="relative pl-12">
+                  <div className="absolute left-0 top-0 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-background/60 border border-border/40 text-primary">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-base font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Testimonials placeholder */}
-        <section className="py-16" aria-labelledby="testimonials-heading">
-          <div className="container mx-auto px-4">
-            <motion.header
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-8 max-w-3xl mx-auto"
-            >
-              <h2 id="testimonials-heading" className="text-3xl font-bold mb-4">
-                What Learners Say
-              </h2>
-              <p className="text-muted-foreground">
-                Once testimonials are available, this section can showcase learner feedback,
-                ratings, and outcomes.
-              </p>
-            </motion.header>
-            <Card className="max-w-3xl mx-auto border-border/60">
-              <CardHeader>
-                <CardTitle className="text-lg">Testimonials coming soon</CardTitle>
-                <CardDescription>
-                  We’ll feature real stories from learners as the community grows.
-                </CardDescription>
-              </CardHeader>
-            </Card>
           </div>
         </section>
 

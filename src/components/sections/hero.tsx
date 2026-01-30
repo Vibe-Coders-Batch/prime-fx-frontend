@@ -12,14 +12,25 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Keeps the original "circle reveal" effect.
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
+  // Expanding circle reveal for the dark layer.
+  const circleClipPath = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    ["circle(0vmax at 50% 50%)", "circle(150vmax at 50% 50%)"]
+  );
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
 
   const revealedContentOpacity = useTransform(scrollYProgress, [0.5, 0.6], [0, 1]);
   const revealedContentScale = useTransform(scrollYProgress, [0.5, 0.6], [0, 1]);
   const revealedContentY = useTransform(scrollYProgress, [0.5, 0.7], ["100%", "0%"]);
+  // Ensure the background photo is NOT visible on initial load.
+  // Fade it in during the circle-reveal scroll.
+  const backgroundPhotoOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.12, 0.5],
+    [0, 0.18, 0.45]
+  );
 
   const headlineWords = "Unlock Skills That Drive Your Future".split(" ");
 
@@ -27,16 +38,17 @@ export function Hero() {
     <section
       ref={containerRef}
       className="relative h-[250vh] bg-background"
-      aria-label="Hero section - PRIME E-Learning & Training"
+      aria-label="Hero section - Prime Learning"
     >
       <div className="sticky top-0 h-screen h-[100dvh] overflow-hidden">
-        {/* Background layer (revealed after scroll) */}
-        <div
+        {/* Dark layer (revealed by expanding circle) */}
+        <motion.div
+          style={{ clipPath: circleClipPath }}
           className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black"
-          aria-hidden="true"
         >
-          <div
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center opacity-30 grayscale"
+          <motion.div
+            style={{ opacity: backgroundPhotoOpacity }}
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center grayscale"
             role="img"
             aria-label="Online learning background"
           />
@@ -91,18 +103,7 @@ export function Hero() {
               </Link>
             </motion.div>
           </div>
-        </div>
-
-        {/* Circle reveal mask */}
-        <div
-          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
-          aria-hidden="true"
-        >
-          <motion.div
-            style={{ scale }}
-            className="w-10 h-10 bg-transparent rounded-full shadow-[0_0_0_500vmax_var(--color-background)]"
-          />
-        </div>
+        </motion.div>
 
         {/* Foreground text (visible at top, fades as you scroll) */}
         <motion.header
@@ -110,7 +111,7 @@ export function Hero() {
           className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto px-4 pt-16 sm:pt-20"
         >
           <p className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-muted-foreground">
-            PRIME E-LEARNING & TRAINING
+            PRIME LEARNING
           </p>
 
           <h1 className="mt-3 text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-foreground tracking-tighter text-center flex flex-wrap justify-center gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2">
