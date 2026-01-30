@@ -52,7 +52,7 @@ export default function LoginPage() {
 
   return (
     <AuthSplitLayout
-      title="PRIME E-LEARNING & TRAINING"
+      title="Prime Learning"
       subtitle="Sign in to continue your learning journey."
       image={<AnimatedLineChart />}
     >

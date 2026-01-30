@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const siteUrl = "https://paet.ltd";
-const siteName = "PRIME E-Learning & Training";
+const siteName = "Prime Learning";
 
 export const metadata: Metadata = {
   robots: {
