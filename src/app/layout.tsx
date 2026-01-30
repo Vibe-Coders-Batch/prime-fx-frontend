@@ -13,7 +13,7 @@ const poppins = Poppins({
 });
 
 const siteUrl = "https://paet.ltd";
-const siteName = "PRIME E-Learning & Training";
+const siteName = "Prime Learning";
 const siteDescription =
   "Premium, outcomes-driven online learning for learners, professionals, and organisations. Build real-world skills through expert-led courses designed to help you grow faster and stay future-ready.";
 

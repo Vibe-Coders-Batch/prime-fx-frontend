@@ -5,6 +5,15 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Hide scrollbars while keeping scroll enabled */
+  body {
+    -ms-overflow-style: none; /* IE/Edge legacy */
+    scrollbar-width: none; /* Firefox */
+  }
+  body::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
 }
 
 @layer utilities {
