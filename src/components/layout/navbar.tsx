@@ -83,13 +83,18 @@ export function Navbar() {
 
       {/* Nav Links */}
       <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-        {["Curriculum", "Markets", "Toolkits", "About"].map((item) => (
+        {[
+          { label: "Why PRIME", href: "#why-prime-learning" },
+          { label: "Categories", href: "#categories" },
+          { label: "Courses", href: "#courses" },
+          { label: "How It Works", href: "#how-it-works" },
+        ].map((item) => (
           <Link
-            key={item}
-            href={`#${item.toLowerCase()}`}
+            key={item.label}
+            href={item.href}
             className="text-xs sm:text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            {item}
+            {item.label}
           </Link>
         ))}
       </nav>
@@ -164,8 +169,8 @@ export function Navbar() {
             </Link>
             <Link href="/signup">
               <Button className="bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark font-semibold text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6 py-2 sm:py-2.5">
-                <span className="hidden sm:inline">Join Academy</span>
-                <span className="sm:hidden">Join</span>
+                <span className="hidden sm:inline">Start Learning Today</span>
+                <span className="sm:hidden">Start</span>
               </Button>
             </Link>
           </>

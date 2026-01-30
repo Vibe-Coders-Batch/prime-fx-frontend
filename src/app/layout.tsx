@@ -15,36 +15,28 @@ const poppins = Poppins({
 const siteUrl = "https://paet.ltd";
 const siteName = "PRIME E-Learning & Training";
 const siteDescription =
-  "Dubai's premier online education platform for financial literacy, trading skills, soft skills, and professional development. Master the global markets with institutional-grade education. No prerequisites required.";
+  "Premium, outcomes-driven online learning for learners, professionals, and organisations. Build real-world skills through expert-led courses designed to help you grow faster and stay future-ready.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteName} | Master Global Markets & Financial Literacy`,
+    default: `${siteName} | Learn Smarter. Grow Faster. Lead With Purpose.`,
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
   keywords: [
     "online education",
-    "financial literacy",
-    "trading courses",
-    "forex trading",
-    "stock market education",
+    "online courses",
     "professional development",
-    "Dubai education",
     "e-learning platform",
-    "trading academy",
-    "financial training",
-    "investment courses",
-    "soft skills training",
     "career development",
-    "online learning",
-    "market analysis",
-    "trading psychology",
-    "risk management",
-    "institutional trading",
-    "live trading sessions",
-    "mentorship program",
+    "business and leadership",
+    "technology and data",
+    "finance and markets",
+    "creative and design",
+    "project management",
+    "test preparation",
+    "certificates",
   ],
   authors: [{ name: siteName, url: siteUrl }],
   creator: siteName,
@@ -62,21 +54,21 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: siteName,
-    title: `${siteName} | Master Global Markets & Financial Literacy`,
+    title: `${siteName} | Unlock Skills That Drive Your Future`,
     description: siteDescription,
     images: [
       {
         url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: `${siteName} - Online Education Platform for Financial Literacy`,
+        alt: `${siteName} - Premium online learning platform`,
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteName} | Master Global Markets & Financial Literacy`,
+    title: `${siteName} | Unlock Skills That Drive Your Future`,
     description: siteDescription,
     images: [`${siteUrl}/og-image.png`],
     creator: "@primetraining",
@@ -123,11 +115,6 @@ export default function RootLayout({
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
     description: siteDescription,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Dubai",
-      addressCountry: "AE",
-    },
     sameAs: [
       "https://twitter.com/primetraining",
       "https://www.linkedin.com/company/prime-elearning",

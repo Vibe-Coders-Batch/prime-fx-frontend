@@ -12,44 +12,35 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
+  // Keeps the original "circle reveal" effect.
   const scale = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
 
-  const revealedContentOpacity = useTransform(
-    scrollYProgress,
-    [0.5, 0.6],
-    [0, 1]
-  );
-  const revealedContentScale = useTransform(
-    scrollYProgress,
-    [0.5, 0.6],
-    [0, 1]
-  );
-  const revealedContentY = useTransform(
-    scrollYProgress,
-    [0.5, 0.7],
-    ["100%", "0%"]
-  );
+  const revealedContentOpacity = useTransform(scrollYProgress, [0.5, 0.6], [0, 1]);
+  const revealedContentScale = useTransform(scrollYProgress, [0.5, 0.6], [0, 1]);
+  const revealedContentY = useTransform(scrollYProgress, [0.5, 0.7], ["100%", "0%"]);
 
-  const headlineWords = "Master the Global Markets".split(" ");
+  const headlineWords = "Unlock Skills That Drive Your Future".split(" ");
 
   return (
     <section
       ref={containerRef}
       className="relative h-[250vh] bg-background"
-      aria-label="Hero section - Master the Global Markets"
+      aria-label="Hero section - PRIME E-Learning & Training"
     >
       <div className="sticky top-0 h-screen h-[100dvh] overflow-hidden">
+        {/* Background layer (revealed after scroll) */}
         <div
           className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black"
           aria-hidden="true"
         >
           <div
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center opacity-30 grayscale"
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center opacity-30 grayscale"
             role="img"
-            aria-label="Financial markets background"
+            aria-label="Online learning background"
           />
+
           <div className="relative z-10 flex flex-col items-center justify-center px-4">
             <motion.div
               style={{
@@ -58,7 +49,7 @@ export function Hero() {
               }}
               className="mb-4 sm:mb-6 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-[10px] sm:text-xs font-bold tracking-widest text-primary-gold uppercase"
             >
-              Live Classes & Tests
+              Premium Online Learning
             </motion.div>
 
             <div className="overflow-hidden">
@@ -68,28 +59,41 @@ export function Hero() {
                 role="heading"
                 aria-level={2}
               >
-                Trade with Precision
+                Learn Smarter. Grow Faster.
               </motion.p>
             </div>
 
             <motion.p
               style={{ opacity: revealedContentOpacity }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl text-center mb-6 sm:mb-8 px-2"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl text-center mb-6 sm:mb-8 px-2"
             >
-              Join the elite community of traders mastering the markets with
-              institutional-grade strategies and real-time mentorship.
+              Premium online courses for learners, professionals, and organisations.
+              Build real-world skills through expert-led programs designed to help you
+              advance your career and stay future-ready.
             </motion.p>
 
-            <motion.div style={{ opacity: revealedContentOpacity }}>
-              <Link href="/login" aria-label="Start your trading journey - Login to get started">
-                <Button className="bg-primary-gold text-primary-dark hover:bg-foreground hover:text-background text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 font-semibold">
-                  Start Your Journey
+            <motion.div
+              style={{ opacity: revealedContentOpacity }}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
+            >
+              <Link href="/learner/courses" aria-label="Explore courses">
+                <Button className="w-full sm:w-auto bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 font-semibold">
+                  Explore Courses
+                </Button>
+              </Link>
+              <Link href="/signup" aria-label="Start learning today">
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto bg-transparent border-white/30 text-white hover:bg-white hover:text-primary-dark text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6"
+                >
+                  Start Learning Today
                 </Button>
               </Link>
             </motion.div>
           </div>
         </div>
 
+        {/* Circle reveal mask */}
         <div
           className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
           aria-hidden="true"
@@ -100,23 +104,28 @@ export function Hero() {
           />
         </div>
 
+        {/* Foreground text (visible at top, fades as you scroll) */}
         <motion.header
           style={{ opacity: textOpacity, y: textY }}
           className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto px-4 pt-16 sm:pt-20"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-foreground tracking-tighter text-center flex flex-wrap justify-center gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2">
+          <p className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-muted-foreground">
+            PRIME E-LEARNING & TRAINING
+          </p>
+
+          <h1 className="mt-3 text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-foreground tracking-tighter text-center flex flex-wrap justify-center gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2">
             {headlineWords.map((word, i) => (
               <motion.span
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  delay: 0.2 + i * 0.1,
+                  delay: 0.2 + i * 0.06,
                   duration: 0.8,
                   ease: "easeOut",
                 }}
               >
-                {word === "Global" || word === "Markets" ? (
+                {["Skills", "Future"].includes(word) ? (
                   <span className="text-primary-gold">{word}</span>
                 ) : (
                   word
@@ -128,31 +137,30 @@ export function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.8 }}
+            transition={{ delay: 0.9, duration: 0.8 }}
             className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl text-center leading-relaxed"
           >
-            For Students, Professionals, and Aspirants. The ultimate ecosystem
-            for financial literacy.
+            Learn Smarter. Grow Faster. Lead With Purpose.
           </motion.p>
 
           <motion.nav
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4, duration: 0.8 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
             className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0"
             aria-label="Hero actions"
           >
-            <Link href="/login" aria-label="Start your learning journey" className="w-full sm:w-auto">
+            <Link href="/learner/courses" aria-label="Explore courses" className="w-full sm:w-auto">
               <Button className="w-full sm:w-auto bg-primary-gold text-primary-dark hover:bg-white text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold">
-                Start Journey
+                Explore Courses
               </Button>
             </Link>
-            <Link href="#curriculum" aria-label="View our curriculum and course offerings" className="w-full sm:w-auto">
+            <Link href="#categories" aria-label="Explore categories" className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 className="w-full sm:w-auto bg-transparent border-foreground/20 text-foreground hover:bg-foreground hover:text-background text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6"
               >
-                View Curriculum
+                Explore Categories
               </Button>
             </Link>
           </motion.nav>

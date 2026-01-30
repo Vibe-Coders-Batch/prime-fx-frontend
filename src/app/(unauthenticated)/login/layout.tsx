@@ -6,14 +6,14 @@ const siteName = "PRIME E-Learning & Training";
 export const metadata: Metadata = {
   title: "Login | PRIME E-Learning & Training",
   description:
-    "Sign in to your PRIME E-Learning & Training account. Access your courses, live trading sessions, and institutional-grade trading tools.",
+    "Sign in to your PRIME E-Learning & Training account. Access your courses, learning progress, and certificates.",
   alternates: {
     canonical: `${siteUrl}/login`,
   },
   openGraph: {
     title: "Login | PRIME E-Learning & Training",
     description:
-      "Sign in to access your courses and trading tools at PRIME E-Learning & Training.",
+      "Sign in to access your courses and learning tools at PRIME E-Learning & Training.",
     url: `${siteUrl}/login`,
     siteName: siteName,
     type: "website",

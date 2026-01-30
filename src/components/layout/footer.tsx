@@ -13,16 +13,13 @@ export function Footer() {
         <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-2 md:col-span-1">
           <Link href="/" aria-label="PRIME E-Learning & Training - Home">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
-              PRIME{" "}
-              <span className="text-primary-gold">E-LEARNING & TRAINING</span>
+              PRIME <span className="text-primary-gold">E-LEARNING & TRAINING</span>
             </h2>
           </Link>
           <p className="text-white/60 text-xs sm:text-sm">
-            Dubai&apos;s Premier Financial Trading Academy. Master the markets
-            with institutional-grade education.
+            Premium online courses for learners, professionals, and organisations.
           </p>
           <address className="text-white/50 text-xs not-italic">
-            <p>Dubai, United Arab Emirates</p>
             <p>
               <a
                 href="mailto:info@paet.ltd"
@@ -39,15 +36,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-white/60">
             <li>
               <Link
-                href="#curriculum"
-                className="hover:text-primary-gold transition-colors"
-              >
-                Curriculum
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#about"
+                href="#why-prime-learning"
                 className="hover:text-primary-gold transition-colors"
               >
                 About Us
@@ -58,15 +47,23 @@ export function Footer() {
                 href="/learner/courses"
                 className="hover:text-primary-gold transition-colors"
               >
-                Browse Courses
+                Courses
               </Link>
             </li>
             <li>
               <Link
-                href="/signup"
+                href="#categories"
                 className="hover:text-primary-gold transition-colors"
               >
-                Join Academy
+                Categories
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#how-it-works"
+                className="hover:text-primary-gold transition-colors"
+              >
+                How It Works
               </Link>
             </li>
           </ul>
@@ -77,26 +74,26 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-white/60">
             <li>
               <Link
-                href="#toolkits"
-                className="hover:text-primary-gold transition-colors"
-              >
-                Trading Tools
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#markets"
-                className="hover:text-primary-gold transition-colors"
-              >
-                Live Ecosystem
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/login"
                 className="hover:text-primary-gold transition-colors"
               >
-                Student Login
+                Learner Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/signup"
+                className="hover:text-primary-gold transition-colors"
+              >
+                Start Learning Today
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#courses"
+                className="hover:text-primary-gold transition-colors"
+              >
+                Popular Courses
               </Link>
             </li>
           </ul>
@@ -119,14 +116,6 @@ export function Footer() {
                 className="hover:text-primary-gold transition-colors"
               >
                 Terms of Service
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/risk-disclosure"
-                className="hover:text-primary-gold transition-colors"
-              >
-                Risk Disclosure
               </Link>
             </li>
           </ul>

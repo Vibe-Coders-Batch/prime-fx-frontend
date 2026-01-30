@@ -53,7 +53,7 @@ export default function LoginPage() {
   return (
     <AuthSplitLayout
       title="PRIME E-LEARNING & TRAINING"
-      subtitle="Access the institutional ecosystem designed for the next generation of traders."
+      subtitle="Sign in to continue your learning journey."
       image={<AnimatedLineChart />}
     >
       <div className="space-y-5 sm:space-y-6">
@@ -62,7 +62,7 @@ export default function LoginPage() {
             Welcome Back
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Enter your credentials to access the terminal.
+            Enter your credentials to access your courses and progress.
           </p>
         </header>
 
