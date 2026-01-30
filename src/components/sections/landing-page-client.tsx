@@ -589,7 +589,7 @@ export function LandingPageClient() {
                   {
                     title: "Design",
                     items: ["UX Design", "Graphic Design", "Product Design"],
-                    imageSrc: "/window.svg",
+                    imageSrc: "/illustrations/pending_approval.svg",
                   },
                   {
                     title: "Business",
