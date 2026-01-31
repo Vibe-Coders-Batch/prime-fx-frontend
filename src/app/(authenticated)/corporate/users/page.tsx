@@ -9,51 +9,29 @@ import { useAuthStore } from "@/lib/store/auth-store";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-
 export default function CorporateUserManagementPage() {
-  const { user } = useAuthStore();
-  const [search, setSearch] = useState("");
-
-  const { data: usersData, isLoading } = useUsers({
-    enabled: true,
-    filters: {
-      search: search || undefined,
-      companyId: user?.companyId ?? undefined,
-      page: 1,
-      limit: 100,
-    },
-  });
-
-  return (
-    <PageLayout
-      header="User Management"
-      subtitle="Corporate"
-      description="Manage your company's users and their course access."
-      actions={
-        <Button
-          onClick={() => {
-            toast.info(
-              "Add users feature coming soon. You'll be able to add users via CSV upload or manual entry."
-            );
-          }}
-        >
-          <UserPlusIcon className="h-4 w-4 mr-2" />
+    const { user } = useAuthStore();
+    const [search, setSearch] = useState("");
+    const { data: usersData, isLoading } = useUsers({
+        enabled: true,
+        filters: {
+            search: search || undefined,
+            companyId: user?.companyId ?? undefined,
+            page: 1,
+            limit: 100,
+        },
+    });
+    return (<PageLayout header="User Management" subtitle="Corporate" description="Manage your company's users and their course access." actions={<Button onClick={() => {
+                toast.info("Add users feature coming soon. You'll be able to add users via CSV upload or manual entry.");
+            }}>
+          <UserPlusIcon className="h-4 w-4 mr-2"/>
           Add Users
-        </Button>
-      }
-    >
+        </Button>}>
       <div className="space-y-6">
         <Card>
           <CardHeader>
@@ -61,31 +39,16 @@ export default function CorporateUserManagementPage() {
           </CardHeader>
           <CardContent>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                placeholder="Search by email..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-9"
-              />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
+              <Input placeholder="Search by email..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9"/>
             </div>
           </CardContent>
         </Card>
 
-        {isLoading ? (
-          <DataTableSkeleton columnCount={5} rowCount={10} />
-        ) : usersData?.data.length === 0 ? (
-          <EmptyState
-            title="No users found"
-            description="Add users to your company account to get started."
-            icon={<Users className="h-12 w-12" />}
-            action={{
-              label: "Add Users",
-              onClick: () => {},
-            }}
-          />
-        ) : (
-          <Card>
+        {isLoading ? (<DataTableSkeleton columnCount={5} rowCount={10}/>) : usersData?.data.length === 0 ? (<EmptyState title="No users found" description="Add users to your company account to get started." icon={<Users className="h-12 w-12"/>} action={{
+                label: "Add Users",
+                onClick: () => { },
+            }}/>) : (<Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <Table>
@@ -103,14 +66,11 @@ export default function CorporateUserManagementPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {usersData?.data?.map((user) => (
-                      <TableRow key={user.id}>
+                    {usersData?.data?.map((user) => (<TableRow key={user.id}>
                         <TableCell className="font-medium">
                           {user.firstName || user.lastName
-                            ? `${user.firstName || ""} ${
-                                user.lastName || ""
-                              }`.trim()
-                            : "N/A"}
+                    ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
+                    : "N/A"}
                         </TableCell>
                         <TableCell className="truncate max-w-[200px]">
                           {user.email}
@@ -121,37 +81,23 @@ export default function CorporateUserManagementPage() {
                           </span>
                         </TableCell>
                         <TableCell>
-                          {user.emailVerified ? (
-                            <span className="text-green-600">Active</span>
-                          ) : (
-                            <span className="text-muted-foreground">
+                          {user.emailVerified ? (<span className="text-green-600">Active</span>) : (<span className="text-muted-foreground">
                               Pending
-                            </span>
-                          )}
+                            </span>)}
                         </TableCell>
                         <TableCell className="text-right">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-full sm:w-auto"
-                            onClick={() => {
-                              toast.info(
-                                `User management for ${user.email} - Feature coming soon`
-                              );
-                            }}
-                          >
+                          <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => {
+                    toast.info(`User management for ${user.email} - Feature coming soon`);
+                }}>
                             Manage
                           </Button>
                         </TableCell>
-                      </TableRow>
-                    ))}
+                      </TableRow>))}
                   </TableBody>
                 </Table>
               </div>
             </CardContent>
-          </Card>
-        )}
+          </Card>)}
       </div>
-    </PageLayout>
-  );
+    </PageLayout>);
 }
