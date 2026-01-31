@@ -1,14 +1,10 @@
 "use client";
-
 import { useCourseWizard } from "../store";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
 export function StepCurriculum() {
-  const { nextStep, prevStep, courseId } = useCourseWizard();
-  
-  return (
-    <Card>
+    const { nextStep, prevStep, courseId } = useCourseWizard();
+    return (<Card>
       <CardHeader>
         <CardTitle>Curriculum</CardTitle>
         <CardDescription>
@@ -16,7 +12,7 @@ export function StepCurriculum() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {courseId && <CourseBuilder courseId={courseId} />}
+        {courseId && <CourseBuilder courseId={courseId}/>}
         
         <div className="flex justify-between pt-4">
           <Button variant="outline" onClick={prevStep}>
@@ -27,8 +23,6 @@ export function StepCurriculum() {
           </Button>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>);
 }
-
 import { CourseBuilder } from "@/features/courses/components/course-builder";
