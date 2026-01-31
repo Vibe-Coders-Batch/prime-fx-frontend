@@ -14,6 +14,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    const backendBase =
+      (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000").replace(
+        /\/$/,
+        ""
+      );
+
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${backendBase}/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [
       {

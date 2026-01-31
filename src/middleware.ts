@@ -60,6 +60,11 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("auth-token")?.value;
 
+  // Hide checkout page: coupons are handled in cart.
+  if (pathname.startsWith("/learner/checkout")) {
+    return NextResponse.redirect(new URL("/learner/cart", request.url));
+  }
+
   if (
     pathname === "/" ||
     pathname.startsWith("/api") ||
