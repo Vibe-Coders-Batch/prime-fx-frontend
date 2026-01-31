@@ -2,8 +2,11 @@ import axios from "axios";
 
 import { useAuthStore } from "@/lib/store/auth-store";
 
-const getBaseUrl = () =>
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+/**
+ * Use same-origin proxy to avoid CORS/network issues in browsers.
+ * `next.config.ts` rewrites `/api/*` -> `${NEXT_PUBLIC_API_URL}/*`.
+ */
+const getBaseUrl = () => "/api";
 
 const getAuthToken = (): string | null => {
   try {

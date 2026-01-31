@@ -5,6 +5,7 @@ export interface CreatePaymentDto {
   itemType: 'COURSE' | 'SECTION';
   courseId?: string;
   sectionId?: string;
+  couponCode?: string;
   successUrl?: string;
   cancelUrl?: string;
   metadata?: Record<string, string>;
@@ -13,6 +14,7 @@ export interface CreatePaymentDto {
 export interface CreateBulkPaymentDto {
   gateway: PaymentGateway;
   cartItemIds: string[];
+  couponCode?: string;
   successUrl?: string;
   cancelUrl?: string;
 }
