@@ -1,19 +1,10 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
 export function CTA() {
-  return (
-    <section
-      className="py-10 sm:py-12 md:py-16 px-4 sm:px-6 bg-gradient-to-r from-primary to-primary/80"
-      aria-labelledby="cta-heading"
-    >
+    return (<section className="py-10 sm:py-12 md:py-16 px-4 sm:px-6 bg-gradient-to-r from-primary to-primary/80" aria-labelledby="cta-heading">
       <div className="max-w-4xl mx-auto text-center">
-        <h2
-          id="cta-heading"
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 sm:mb-6 md:mb-8 tracking-tight"
-        >
+        <h2 id="cta-heading" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 sm:mb-6 md:mb-8 tracking-tight">
           Join Prime Learning Today
         </h2>
         <p className="text-primary-foreground/80 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
@@ -27,15 +18,11 @@ export function CTA() {
             </Button>
           </Link>
           <Link href="/signup" aria-label="Start learning today">
-            <Button
-              variant="outline"
-              className="w-full sm:w-auto bg-transparent border-primary-dark/30 text-primary-dark hover:bg-primary-dark hover:text-white text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold rounded-full"
-            >
+            <Button variant="outline" className="w-full sm:w-auto bg-transparent border-primary-dark/30 text-primary-dark hover:bg-primary-dark hover:text-white text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold rounded-full">
               Start Learning Today
             </Button>
           </Link>
         </div>
       </div>
-    </section>
-  );
+    </section>);
 }
