@@ -6,7 +6,7 @@ import {
   useRemoveFromCart,
   useClearCart,
 } from "@/features/cart/hooks/use-cart";
-import { useCreatePayment, useCreateBulkPayment } from "@/features/payments/hooks/use-payments";
+import { useCreateBulkPayment, useCreatePayment } from "@/features/payments/hooks/use-payments";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,13 +19,12 @@ import {
   Shield,
   ArrowRight,
   Loader2,
-  Tag,
 } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -38,6 +37,9 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useValidateBulkCoupon, useValidateCoupon } from "@/features/coupons/hooks";
+import type { BulkCouponValidationResult, CouponValidationResult } from "@/features/coupons/types";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -79,43 +81,72 @@ export default function CartPage() {
   const clearMutation = useClearCart();
   const createPayment = useCreatePayment();
   const createBulkPayment = useCreateBulkPayment();
+  const validateBulkCoupon = useValidateBulkCoupon();
+  const validateCoupon = useValidateCoupon();
   const [removingIds, setRemovingIds] = useState<Set<string>>(new Set());
   const [isCheckingOut, setIsCheckingOut] = useState<string | null>(null);
   const [isBulkCheckingOut, setIsBulkCheckingOut] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
-  const [discountAmount, setDiscountAmount] = useState(0);
   const [showClearDialog, setShowClearDialog] = useState(false);
+  const [couponInput, setCouponInput] = useState("");
+  const debouncedCoupon = useDebounce(couponInput.trim(), 400);
+  const [couponApplied, setCouponApplied] = useState<string | null>(null);
+  const [bulkDiscountAmount, setBulkDiscountAmount] = useState(0);
+  const [bulkCouponMeta, setBulkCouponMeta] = useState<{
+    appliedCount: number;
+    totalItems: number;
+  } | null>(null);
+
+  const [itemCouponInputs, setItemCouponInputs] = useState<Record<string, string>>({});
+  const [itemCoupons, setItemCoupons] = useState<Record<string, CouponValidationResult>>({});
 
   const cartItems = cartData || [];
   const subtotal = cartItems.reduce(
     (acc, item) => acc + Number(item.price || 0),
     0
   );
-  const totalPrice = subtotal - discountAmount;
   const currency = cartItems[0]?.currency || "USD";
+  const perItemDiscountAmount =
+    couponApplied
+      ? 0
+      : Object.values(itemCoupons).reduce((sum, r) => sum + Number(r.discountAmount || 0), 0);
 
-  const handleApplyCoupon = () => {
-    if (!couponCode.trim()) {
-      toast.error("Please enter a coupon code");
-      return;
+  const totalDiscount = couponApplied ? bulkDiscountAmount : perItemDiscountAmount;
+  const total = Math.max(subtotal - totalDiscount, 0.01);
+
+  useEffect(() => {
+    setCouponApplied(null);
+    setBulkDiscountAmount(0);
+    setBulkCouponMeta(null);
+    setCouponInput("");
+    setItemCouponInputs({});
+    setItemCoupons({});
+  }, [cartItems.length]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function run() {
+      if (!debouncedCoupon || cartItems.length < 2) return;
+      try {
+        const res = await validateBulkCoupon.mutateAsync({
+          couponCode: debouncedCoupon,
+          cartItemIds: cartItems.map((c) => c.cartItemId),
+        });
+        if (cancelled) return;
+        // only preview; apply happens on button click
+        // store preview discount in state only if already applied code matches
+        if (couponApplied && couponApplied === debouncedCoupon.toUpperCase() && res.valid) {
+          setBulkDiscountAmount(Number(res.totals.discountAmount));
+          setBulkCouponMeta({ appliedCount: res.appliedCount, totalItems: res.totalItems });
+        }
+      } catch {
+        // ignore preview errors
+      }
     }
-
-    const discountPercent = 10;
-    const calculatedDiscount = (subtotal * discountPercent) / 100;
-    setDiscountAmount(calculatedDiscount);
-    setAppliedCoupon(couponCode.toUpperCase());
-    toast.success(
-      `Coupon "${couponCode.toUpperCase()}" applied! ${discountPercent}% discount`
-    );
-    setCouponCode("");
-  };
-
-  const handleRemoveCoupon = () => {
-    setAppliedCoupon(null);
-    setDiscountAmount(0);
-    toast.success("Coupon removed");
-  };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [cartItems, couponApplied, debouncedCoupon, validateBulkCoupon]);
 
   const getItemTitle = (item: any) => {
     if (item.itemType === "COURSE") {
@@ -152,18 +183,20 @@ export default function CartPage() {
   const handleCheckout = async (item: any) => {
     setIsCheckingOut(item.cartItemId);
     try {
-      const payload =
-        item.itemType === "COURSE"
-          ? { courseId: item.courseId }
-          : { courseId: item.courseId, sectionId: item.sectionId };
+      const applied = itemCoupons[item.cartItemId];
+      const couponCode = applied?.valid ? applied.couponCode : undefined;
+
       const payment = await createPayment.mutateAsync({
         gateway: "STRIPE_US",
-        itemType: item.itemType as any,
-        ...payload,
+        itemType: item.itemType,
+        courseId: item.itemType === "COURSE" ? item.courseId : undefined,
+        sectionId: item.itemType === "SECTION" ? item.sectionId : undefined,
+        couponCode,
         metadata: { cartItemId: item.cartItemId },
         successUrl: `${window.location.origin}/learner/payment/success`,
         cancelUrl: `${window.location.origin}/learner/payment/failure`,
-      });
+      } as any);
+
       if (payment.checkoutUrl) {
         window.location.href = payment.checkoutUrl;
       }
@@ -184,6 +217,7 @@ export default function CartPage() {
       const payment = await createBulkPayment.mutateAsync({
         gateway: "STRIPE_US",
         cartItemIds,
+        couponCode: couponApplied || undefined,
         successUrl: `${window.location.origin}/learner/payment/success?bulk=true`,
         cancelUrl: `${window.location.origin}/learner/payment/failure`,
       });
@@ -342,6 +376,109 @@ export default function CartPage() {
                                 {item.currency}{" "}
                                 {parseFloat(String(item.price || 0)).toFixed(2)}
                               </div>
+                              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                                {/* Per-item coupon (cart-only) */}
+                                {cartItems.length > 1 && couponApplied ? (
+                                  <div className="text-xs text-muted-foreground">
+                                    Bulk coupon applied (per-item coupons disabled)
+                                  </div>
+                                ) : itemCoupons[item.cartItemId]?.valid ? (
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs text-muted-foreground">
+                                      Coupon:{" "}
+                                      <span className="font-medium">
+                                        {itemCoupons[item.cartItemId].couponCode}
+                                      </span>{" "}
+                                      (-{item.currency}{" "}
+                                      {parseFloat(
+                                        String(itemCoupons[item.cartItemId].discountAmount || 0)
+                                      ).toFixed(2)}
+                                      )
+                                    </span>
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      onClick={() => {
+                                        setItemCoupons((prev) => {
+                                          const next = { ...prev };
+                                          delete next[item.cartItemId];
+                                          return next;
+                                        });
+                                        toast.success("Coupon removed");
+                                      }}
+                                    >
+                                      Remove
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <div className="flex gap-2 w-full sm:w-auto">
+                                    <Input
+                                      placeholder="Coupon"
+                                      value={itemCouponInputs[item.cartItemId] || ""}
+                                      onChange={(e) =>
+                                        setItemCouponInputs((prev) => ({
+                                          ...prev,
+                                          [item.cartItemId]: e.target.value,
+                                        }))
+                                      }
+                                      className="h-9 text-sm w-full sm:w-40"
+                                      disabled={cartItems.length > 1 && !!couponApplied}
+                                    />
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="h-9"
+                                      disabled={
+                                        !(itemCouponInputs[item.cartItemId] || "").trim() ||
+                                        validateCoupon.isPending ||
+                                        (cartItems.length > 1 && !!couponApplied)
+                                      }
+                                      onClick={async () => {
+                                        try {
+                                          // If a bulk coupon is active, clear it when applying per-item coupons.
+                                          if (couponApplied) {
+                                            setCouponApplied(null);
+                                            setBulkDiscountAmount(0);
+                                            setBulkCouponMeta(null);
+                                          }
+
+                                          const couponCode = (itemCouponInputs[item.cartItemId] || "").trim();
+                                          const courseIdForCoupon =
+                                            item.courseId ||
+                                            item.section?.courseId ||
+                                            item.section?.course?.courseId;
+
+                                          if (!courseIdForCoupon) {
+                                            toast.error("Course not found for this item");
+                                            return;
+                                          }
+
+                                          const res = await validateCoupon.mutateAsync({
+                                            couponCode,
+                                            courseId: courseIdForCoupon,
+                                            sectionId: item.itemType === "SECTION" ? item.sectionId : undefined,
+                                            itemType: item.itemType,
+                                          });
+
+                                          if (!res.valid) {
+                                            toast.error(res.message);
+                                            return;
+                                          }
+
+                                          setItemCoupons((prev) => ({ ...prev, [item.cartItemId]: res }));
+                                          toast.success("Coupon applied");
+                                        } catch (e: any) {
+                                          toast.error(
+                                            e?.response?.data?.message || "Failed to validate coupon"
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
                               <Button
                                 onClick={() => handleCheckout(item)}
                                 disabled={
@@ -411,84 +548,115 @@ export default function CartPage() {
                         {currency} {subtotal.toFixed(2)}
                       </span>
                     </div>
-                    {appliedCoupon && discountAmount > 0 && (
-                      <>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground flex items-center gap-1">
-                            <Tag className="h-3 w-3" />
-                            Discount ({appliedCoupon})
-                          </span>
-                          <span className="font-medium text-green-600">
-                            -{currency} {discountAmount.toFixed(2)}
-                          </span>
-                        </div>
-                      </>
+                    {couponApplied && bulkDiscountAmount > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">
+                          Discount ({couponApplied})
+                        </span>
+                        <span className="font-medium text-green-600">
+                          -{currency} {bulkDiscountAmount.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                    {!couponApplied && perItemDiscountAmount > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Discount (item coupons)</span>
+                        <span className="font-medium text-green-600">
+                          -{currency} {perItemDiscountAmount.toFixed(2)}
+                        </span>
+                      </div>
                     )}
                     <Separator />
                     <div className="flex justify-between">
                       <span className="font-semibold">Total</span>
                       <span className="text-primary font-bold text-xl">
-                        {currency} {totalPrice.toFixed(2)}
+                        {currency} {total.toFixed(2)}
                       </span>
                     </div>
                   </div>
                 </div>
-
-                <div className="space-y-3 pt-2 border-t">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium flex items-center gap-2">
-                      <Tag className="h-4 w-4" />
-                      Coupon Code
-                    </label>
-                    {appliedCoupon ? (
-                      <div className="flex items-center justify-between p-2 bg-green-50 dark:bg-green-950/20 rounded-md border border-green-200 dark:border-green-800">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-green-700 dark:text-green-400">
-                            {appliedCoupon}
-                          </span>
-                          <span className="text-xs text-green-600 dark:text-green-400">
-                            Applied
-                          </span>
+                {cartItems.length > 1 && (
+                  <div className="pt-2 border-t space-y-2">
+                    <label className="text-sm font-medium">Coupon Code (Bulk)</label>
+                    {couponApplied ? (
+                      <>
+                        <div className="flex items-center justify-between rounded-md border p-2">
+                          <span className="text-sm font-medium">{couponApplied}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setCouponApplied(null);
+                              setBulkDiscountAmount(0);
+                              setBulkCouponMeta(null);
+                              toast.success("Coupon removed");
+                            }}
+                          >
+                            Remove
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 px-2 text-xs text-green-700 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300"
-                          onClick={handleRemoveCoupon}
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
+                        {bulkCouponMeta && (
+                          <div className="text-xs text-muted-foreground">
+                            Applied to {bulkCouponMeta.appliedCount} of{" "}
+                            {bulkCouponMeta.totalItems} items
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <div className="flex gap-2">
                         <Input
                           placeholder="Enter coupon code"
-                          value={couponCode}
-                          onChange={(e) => setCouponCode(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              handleApplyCoupon();
-                            }
-                          }}
+                          value={couponInput}
+                          onChange={(e) => setCouponInput(e.target.value)}
                           className="text-sm"
+                          disabled={Object.keys(itemCoupons).length > 0}
                         />
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={handleApplyCoupon}
-                          className="shrink-0"
+                          disabled={!couponInput.trim() || validateBulkCoupon.isPending}
+                          onClick={async () => {
+                            try {
+                              if (Object.keys(itemCoupons).length > 0) {
+                                toast.error("Remove item coupons before applying a bulk coupon");
+                                return;
+                              }
+                              const res: BulkCouponValidationResult =
+                                await validateBulkCoupon.mutateAsync({
+                                  couponCode: couponInput,
+                                  cartItemIds: cartItems.map((c) => c.cartItemId),
+                                });
+                              if (!res.valid) {
+                                toast.error(res.message);
+                                return;
+                              }
+                              // Bulk coupon and per-item coupons are mutually exclusive.
+                              setItemCoupons({});
+                              setCouponApplied(res.couponCode);
+                              setBulkDiscountAmount(Number(res.totals.discountAmount));
+                              setBulkCouponMeta({ appliedCount: res.appliedCount, totalItems: res.totalItems });
+                              toast.success(res.message);
+                              setCouponInput("");
+                            } catch (e: any) {
+                              toast.error(e?.response?.data?.message || "Failed to validate coupon");
+                            }
+                          }}
                         >
                           Apply
                         </Button>
                       </div>
                     )}
                   </div>
-                </div>
+                )}
 
                 {cartItems.length > 1 && (
                   <Button
                     onClick={handleBulkCheckout}
-                    disabled={isBulkCheckingOut || createBulkPayment.isPending}
+                    disabled={
+                      isBulkCheckingOut ||
+                      createBulkPayment.isPending ||
+                      Object.keys(itemCoupons).length > 0
+                    }
                     className="w-full font-semibold"
                     size="lg"
                   >
@@ -504,6 +672,11 @@ export default function CartPage() {
                       </>
                     )}
                   </Button>
+                )}
+                {cartItems.length > 1 && Object.keys(itemCoupons).length > 0 && (
+                  <div className="text-xs text-muted-foreground">
+                    Bulk checkout is disabled while item coupons are applied (checkout items individually).
+                  </div>
                 )}
 
                 <div className="space-y-2 pt-4 border-t">

@@ -288,26 +288,12 @@ export default function CourseDetailPage({
             <h2 className="text-2xl font-bold mb-4">This course includes:</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
-                <Video className="h-5 w-5 text-primary shrink-0" />
-                <span className="text-sm text-foreground">
-                  {formatDuration(totalDuration)} on-demand video
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
                 <FileText className="h-5 w-5 text-primary shrink-0" />
                 <span className="text-sm text-foreground">{totalLessons} lessons</span>
               </div>
               <div className="flex items-center gap-3">
-                <Download className="h-5 w-5 text-primary shrink-0" />
-                <span className="text-sm text-foreground">Downloadable resources</span>
-              </div>
-              <div className="flex items-center gap-3">
                 <Smartphone className="h-5 w-5 text-primary shrink-0" />
                 <span className="text-sm text-foreground">Access on mobile and TV</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Award className="h-5 w-5 text-primary shrink-0" />
-                <span className="text-sm text-foreground">Certificate of completion</span>
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="h-5 w-5 text-primary shrink-0" />

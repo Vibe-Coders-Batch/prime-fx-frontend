@@ -26,6 +26,10 @@ import {
 } from "@/components/ui/select";
 import { useState, Suspense, useMemo, useEffect } from "react";
 import { useAuthStore } from "@/lib/store/auth-store";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useValidateCoupon } from "@/features/coupons/hooks";
+import type { CouponValidationResult } from "@/features/coupons/types";
+import { toast } from "sonner";
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -40,6 +44,7 @@ function CheckoutContent() {
     courseId: courseId || undefined,
   });
   const createPayment = useCreatePayment();
+  const validateCoupon = useValidateCoupon();
   const { user } = useAuthStore();
   const [gateway, setGateway] = useState<
     "RAZORPAY" | "STRIPE_US" | "STRIPE_UAE"
@@ -62,6 +67,72 @@ function CheckoutContent() {
     () => course?.sections?.find((s) => s.sectionId === sectionId),
     [course?.sections, sectionId]
   );
+
+  const [couponInput, setCouponInput] = useState("");
+  const debouncedCoupon = useDebounce(couponInput.trim(), 400);
+  const [couponPreview, setCouponPreview] = useState<CouponValidationResult | null>(
+    null
+  );
+  const [appliedCoupon, setAppliedCoupon] = useState<CouponValidationResult | null>(
+    null
+  );
+
+  const baseAmount = useMemo(() => {
+    const coursePrice = course ? parseFloat(course.price) : 0;
+    if (itemType === "SECTION" && targetSection?.sectionPrice) {
+      return parseFloat(String(targetSection.sectionPrice));
+    }
+    return coursePrice;
+  }, [course, itemType, targetSection?.sectionPrice]);
+
+  const currency = course?.currency || "USD";
+
+  useEffect(() => {
+    setAppliedCoupon(null);
+    setCouponPreview(null);
+    setCouponInput("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId, sectionId, itemType]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function run() {
+      if (!course || !debouncedCoupon) {
+        setCouponPreview(null);
+        return;
+      }
+
+      try {
+        const res = await validateCoupon.mutateAsync({
+          couponCode: debouncedCoupon,
+          courseId: course.courseId,
+          sectionId: itemType === "SECTION" ? sectionId || undefined : undefined,
+          itemType,
+        });
+        if (!cancelled) setCouponPreview(res);
+      } catch (e: any) {
+        if (!cancelled) {
+          setCouponPreview({
+            valid: false,
+            couponCode: debouncedCoupon.toUpperCase(),
+            reason: "ERROR",
+            message: e?.response?.data?.message || "Failed to validate coupon",
+          });
+        }
+      }
+    }
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [course, debouncedCoupon, itemType, sectionId, validateCoupon]);
+
+  const effectiveCoupon = appliedCoupon?.valid ? appliedCoupon : null;
+  const finalAmount = effectiveCoupon?.valid
+    ? parseFloat(String(effectiveCoupon.finalAmount))
+    : baseAmount;
 
   if (isLoading) {
     return (
@@ -90,6 +161,7 @@ function CheckoutContent() {
         itemType,
         courseId: course.courseId,
         sectionId: itemType === "SECTION" ? sectionId || undefined : undefined,
+        couponCode: effectiveCoupon?.valid ? effectiveCoupon.couponCode : undefined,
         successUrl: `${window.location.origin}/learner/payment/success`,
         cancelUrl: `${window.location.origin}/learner/payment/failure`,
       });
@@ -241,19 +313,86 @@ function CheckoutContent() {
                     {itemType === "SECTION" ? "Section Price" : "Course Price"}
                   </span>
                   <span>
-                    {course.currency}{" "}
-                    {itemType === "SECTION" && targetSection?.sectionPrice
-                      ? parseFloat(String(targetSection.sectionPrice)).toFixed(2)
-                      : parseFloat(course.price).toFixed(2)}
+                    {currency} {baseAmount.toFixed(2)}
                   </span>
                 </div>
+
+                {/* Coupon */}
+                <div className="pt-3">
+                  <Label>Coupon</Label>
+                  {effectiveCoupon ? (
+                    <div className="mt-2 flex items-center justify-between rounded-md border p-2">
+                      <div className="text-sm">
+                        <span className="font-medium">{effectiveCoupon.couponCode}</span>
+                        <span className="text-muted-foreground"> applied</span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          setAppliedCoupon(null);
+                          toast.success("Coupon removed");
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="mt-2 space-y-2">
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Enter coupon code"
+                          value={couponInput}
+                          onChange={(e) => setCouponInput(e.target.value)}
+                        />
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            if (!couponPreview) {
+                              toast.error("Enter a coupon code");
+                              return;
+                            }
+                            if (!couponPreview.valid) {
+                              toast.error(couponPreview.message);
+                              return;
+                            }
+                            setAppliedCoupon(couponPreview);
+                            toast.success("Coupon applied");
+                          }}
+                          disabled={validateCoupon.isPending || !couponInput.trim()}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                      {couponPreview && (
+                        <div
+                          className={`text-xs ${
+                            couponPreview.valid ? "text-green-600" : "text-destructive"
+                          }`}
+                        >
+                          {couponPreview.message}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {effectiveCoupon && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      Discount ({effectiveCoupon.couponCode})
+                    </span>
+                    <span className="text-green-600 font-medium">
+                      -{currency}{" "}
+                      {parseFloat(String(effectiveCoupon.discountAmount)).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+
                 <div className="flex justify-between font-semibold pt-2 border-t">
                   <span>Total</span>
                   <span>
-                    {course.currency}{" "}
-                    {itemType === "SECTION" && targetSection?.sectionPrice
-                      ? parseFloat(String(targetSection.sectionPrice)).toFixed(2)
-                      : parseFloat(course.price).toFixed(2)}
+                    {currency} {finalAmount.toFixed(2)}
                   </span>
                 </div>
               </div>

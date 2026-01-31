@@ -168,20 +168,20 @@ export function CourseHeroBackground({ course, className }: CourseHeroBackground
           )}
           
           {/* Title */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight drop-shadow-lg">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight drop-shadow-lg">
             {course.title}
           </h1>
           
           {/* Description */}
           {course.description && (
-            <p className="text-sm sm:text-base text-white/90 line-clamp-2 max-w-2xl drop-shadow-md">
+            <p className="text-sm sm:text-base text-muted-foreground line-clamp-2 max-w-2xl drop-shadow-md">
               {course.description}
             </p>
           )}
 
           {/* Free Preview Badge */}
           {freePreviewLesson && (
-            <div className="flex items-center gap-2 text-sm text-white/80">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Play className="h-4 w-4" />
               <span>Free Preview Available</span>
             </div>

@@ -4,6 +4,7 @@ import { AuthSplitLayout } from "@/components/layout/auth-split-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { useLogin } from "@/features/auth/hooks/use-auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -102,9 +103,8 @@ export default function LoginPage() {
             >
               Password
             </Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               autoComplete="current-password"
               placeholder="••••••••"
               className="h-11 sm:h-12 bg-background text-foreground border-border focus:ring-primary/20 focus:border-primary"
