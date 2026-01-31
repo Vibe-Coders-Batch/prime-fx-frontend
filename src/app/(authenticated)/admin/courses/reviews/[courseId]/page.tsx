@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useCourse, useApproveCourse, useRejectCourse, useRequestCourseChanges } from "@/lib/hooks/use-courses";
@@ -15,77 +14,75 @@ import { Loader2, CheckCircle, AlertOctagon, RefreshCw, FileText, Video as Video
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { SecureVideoPlayer } from "@/components/ui/secure-video-player";
-
 export default function AdminCourseReviewDetailPage() {
-  const { courseId } = useParams<{ courseId: string }>();
-  const router = useRouter();
-  
-  const { data: course, isLoading } = useCourse({ id: courseId });
-  const approveMutation = useApproveCourse();
-  const rejectMutation = useRejectCourse();
-  const requestChangeMutation = useRequestCourseChanges();
-
-  const [notes, setNotes] = useState("");
-  const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
-
-  if (isLoading) {
-    return <div className="flex justify-center py-20"><Loader2 className="animate-spin text-muted-foreground" /></div>;
-  }
-
-  if (!course) return <div>Course not found</div>;
-
-  const handleApprove = async () => {
-      if (!course?.courseId) {
-          toast.error("Course ID not found");
-          return;
-      }
-      try {
-          await approveMutation.mutateAsync({ id: course.courseId, publish: true });
-          toast.success("Course approved and published");
-          router.push("/admin/courses/reviews");
-      } catch (error: any) {
-          const message = error?.response?.data?.message || error?.message || "Failed to approve course";
-          toast.error(message);
-      }
-  };
-
-  const handleReject = async () => {
-      if (!notes) return toast.error("Please provide a rejection reason");
-      if (!course?.courseId) {
-          toast.error("Course ID not found");
-          return;
-      }
-      try {
-          await rejectMutation.mutateAsync({ id: course.courseId, reason: notes });
-          toast.success("Course rejected");
-          router.push("/admin/courses/reviews");
-      } catch (error: any) {
-          const message = error?.response?.data?.message || error?.message || "Failed to reject course";
-          toast.error(message);
-      }
-  };
-
-  const handleRequestChanges = async () => {
-      if (!notes) return toast.error("Please provide feedback notes");
-      if (!course?.courseId) {
-          toast.error("Course ID not found");
-          return;
-      }
-      try {
-          await requestChangeMutation.mutateAsync({ id: course.courseId, notes });
-          toast.success("Changes requested");
-          router.push("/admin/courses/reviews");
-      } catch (error: any) {
-          const message = error?.response?.data?.message || error?.message || "Failed to request changes";
-          toast.error(message);
-      }
-  };
-
-  return (
-    <PageLayout header={course.title} description={`Reviewing submission by ${course.instructor?.firstName} ${course.instructor?.lastName}`}>
+    const { courseId } = useParams<{
+        courseId: string;
+    }>();
+    const router = useRouter();
+    const { data: course, isLoading } = useCourse({ id: courseId });
+    const approveMutation = useApproveCourse();
+    const rejectMutation = useRejectCourse();
+    const requestChangeMutation = useRequestCourseChanges();
+    const [notes, setNotes] = useState("");
+    const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
+    if (isLoading) {
+        return <div className="flex justify-center py-20"><Loader2 className="animate-spin text-muted-foreground"/></div>;
+    }
+    if (!course)
+        return <div>Course not found</div>;
+    const handleApprove = async () => {
+        if (!course?.courseId) {
+            toast.error("Course ID not found");
+            return;
+        }
+        try {
+            await approveMutation.mutateAsync({ id: course.courseId, publish: true });
+            toast.success("Course approved and published");
+            router.push("/admin/courses/reviews");
+        }
+        catch (error: any) {
+            const message = error?.response?.data?.message || error?.message || "Failed to approve course";
+            toast.error(message);
+        }
+    };
+    const handleReject = async () => {
+        if (!notes)
+            return toast.error("Please provide a rejection reason");
+        if (!course?.courseId) {
+            toast.error("Course ID not found");
+            return;
+        }
+        try {
+            await rejectMutation.mutateAsync({ id: course.courseId, reason: notes });
+            toast.success("Course rejected");
+            router.push("/admin/courses/reviews");
+        }
+        catch (error: any) {
+            const message = error?.response?.data?.message || error?.message || "Failed to reject course";
+            toast.error(message);
+        }
+    };
+    const handleRequestChanges = async () => {
+        if (!notes)
+            return toast.error("Please provide feedback notes");
+        if (!course?.courseId) {
+            toast.error("Course ID not found");
+            return;
+        }
+        try {
+            await requestChangeMutation.mutateAsync({ id: course.courseId, notes });
+            toast.success("Changes requested");
+            router.push("/admin/courses/reviews");
+        }
+        catch (error: any) {
+            const message = error?.response?.data?.message || error?.message || "Failed to request changes";
+            toast.error(message);
+        }
+    };
+    return (<PageLayout header={course.title} description={`Reviewing submission by ${course.instructor?.firstName} ${course.instructor?.lastName}`}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Main Content: Curriculum Review */}
+        
         <div className="lg:col-span-2 space-y-6">
             <Card>
                 <CardHeader>
@@ -94,40 +91,32 @@ export default function AdminCourseReviewDetailPage() {
                 </CardHeader>
                 <CardContent>
                     <Accordion type="single" collapsible className="w-full">
-                        {course.sections?.map(section => (
-                            <AccordionItem key={section.sectionId} value={section.sectionId}>
+                        {course.sections?.map(section => (<AccordionItem key={section.sectionId} value={section.sectionId}>
                                 <AccordionTrigger>{section.title}</AccordionTrigger>
                                 <AccordionContent>
                                     <div className="space-y-2 pt-2">
-                                        {section.lessons?.map(lesson => (
-                                            <div key={lesson.lessonId} className="border rounded-md p-3">
+                                        {section.lessons?.map(lesson => (<div key={lesson.lessonId} className="border rounded-md p-3">
                                                 <div className="flex items-center justify-between mb-2">
                                                     <div className="flex items-center gap-2 font-medium">
-                                                        {lesson.type === 'VIDEO' ? <VideoIcon size={16} /> : <FileText size={16} />}
+                                                        {lesson.type === 'VIDEO' ? <VideoIcon size={16}/> : <FileText size={16}/>}
                                                         {lesson.title}
                                                     </div>
                                                     <Badge variant="outline">{lesson.type}</Badge>
                                                 </div>
                                                 
-                                                {/* Video Player for Video Lessons */}
-                                                {lesson.type === 'VIDEO' && (
-                                                    <div className="mt-2">
-                                                       <SecureVideoPlayer lessonId={lesson.lessonId} showStatus={true} />
-                                                    </div>
-                                                )}
                                                 
-                                                {/* Text Content Preview */}
-                                                {lesson.type === 'TEXT' && (
-                                                    <div className="bg-muted p-2 rounded text-sm max-h-40 overflow-y-auto mt-2">
+                                                {lesson.type === 'VIDEO' && (<div className="mt-2">
+                                                       <SecureVideoPlayer lessonId={lesson.lessonId} showStatus={true}/>
+                                                    </div>)}
+                                                
+                                                
+                                                {lesson.type === 'TEXT' && (<div className="bg-muted p-2 rounded text-sm max-h-40 overflow-y-auto mt-2">
                                                         {lesson.textContent}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
+                                                    </div>)}
+                                            </div>))}
                                     </div>
                                 </AccordionContent>
-                            </AccordionItem>
-                        ))}
+                            </AccordionItem>))}
                     </Accordion>
                 </CardContent>
             </Card>
@@ -153,7 +142,7 @@ export default function AdminCourseReviewDetailPage() {
             </Card>
         </div>
 
-        {/* Sidebar: Actions */}
+        
         <div className="space-y-6">
              <Card>
                 <CardHeader>
@@ -163,27 +152,22 @@ export default function AdminCourseReviewDetailPage() {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label>Review Notes / Rejection Reason</Label>
-                        <Textarea 
-                            placeholder="Add feedback for the instructor..." 
-                            value={notes} 
-                            onChange={(e) => setNotes(e.target.value)}
-                            rows={5}
-                        />
+                        <Textarea placeholder="Add feedback for the instructor..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={5}/>
                     </div>
 
                     <div className="space-y-2 pt-2">
                         <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleApprove}>
-                            <CheckCircle className="mr-2 h-4 w-4" /> Approve & Publish
+                            <CheckCircle className="mr-2 h-4 w-4"/> Approve & Publish
                         </Button>
                         
                         <Button className="w-full" variant="outline" onClick={handleRequestChanges}>
-                            <RefreshCw className="mr-2 h-4 w-4" /> Request Changes
+                            <RefreshCw className="mr-2 h-4 w-4"/> Request Changes
                         </Button>
 
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button className="w-full" variant="destructive">
-                                    <AlertOctagon className="mr-2 h-4 w-4" /> Reject Course
+                                    <AlertOctagon className="mr-2 h-4 w-4"/> Reject Course
                                 </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -205,6 +189,5 @@ export default function AdminCourseReviewDetailPage() {
             </Card>
         </div>
       </div>
-    </PageLayout>
-  );
+    </PageLayout>);
 }

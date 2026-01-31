@@ -1,143 +1,110 @@
 "use client";
-
 import { use } from "react";
 import { PageLayout } from "@/components/layout/page-layout";
-import {
-  useCourse,
-  useApproveCourse,
-  useRejectCourse,
-  useRequestCourseChanges,
-} from "@/features/courses/hooks/use-courses";
+import { useCourse, useApproveCourse, useRejectCourse, useRequestCourseChanges, } from "@/features/courses/hooks/use-courses";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, XCircle, AlertCircle, Play } from "lucide-react";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { SecureVideoPlayer } from "@/components/ui/secure-video-player";
 import { toast } from "sonner";
-
 const reviewSchema = z.object({
-  reviewNotes: z.string().optional(),
-  rejectionReason: z.string().min(1, "Rejection reason is required").optional(),
+    reviewNotes: z.string().optional(),
+    rejectionReason: z.string().min(1, "Rejection reason is required").optional(),
 });
-
 type ReviewFormData = z.infer<typeof reviewSchema>;
-
-export default function AdminCourseReviewPage({
-  params,
-}: {
-  params: Promise<{ courseId: string }>;
+export default function AdminCourseReviewPage({ params, }: {
+    params: Promise<{
+        courseId: string;
+    }>;
 }) {
-  const { courseId } = use(params);
-  const router = useRouter();
-  const { data: course, isLoading } = useCourse({ enabled: true, courseId });
-  const approveMutation = useApproveCourse();
-  const rejectMutation = useRejectCourse();
-  const requestChangesMutation = useRequestCourseChanges();
-  const [previewVideo, setPreviewVideo] = useState<{
-    lessonId: string;
-    title: string;
-    sectionTitle: string;
-  } | null>(null);
-
-  const form = useForm<ReviewFormData>({
-    resolver: zodResolver(reviewSchema),
-    defaultValues: {
-      reviewNotes: "",
-      rejectionReason: "",
-    },
-  });
-
-  const handleApprove = async (data: ReviewFormData) => {
-    if (!course?.courseId) {
-      toast.error("Course ID not found");
-      return;
-    }
-    try {
-      await approveMutation.mutateAsync({
-        id: course.courseId,
-        notes: data.reviewNotes,
-        publish: true,
-      });
-      toast.success("Course approved successfully!");
-      router.push("/admin/courses");
-    } catch (error: any) {
-      const message = error?.response?.data?.message || error?.message || "Failed to approve course";
-      toast.error(message);
-    }
-  };
-
-  const handleRequestChanges = async (data: ReviewFormData) => {
-    if (!course?.courseId) {
-      toast.error("Course ID not found");
-      return;
-    }
-    try {
-      await requestChangesMutation.mutateAsync({
-        id: course.courseId,
-        notes: data.reviewNotes,
-      });
-      toast.success("Changes requested successfully!");
-      router.push("/admin/courses");
-    } catch (error: any) {
-      const message = error?.response?.data?.message || error?.message || "Failed to request changes";
-      toast.error(message);
-    }
-  };
-
-  const handleReject = async (data: ReviewFormData) => {
-    if (!course?.courseId) {
-      toast.error("Course ID not found");
-      return;
-    }
-    try {
-      await rejectMutation.mutateAsync({
-        id: course.courseId,
-        reason: data.rejectionReason || "",
-      });
-      toast.success("Course rejected!");
-      router.push("/admin/courses");
-    } catch (error: any) {
-      const message = error?.response?.data?.message || error?.message || "Failed to reject course";
-      toast.error(message);
-    }
-  };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (!course) return <div>Course not found</div>;
-
-  return (
-    <PageLayout
-      header={`Review: ${course.title}`}
-      subtitle="Course Administration"
-    >
+    const { courseId } = use(params);
+    const router = useRouter();
+    const { data: course, isLoading } = useCourse({ enabled: true, courseId });
+    const approveMutation = useApproveCourse();
+    const rejectMutation = useRejectCourse();
+    const requestChangesMutation = useRequestCourseChanges();
+    const [previewVideo, setPreviewVideo] = useState<{
+        lessonId: string;
+        title: string;
+        sectionTitle: string;
+    } | null>(null);
+    const form = useForm<ReviewFormData>({
+        resolver: zodResolver(reviewSchema),
+        defaultValues: {
+            reviewNotes: "",
+            rejectionReason: "",
+        },
+    });
+    const handleApprove = async (data: ReviewFormData) => {
+        if (!course?.courseId) {
+            toast.error("Course ID not found");
+            return;
+        }
+        try {
+            await approveMutation.mutateAsync({
+                id: course.courseId,
+                notes: data.reviewNotes,
+                publish: true,
+            });
+            toast.success("Course approved successfully!");
+            router.push("/admin/courses");
+        }
+        catch (error: any) {
+            const message = error?.response?.data?.message || error?.message || "Failed to approve course";
+            toast.error(message);
+        }
+    };
+    const handleRequestChanges = async (data: ReviewFormData) => {
+        if (!course?.courseId) {
+            toast.error("Course ID not found");
+            return;
+        }
+        try {
+            await requestChangesMutation.mutateAsync({
+                id: course.courseId,
+                notes: data.reviewNotes,
+            });
+            toast.success("Changes requested successfully!");
+            router.push("/admin/courses");
+        }
+        catch (error: any) {
+            const message = error?.response?.data?.message || error?.message || "Failed to request changes";
+            toast.error(message);
+        }
+    };
+    const handleReject = async (data: ReviewFormData) => {
+        if (!course?.courseId) {
+            toast.error("Course ID not found");
+            return;
+        }
+        try {
+            await rejectMutation.mutateAsync({
+                id: course.courseId,
+                reason: data.rejectionReason || "",
+            });
+            toast.success("Course rejected!");
+            router.push("/admin/courses");
+        }
+        catch (error: any) {
+            const message = error?.response?.data?.message || error?.message || "Failed to reject course";
+            toast.error(message);
+        }
+    };
+    if (isLoading)
+        return <div>Loading...</div>;
+    if (!course)
+        return <div>Course not found</div>;
+    return (<PageLayout header={`Review: ${course.title}`} subtitle="Course Administration">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
           <Card>
@@ -147,13 +114,7 @@ export default function AdminCourseReviewPage({
             <CardContent className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="w-full sm:w-32 h-32 sm:h-20 bg-muted rounded overflow-hidden flex-shrink-0">
-                  {course.thumbnail && (
-                    <img
-                      src={course.thumbnail}
-                      alt="Thumbnail"
-                      className="w-full h-full object-cover"
-                    />
-                  )}
+                  {course.thumbnail && (<img src={course.thumbnail} alt="Thumbnail" className="w-full h-full object-cover"/>)}
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-semibold text-base sm:text-lg">{course.title}</h3>
@@ -184,11 +145,7 @@ export default function AdminCourseReviewPage({
                 </div>
                 <div>
                   <span className="text-muted-foreground block">Status</span>
-                  <Badge
-                    variant={
-                      course.status === "PUBLISHED" ? "default" : "secondary"
-                    }
-                  >
+                  <Badge variant={course.status === "PUBLISHED" ? "default" : "secondary"}>
                     {course.status}
                   </Badge>
                 </div>
@@ -205,42 +162,26 @@ export default function AdminCourseReviewPage({
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {(course.sections || []).map((section, idx) => (
-                  <div key={section.sectionId} className="border rounded p-3">
+                {(course.sections || []).map((section, idx) => (<div key={section.sectionId} className="border rounded p-3">
                     <div className="font-medium">
                       Section {idx + 1}: {section.title}
                     </div>
                     <div className="pl-4 mt-2 space-y-1 text-sm">
-                      {section.lessons?.map((lesson, lIdx) => (
-                        <div
-                          key={lesson.lessonId}
-                          className="flex items-center justify-between group"
-                        >
+                      {section.lessons?.map((lesson, lIdx) => (<div key={lesson.lessonId} className="flex items-center justify-between group">
                           <span className="text-muted-foreground">
                             {lIdx + 1}. {lesson.title} ({lesson.type})
                           </span>
-                          {lesson.type === "VIDEO" && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="opacity-0 group-hover:opacity-100 transition-opacity h-7 px-2"
-                              onClick={() =>
-                                setPreviewVideo({
-                                  lessonId: lesson.lessonId,
-                                  title: lesson.title,
-                                  sectionTitle: section.title,
-                                })
-                              }
-                            >
-                              <Play className="h-3 w-3 mr-1" />
+                          {lesson.type === "VIDEO" && (<Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity h-7 px-2" onClick={() => setPreviewVideo({
+                        lessonId: lesson.lessonId,
+                        title: lesson.title,
+                        sectionTitle: section.title,
+                    })}>
+                              <Play className="h-3 w-3 mr-1"/>
                               Preview
-                            </Button>
-                          )}
-                        </div>
-                      ))}
+                            </Button>)}
+                        </div>))}
                     </div>
-                  </div>
-                ))}
+                  </div>))}
               </div>
             </CardContent>
           </Card>
@@ -259,15 +200,15 @@ export default function AdminCourseReviewPage({
                 <Tabs defaultValue="approve" className="w-full">
                   <TabsList className="grid w-full grid-cols-3 h-auto">
                     <TabsTrigger value="approve" className="text-green-600 text-xs sm:text-sm py-2">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2"/>
                       <span className="hidden sm:inline">Approve</span>
                     </TabsTrigger>
                     <TabsTrigger value="changes" className="text-orange-500 text-xs sm:text-sm py-2">
-                      <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2"/>
                       <span className="hidden sm:inline">Changes</span>
                     </TabsTrigger>
                     <TabsTrigger value="reject" className="text-red-500 text-xs sm:text-sm py-2">
-                      <XCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <XCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2"/>
                       <span className="hidden sm:inline">Reject</span>
                     </TabsTrigger>
                   </TabsList>
@@ -276,30 +217,17 @@ export default function AdminCourseReviewPage({
                     <p className="text-sm text-muted-foreground">
                       Approve this course and make it live for students.
                     </p>
-                    <FormField
-                      control={form.control}
-                      name="reviewNotes"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="reviewNotes" render={({ field }) => (<FormItem>
                           <FormLabel>Notes (Internal)</FormLabel>
                           <FormControl>
-                            <Textarea
-                              {...field}
-                              placeholder="Optional notes..."
-                            />
+                            <Textarea {...field} placeholder="Optional notes..."/>
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      className="w-full bg-green-600 hover:bg-green-700"
-                      onClick={form.handleSubmit(handleApprove)}
-                      disabled={approveMutation.isPending}
-                    >
+                        </FormItem>)}/>
+                    <Button className="w-full bg-green-600 hover:bg-green-700" onClick={form.handleSubmit(handleApprove)} disabled={approveMutation.isPending}>
                       {approveMutation.isPending
-                        ? "Approving..."
-                        : "Approve & Publish"}
+            ? "Approving..."
+            : "Approve & Publish"}
                     </Button>
                   </TabsContent>
 
@@ -307,28 +235,14 @@ export default function AdminCourseReviewPage({
                     <p className="text-sm text-muted-foreground">
                       Request changes from the instructor.
                     </p>
-                    <FormField
-                      control={form.control}
-                      name="reviewNotes"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="reviewNotes" render={({ field }) => (<FormItem>
                           <FormLabel>Feedback / Instructions</FormLabel>
                           <FormControl>
-                            <Textarea
-                              {...field}
-                              placeholder="What needs to be fixed?"
-                            />
+                            <Textarea {...field} placeholder="What needs to be fixed?"/>
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      variant="secondary"
-                      className="w-full"
-                      onClick={form.handleSubmit(handleRequestChanges)}
-                      disabled={requestChangesMutation.isPending}
-                    >
+                        </FormItem>)}/>
+                    <Button variant="secondary" className="w-full" onClick={form.handleSubmit(handleRequestChanges)} disabled={requestChangesMutation.isPending}>
                       Request Changes
                     </Button>
                   </TabsContent>
@@ -337,28 +251,14 @@ export default function AdminCourseReviewPage({
                     <p className="text-sm text-muted-foreground">
                       Reject this course permanently (or until re-submission).
                     </p>
-                    <FormField
-                      control={form.control}
-                      name="rejectionReason"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="rejectionReason" render={({ field }) => (<FormItem>
                           <FormLabel>Rejection Reason</FormLabel>
                           <FormControl>
-                            <Textarea
-                              {...field}
-                              placeholder="Why is this rejected?"
-                            />
+                            <Textarea {...field} placeholder="Why is this rejected?"/>
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      variant="destructive"
-                      className="w-full"
-                      onClick={form.handleSubmit(handleReject)}
-                      disabled={rejectMutation.isPending}
-                    >
+                        </FormItem>)}/>
+                    <Button variant="destructive" className="w-full" onClick={form.handleSubmit(handleReject)} disabled={rejectMutation.isPending}>
                       Reject Course
                     </Button>
                   </TabsContent>
@@ -379,15 +279,9 @@ export default function AdminCourseReviewPage({
             </DialogDescription>
           </DialogHeader>
           <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">
-            {previewVideo?.lessonId && (
-              <SecureVideoPlayer 
-                lessonId={previewVideo.lessonId}
-                showStatus={true}
-              />
-            )}
+            {previewVideo?.lessonId && (<SecureVideoPlayer lessonId={previewVideo.lessonId} showStatus={true}/>)}
           </div>
         </DialogContent>
       </Dialog>
-    </PageLayout>
-  );
+    </PageLayout>);
 }
