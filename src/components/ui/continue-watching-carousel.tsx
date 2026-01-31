@@ -153,7 +153,11 @@ export function ContinueWatchingCarousel({
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-yellow-500/5">
-                        <div className="text-4xl">💰</div>
+                        <img
+                          src="/illustrations/focused.svg"
+                          alt=""
+                          className="w-36 h-36 opacity-90"
+                        />
                       </div>
                     )}
 

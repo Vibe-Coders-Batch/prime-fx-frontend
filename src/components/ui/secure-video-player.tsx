@@ -184,7 +184,10 @@ export function SecureVideoPlayer({
             <p className="font-bold text-yellow-400 mb-2">Diagnosis: {debugInfo.diagnosis}</p>
             <p><span className="text-gray-400">Lesson Status:</span> {debugInfo.lessonStatus}</p>
             <p><span className="text-gray-400">Expected Path:</span> {debugInfo.expectedOutputPath}</p>
-            <p><span className="text-gray-400">File Exists in S3:</span> {debugInfo.fileExists ? '✅ Yes' : '❌ No'}</p>
+            <p>
+              <span className="text-gray-400">File Exists in S3:</span>{" "}
+              {debugInfo.fileExists ? "Yes" : "No"}
+            </p>
             {debugInfo.encodingJob ? (
               <>
                 <p className="mt-2 font-bold text-blue-400">Encoding Job:</p>
