@@ -1,7 +1,4 @@
-// Re-export the API client
 export { apiClient } from './client';
-
-// Export all API service modules
 export * from './services/auth';
 export * from './services/courses';
 export * from './services/lessons';
