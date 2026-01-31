@@ -1,5 +1,4 @@
 "use client";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,43 +11,32 @@ import Link from "next/link";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-
 const forgotPasswordSchema = z.object({
-  email: z.string().email("Invalid email address"),
+    email: z.string().email("Invalid email address"),
 });
-
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
-
 export default function ForgotPasswordPage() {
-  const forgotPassword = useForgotPassword();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitSuccessful },
-  } = useForm<ForgotPasswordFormData>({
-    resolver: zodResolver(forgotPasswordSchema),
-  });
-
-  useEffect(() => {
-    if (forgotPassword.isError) {
-      const errorMessage = forgotPassword.error instanceof Error 
-        ? forgotPassword.error.message 
-        : "Failed to send reset email. Please try again.";
-      toast.error(errorMessage);
-    }
-  }, [forgotPassword.isError, forgotPassword.error]);
-
-  const onSubmit = (data: ForgotPasswordFormData) => {
-    forgotPassword.mutate(data);
-  };
-
-  if (isSubmitSuccessful && forgotPassword.isSuccess) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    const forgotPassword = useForgotPassword();
+    const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, } = useForm<ForgotPasswordFormData>({
+        resolver: zodResolver(forgotPasswordSchema),
+    });
+    useEffect(() => {
+        if (forgotPassword.isError) {
+            const errorMessage = forgotPassword.error instanceof Error
+                ? forgotPassword.error.message
+                : "Failed to send reset email. Please try again.";
+            toast.error(errorMessage);
+        }
+    }, [forgotPassword.isError, forgotPassword.error]);
+    const onSubmit = (data: ForgotPasswordFormData) => {
+        forgotPassword.mutate(data);
+    };
+    if (isSubmitSuccessful && forgotPassword.isSuccess) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
-              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400"/>
             </div>
             <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
             <CardDescription>
@@ -66,12 +54,9 @@ export default function ForgotPasswordPage() {
             </Link>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      </div>);
+    }
+    return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-3xl font-bold text-center">Forgot Password</CardTitle>
@@ -81,28 +66,18 @@ export default function ForgotPasswordPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {forgotPassword.isError && (
-              <div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
-                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+            {forgotPassword.isError && (<div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                <AlertCircle className="h-4 w-4 flex-shrink-0"/>
                 <span>
-                  {forgotPassword.error instanceof Error 
-                    ? forgotPassword.error.message 
-                    : "Failed to send reset email. Please try again."}
+                  {forgotPassword.error instanceof Error
+                ? forgotPassword.error.message
+                : "Failed to send reset email. Please try again."}
                 </span>
-              </div>
-            )}
+              </div>)}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                {...register("email")}
-                disabled={forgotPassword.isPending}
-              />
-              {errors.email && (
-                <p className="text-xs text-destructive">{errors.email.message}</p>
-              )}
+              <Input id="email" type="email" placeholder="you@example.com" {...register("email")} disabled={forgotPassword.isPending}/>
+              {errors.email && (<p className="text-xs text-destructive">{errors.email.message}</p>)}
             </div>
             <Button type="submit" className="w-full" disabled={forgotPassword.isPending}>
               {forgotPassword.isPending ? "Sending..." : "Send Reset Link"}
@@ -115,6 +90,5 @@ export default function ForgotPasswordPage() {
           </form>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
@@ -7,22 +6,14 @@ import { Suspense } from "react";
 import { RefreshCw, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-
 function EmailVerificationPendingContent() {
-  const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "your email";
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    const searchParams = useSearchParams();
+    const email = searchParams.get("email") || "your email";
+    return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="mx-auto mb-4 relative h-40 w-full flex items-center justify-center">
-            <Image 
-              src="/illustrations/pending_approval.svg"
-              alt="Check your email"
-              fill
-              className="object-contain"
-            />
+            <Image src="/illustrations/pending_approval.svg" alt="Check your email" fill className="object-contain"/>
           </div>
           <CardTitle className="text-2xl font-bold">Check Your Email</CardTitle>
           <CardDescription>
@@ -51,12 +42,8 @@ function EmailVerificationPendingContent() {
           </div>
 
           <div className="space-y-3">
-            <Button 
-              variant="outline" 
-              className="w-full"
-              onClick={() => window.location.reload()}
-            >
-              <RefreshCw className="mr-2 h-4 w-4" />
+            <Button variant="outline" className="w-full" onClick={() => window.location.reload()}>
+              <RefreshCw className="mr-2 h-4 w-4"/>
               Refresh Page
             </Button>
             
@@ -69,25 +56,19 @@ function EmailVerificationPendingContent() {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
 }
-
 export default function VerifyEmailPendingPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    return (<Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <Loader2 className="h-6 w-6 text-primary animate-spin" />
+              <Loader2 className="h-6 w-6 text-primary animate-spin"/>
             </div>
             <CardTitle className="text-2xl font-bold">Loading...</CardTitle>
           </CardHeader>
         </Card>
-      </div>
-    }>
+      </div>}>
       <EmailVerificationPendingContent />
-    </Suspense>
-  );
+    </Suspense>);
 }

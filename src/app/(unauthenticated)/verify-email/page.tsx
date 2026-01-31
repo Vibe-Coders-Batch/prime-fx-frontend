@@ -1,5 +1,4 @@
 "use client";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useVerifyEmail } from "@/features/auth/hooks/use-auth";
@@ -7,27 +6,23 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense, useRef } from "react";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
-
 function EmailVerificationContent() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const verifyEmail = useVerifyEmail();
-  const verifyStarted = useRef(false);
-
-  useEffect(() => {
-    if (token && !verifyStarted.current) {
-      verifyStarted.current = true;
-      verifyEmail.mutate(token);
-    }
-  }, [token, verifyEmail]);
-
-  if (!token) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
+    const verifyEmail = useVerifyEmail();
+    const verifyStarted = useRef(false);
+    useEffect(() => {
+        if (token && !verifyStarted.current) {
+            verifyStarted.current = true;
+            verifyEmail.mutate(token);
+        }
+    }, [token, verifyEmail]);
+    if (!token) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-              <XCircle className="h-6 w-6 text-muted-foreground" />
+              <XCircle className="h-6 w-6 text-muted-foreground"/>
             </div>
             <CardTitle className="text-2xl font-bold">Invalid Verification Link</CardTitle>
             <CardDescription>
@@ -43,17 +38,14 @@ function EmailVerificationContent() {
             </Link>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  if (verifyEmail.isPending) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      </div>);
+    }
+    if (verifyEmail.isPending) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <Loader2 className="h-6 w-6 text-primary animate-spin" />
+              <Loader2 className="h-6 w-6 text-primary animate-spin"/>
             </div>
             <CardTitle className="text-2xl font-bold">Verifying Email</CardTitle>
             <CardDescription>
@@ -61,17 +53,14 @@ function EmailVerificationContent() {
             </CardDescription>
           </CardHeader>
         </Card>
-      </div>
-    );
-  }
-
-  if (verifyEmail.isSuccess) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      </div>);
+    }
+    if (verifyEmail.isSuccess) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
-              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400"/>
             </div>
             <CardTitle className="text-2xl font-bold">Email Verified</CardTitle>
             <CardDescription>
@@ -84,17 +73,14 @@ function EmailVerificationContent() {
             </Link>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  if (verifyEmail.isError) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      </div>);
+    }
+    if (verifyEmail.isError) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
-              <XCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
+              <XCircle className="h-6 w-6 text-red-600 dark:text-red-400"/>
             </div>
             <CardTitle className="text-2xl font-bold">Verification Failed</CardTitle>
             <CardDescription>
@@ -114,28 +100,21 @@ function EmailVerificationContent() {
             </div>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  return null;
+      </div>);
+    }
+    return null;
 }
-
 export default function EmailVerificationPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    return (<Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <Loader2 className="h-6 w-6 text-primary animate-spin" />
+              <Loader2 className="h-6 w-6 text-primary animate-spin"/>
             </div>
             <CardTitle className="text-2xl font-bold">Loading...</CardTitle>
           </CardHeader>
         </Card>
-      </div>
-    }>
+      </div>}>
       <EmailVerificationContent />
-    </Suspense>
-  );
+    </Suspense>);
 }
