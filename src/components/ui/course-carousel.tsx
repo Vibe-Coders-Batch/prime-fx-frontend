@@ -1,27 +1,13 @@
 "use client";
 
 import { useRef, useState, useEffect, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Course } from "@/lib/api/services/courses";
-
-// Forex/Crypto trading video previews (5-7 seconds)
-// Using popular forex/crypto trading videos from YouTube
-const FOREX_CRYPTO_PREVIEW_VIDEOS = [
-  "https://www.youtube.com/embed/8hly31xKli0?start=0&end=7&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=8hly31xKli0", // Forex trading
-  "https://www.youtube.com/embed/kPRA0W1kECg?start=0&end=7&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=kPRA0W1kECg", // Crypto trading
-  "https://www.youtube.com/embed/moPtwq_cVH8?start=0&end=7&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=moPtwq_cVH8", // Trading analysis
-];
-
-const getPreviewVideo = (index: number) => {
-  return FOREX_CRYPTO_PREVIEW_VIDEOS[
-    index % FOREX_CRYPTO_PREVIEW_VIDEOS.length
-  ];
-};
 
 interface CourseCarouselProps {
   title: string | ReactNode;
@@ -182,45 +168,27 @@ export function CourseCarousel({
                   )}
                 >
                   <div className="relative h-[200px] bg-gradient-to-br from-primary/20 to-primary/5 shrink-0 overflow-hidden">
-                    <AnimatePresence mode="wait">
-                      {hoveredIndex === index ? (
-                        <motion.iframe
-                          key="video"
-                          initial={{ opacity: 0, scale: 1.01 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 1.01 }}
-                          transition={{ duration: 0.4, ease: "easeOut" }}
-                          src={getPreviewVideo(index)}
-                          className="absolute inset-0 w-full h-full object-cover"
-                          allow="autoplay; encrypted-media"
-                          allowFullScreen
-                          style={{ pointerEvents: "none" }}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full h-full"
+                    >
+                      {course.thumbnail && !imageFailed ? (
+                        <motion.img
+                          src={course.thumbnail}
+                          alt={course.title}
+                          className="w-full h-full object-cover"
+                          transition={{ duration: 0.3 }}
+                          animate={{ scale: hoveredIndex === index ? 1.05 : 1 }}
+                          onError={() => handleImageError(courseId)}
                         />
                       ) : (
-                        <motion.div
-                          key="thumbnail"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="w-full h-full"
-                        >
-                          {course.thumbnail && !imageFailed ? (
-                            <motion.img
-                              src={course.thumbnail}
-                              alt={course.title}
-                              className="w-full h-full object-cover"
-                              transition={{ duration: 0.3 }}
-                              onError={() => handleImageError(courseId)}
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-yellow-500/5">
-                              <div className="text-4xl">💰</div>
-                            </div>
-                          )}
-                        </motion.div>
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-yellow-500/5">
+                          <div className="text-4xl">💰</div>
+                        </div>
                       )}
-                    </AnimatePresence>
+                    </motion.div>
 
                     {course.category && (
                       <div className="absolute top-2 left-2 z-10">

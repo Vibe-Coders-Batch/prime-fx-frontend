@@ -1,24 +1,13 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Course } from "@/lib/api/services/courses";
-
-// Forex/Crypto trading video previews (5-7 seconds)
-const FOREX_CRYPTO_PREVIEW_VIDEOS = [
-  "https://www.youtube.com/embed/8hly31xKli0?start=0&end=7&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=8hly31xKli0",
-  "https://www.youtube.com/embed/kPRA0W1kECg?start=0&end=7&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=kPRA0W1kECg",
-  "https://www.youtube.com/embed/moPtwq_cVH8?start=0&end=7&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=moPtwq_cVH8",
-];
-
-const getPreviewVideo = (index: number) => {
-  return FOREX_CRYPTO_PREVIEW_VIDEOS[index % FOREX_CRYPTO_PREVIEW_VIDEOS.length];
-};
 
 interface ContinueWatchingCarouselProps {
   courses: Course[];
