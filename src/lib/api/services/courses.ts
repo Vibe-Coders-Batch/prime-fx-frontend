@@ -7,6 +7,7 @@ export interface Course {
     description: string;
     thumbnail?: string;
     price: string;
+    compareAtPrice?: string | null;
     currency: string;
     status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
     instructorId: string;
@@ -64,6 +65,7 @@ export interface CreateCourseDto {
     slug: string;
     categoryId: string;
     price?: number;
+    compareAtPrice?: number;
     currency?: string;
     level?: string;
     language?: string;

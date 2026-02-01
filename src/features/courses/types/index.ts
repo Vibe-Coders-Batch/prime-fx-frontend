@@ -5,6 +5,7 @@ export interface Course {
     description: string;
     thumbnail?: string | null;
     price: string;
+    compareAtPrice?: string | null;
     currency: string;
     status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
     reviewStatus?: "DRAFT" | "PENDING_REVIEW" | "CHANGES_REQUESTED" | "APPROVED" | "REJECTED";
@@ -86,6 +87,7 @@ export interface CreateCourseDto {
     description: string;
     thumbnail?: string;
     price: number;
+    compareAtPrice?: number;
     currency?: string;
     categoryId: string;
     status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
