@@ -74,7 +74,7 @@ export default function CartPage() {
     const [itemCoupons, setItemCoupons] = useState<Record<string, CouponValidationResult>>({});
     const cartItems = cartData || [];
     const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price || 0), 0);
-    const currency = cartItems[0]?.currency || "USD";
+    const currency = "AED";
     const perItemDiscountAmount = couponApplied
         ? 0
         : Object.values(itemCoupons).reduce((sum, r) => sum + Number(r.discountAmount || 0), 0);
@@ -150,7 +150,7 @@ export default function CartPage() {
             const applied = itemCoupons[item.cartItemId];
             const couponCode = applied?.valid ? applied.couponCode : undefined;
             const payment = await createPayment.mutateAsync({
-                gateway: "STRIPE_US",
+                gateway: "STRIPE_UAE",
                 itemType: item.itemType,
                 courseId: item.itemType === "COURSE" ? item.courseId : undefined,
                 sectionId: item.itemType === "SECTION" ? item.sectionId : undefined,
@@ -177,7 +177,7 @@ export default function CartPage() {
         try {
             const cartItemIds = cartItems.map((item) => item.cartItemId);
             const payment = await createBulkPayment.mutateAsync({
-                gateway: "STRIPE_US",
+                gateway: "STRIPE_UAE",
                 cartItemIds,
                 couponCode: couponApplied || undefined,
                 successUrl: `${window.location.origin}/learner/payment/success?bulk=true`,

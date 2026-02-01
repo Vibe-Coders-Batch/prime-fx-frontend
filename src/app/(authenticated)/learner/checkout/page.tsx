@@ -31,7 +31,7 @@ function CheckoutContent() {
     const createPayment = useCreatePayment();
     const validateCoupon = useValidateCoupon();
     const { user } = useAuthStore();
-    const [gateway, setGateway] = useState<"RAZORPAY" | "STRIPE_US" | "STRIPE_UAE">("STRIPE_US");
+    const [gateway, setGateway] = useState<"RAZORPAY" | "STRIPE_US" | "STRIPE_UAE">("STRIPE_UAE");
     const [billingInfo, setBillingInfo] = useState({
         name: `${user?.firstName || ""} ${user?.lastName || ""}`.trim(),
         email: user?.email || "",
@@ -55,7 +55,7 @@ function CheckoutContent() {
         }
         return coursePrice;
     }, [course, itemType, targetSection?.sectionPrice]);
-    const currency = course?.currency || "USD";
+    const currency = "AED";
     useEffect(() => {
         setAppliedCoupon(null);
         setCouponPreview(null);
@@ -127,9 +127,7 @@ function CheckoutContent() {
             }
         }
         catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("Payment error:", error.message);
-            }
+            void error;
         }
     };
     return (<PageLayout header="Checkout" subtitle="Complete Your Purchase" description="Review your order and complete payment">

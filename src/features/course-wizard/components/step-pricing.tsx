@@ -15,29 +15,43 @@ export function StepPricing() {
     const { data: course, isLoading } = useCourse({ enabled: true, courseId: courseId! });
     const [priceType, setPriceType] = useState<"FREE" | "PAID">("FREE");
     const [price, setPrice] = useState("0");
+    const [compareAtPrice, setCompareAtPrice] = useState<string>("");
     useEffect(() => {
         if (course) {
             if (course.price && parseFloat(course.price.toString()) > 0) {
                 setPriceType("PAID");
                 setPrice(course.price.toString());
+                setCompareAtPrice(course.compareAtPrice ? String(course.compareAtPrice) : "");
             }
             else {
                 setPriceType("FREE");
                 setPrice("0");
+                setCompareAtPrice("");
             }
         }
     }, [course]);
     const onNext = async () => {
         try {
             const finalPrice = priceType === "FREE" ? 0 : parseFloat(price);
-            if (priceType === "PAID" && (isNaN(finalPrice) || finalPrice < 0.99)) {
-                toast.error("Please enter a valid price (minimum $0.99)");
+            const parsedCompareAt = compareAtPrice.trim() ? parseFloat(compareAtPrice) : undefined;
+            const finalCompareAt =
+              parsedCompareAt !== undefined && !Number.isNaN(parsedCompareAt)
+                ? parsedCompareAt
+                : undefined;
+            if (priceType === "PAID" && (isNaN(finalPrice) || finalPrice < 1)) {
+                toast.error("Please enter a valid price (minimum 1 AED)");
+                return;
+            }
+            if (priceType === "PAID" && finalCompareAt !== undefined && !isNaN(finalCompareAt) && finalCompareAt < finalPrice) {
+                toast.error("Original (strike) price must be greater than or equal to the final price");
                 return;
             }
             await updateCourse.mutateAsync({
                 id: courseId!,
                 dto: {
                     price: finalPrice,
+                    compareAtPrice: priceType === "PAID" ? finalCompareAt : undefined,
+                    currency: "AED",
                 },
             });
             toast.success("Pricing saved successfully!");
@@ -46,7 +60,6 @@ export function StepPricing() {
         catch (error: any) {
             const errorMessage = error?.response?.data?.message || error?.message || "Failed to save pricing";
             toast.error(errorMessage);
-            console.error("Pricing save error:", error);
         }
     };
     if (isLoading) {
@@ -88,8 +101,15 @@ export function StepPricing() {
         </div>
 
         {priceType === "PAID" && (<div className="space-y-2 pl-2 border-l-2 border-primary ml-4">
-                <Label>Price (USD)</Label>
-                <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} min="0.99" step="0.01" placeholder="e.g. 19.99" className="max-w-[200px]"/>
+                <Label>Final Price (AED)</Label>
+                <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} min="1" step="0.01" placeholder="e.g. 199.99" className="max-w-[240px]"/>
+                <div className="pt-2 space-y-2">
+                  <Label>Original Price (AED) (optional)</Label>
+                  <Input type="number" value={compareAtPrice} onChange={(e) => setCompareAtPrice(e.target.value)} min="0" step="0.01" placeholder="e.g. 249.99" className="max-w-[240px]"/>
+                  <p className="text-xs text-muted-foreground">
+                    If set, this will be shown as a strike-through price on the course page.
+                  </p>
+                </div>
                 <p className="text-xs text-muted-foreground">
                     Instructor receives 80% of revenue.
                 </p>

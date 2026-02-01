@@ -100,19 +100,12 @@ export function VideoUpload({ currentUrl, onUploadComplete, onDurationChange, co
             }
         }
         catch (error: any) {
-            console.error("Upload failed:", error);
             setProgress(0);
             setUploading(false);
             let errorMessage = "Upload failed";
             if (error.code === "ERR_NETWORK" || error.message === "Network Error") {
                 errorMessage =
                     "Network error. This is usually a CORS issue. Please configure S3 bucket CORS settings to allow uploads from your domain.";
-                console.error("Network error details:", {
-                    url: uploadData?.uploadUrl?.substring(0, 100) + "...",
-                    error: error.message,
-                    code: error.code,
-                    response: error.response,
-                });
             }
             else if (error.response) {
                 const status = error.response.status;

@@ -91,13 +91,6 @@ export function FileUpload({ onUploadComplete, onFileSelect, folder = "courses",
             if (error.code === "ERR_NETWORK" || error.message === "Network Error") {
                 errorMessage =
                     "Network error. This is usually a CORS issue. Please check S3 bucket CORS configuration.";
-                console.error("Network error details:", {
-                    url: uploadUrl ? uploadUrl.substring(0, 100) + "..." : "N/A",
-                    error: error.message,
-                    code: error.code,
-                    response: error.response,
-                    config: error.config,
-                });
             }
             else if (error.response) {
                 const status = error.response.status;

@@ -59,7 +59,7 @@ export function StepBasics() {
                     shortDescription: data.description,
                     categoryId: data.categoryId,
                     price: 0,
-                    currency: "USD",
+                    currency: "AED",
                     status: "DRAFT",
                     slug: data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
                     level: data.level,
@@ -90,7 +90,6 @@ export function StepBasics() {
             nextStep();
         }
         catch (error) {
-            console.error(error);
             toast.error("Failed to save course basics.");
         }
     };

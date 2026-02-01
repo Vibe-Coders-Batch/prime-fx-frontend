@@ -51,9 +51,6 @@ export function HlsVideoPlayer({ src, className, autoPlay = false, onTimeUpdate,
             const baseUrl = lastSlashIndex !== -1
                 ? urlWithoutQuery.substring(0, lastSlashIndex + 1)
                 : "";
-            console.log("[HlsVideoPlayer] Master playlist:", src.substring(0, 100) + "...");
-            console.log("[HlsVideoPlayer] Base URL:", baseUrl);
-            console.log("[HlsVideoPlayer] Has signature:", signatureQueryString.length > 0);
             const DefaultLoader = Hls.DefaultConfig.loader;
             class SignedLoader extends DefaultLoader {
                 constructor(config: any) {
@@ -99,7 +96,7 @@ export function HlsVideoPlayer({ src, className, autoPlay = false, onTimeUpdate,
                 }
                 if (autoPlay) {
                     video.play().catch((err) => {
-                        console.error("Auto-play failed:", err);
+                        void err;
                         setIsPlaying(false);
                     });
                 }
@@ -118,7 +115,6 @@ export function HlsVideoPlayer({ src, className, autoPlay = false, onTimeUpdate,
             });
             hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
-                    console.error("HLS Fatal Error:", data);
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
                             if (retryCountRef.current < 3) {
@@ -178,13 +174,13 @@ export function HlsVideoPlayer({ src, className, autoPlay = false, onTimeUpdate,
                 }
                 if (autoPlay) {
                     video.play().catch((err) => {
-                        console.error("Auto-play failed:", err);
+                        void err;
                         setIsPlaying(false);
                     });
                 }
             });
             video.addEventListener("error", (e) => {
-                console.error("Video error:", e);
+                void e;
                 setError("Failed to load video");
                 onError?.("Failed to load video");
                 setIsLoading(false);

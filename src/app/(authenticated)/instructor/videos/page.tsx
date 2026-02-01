@@ -216,7 +216,6 @@ export default function InstructorVideosPage() {
 
       
       <Dialog open={!!previewLessonId} onOpenChange={(open) => {
-            console.log('[InstructorVideos] Dialog open state changed:', open);
             if (!open)
                 setPreviewLessonId(null);
         }}>

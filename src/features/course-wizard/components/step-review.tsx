@@ -49,12 +49,6 @@ export function StepReview() {
             const errorMessage = error.response?.data?.message ||
                 error.message ||
                 "Failed to submit course. Please check all requirements.";
-            console.error("Submit error:", error);
-            console.error("Error details:", {
-                status: error.response?.status,
-                data: error.response?.data,
-                message: errorMessage
-            });
             toast.error(errorMessage, {
                 duration: 6000,
                 description: "Please review your course and ensure all requirements are met."

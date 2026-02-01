@@ -244,7 +244,7 @@ export function CourseBuilder({ courseId }: CourseBuilderProps) {
                 <div>
                   <h4 className="font-medium text-sm">{module.title}</h4>
                   {module.sectionPrice && (<Badge variant="secondary" className="mt-1 text-xs">
-                      ${module.sectionPrice} ({module.priceType})
+                      AED {Number(module.sectionPrice).toFixed(2)} ({module.priceType})
                     </Badge>)}
                 </div>
               </div>
