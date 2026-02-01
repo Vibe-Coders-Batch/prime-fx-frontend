@@ -38,7 +38,7 @@ export default function CourseDetailPage({ params, }: {
         if (course && parseFloat(course.price) > 0) {
             const courseIdValue = course.courseId;
             const payment = await createPayment.mutateAsync({
-                gateway: "STRIPE_US",
+                gateway: "STRIPE_UAE",
                 itemType: "COURSE",
                 courseId: courseIdValue,
                 successUrl: `${window.location.origin}/learner/payment/success?courseId=${courseIdValue}`,
@@ -57,9 +57,7 @@ export default function CourseDetailPage({ params, }: {
             router.push(`/learner/courses/${courseId}/watch`);
         }
         catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("Enrollment error:", error.message);
-            }
+            void error;
         }
     };
     const handleAddToCart = async () => {
@@ -187,8 +185,10 @@ export default function CourseDetailPage({ params, }: {
         return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
     };
     const totalLessons = course.sections?.reduce((acc, s) => acc + (s.lessons?.length || 0), 0) || 0;
-    const originalPrice = parseFloat(course.price) * 1.5;
-    const discount = Math.round(((originalPrice - parseFloat(course.price)) / originalPrice) * 100);
+    const price = parseFloat(course.price);
+    const compareAt = course.compareAtPrice ? parseFloat(String(course.compareAtPrice)) : null;
+    const showCompareAt = compareAt !== null && !isNaN(compareAt) && compareAt > price;
+    const discount = showCompareAt ? Math.round(((compareAt! - price) / compareAt!) * 100) : null;
     return (<div className="min-h-screen bg-background">
       
       <CourseHeroBackground course={course} className="-mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12"/>
@@ -335,19 +335,17 @@ export default function CourseDetailPage({ params, }: {
             <div>
               <div className="flex items-baseline gap-2 mb-3">
                 <span className="text-3xl font-bold text-foreground">
-                  {course.currency} {parseFloat(course.price).toFixed(2)}
+                  AED {price.toFixed(2)}
                 </span>
-                <span className="text-lg text-muted-foreground line-through">
-                  {course.currency} {originalPrice.toFixed(2)}
-                </span>
-                <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                  {discount}% off
-                </Badge>
+                {showCompareAt && (<>
+                    <span className="text-lg text-muted-foreground line-through">
+                      AED {compareAt!.toFixed(2)}
+                    </span>
+                    {discount !== null && (<Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                        {discount}% off
+                      </Badge>)}
+                  </>)}
               </div>
-              <p className="text-sm text-orange-600 dark:text-orange-400 flex items-center gap-1.5 font-medium">
-                <Clock className="h-3.5 w-3.5"/>
-                23 hours left at this price!
-              </p>
             </div>
 
             
