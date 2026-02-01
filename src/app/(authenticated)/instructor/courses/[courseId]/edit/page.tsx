@@ -26,10 +26,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CourseBuilder } from "@/features/courses/components/course-builder";
+import type { AxiosError } from "axios";
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
-    description: z.string().min(1, "Description is required"),
-    price: z.number().min(0, "Price must be positive"),
+    // Keep in sync with backend UpdateCourseDto (@MinLength(10))
+    description: z.string().min(10, "Description must be at least 10 characters"),
+    price: z.preprocess((v) => (typeof v === "number" && !Number.isFinite(v) ? undefined : v), z.number().min(0, "Price must be positive")),
+    compareAtPrice: z.preprocess((v) => (typeof v === "number" && !Number.isFinite(v) ? undefined : v), z.number().min(0, "Original price must be positive").optional()),
     currency: z.string().min(1, "Currency is required"),
     thumbnail: z
         .string()
@@ -61,7 +64,8 @@ export default function CourseEditPage({ params, }: {
             title: "",
             description: "",
             price: 0,
-            currency: "USD",
+            compareAtPrice: undefined,
+            currency: "AED",
             thumbnail: "",
             categoryId: "",
             status: "DRAFT",
@@ -73,7 +77,8 @@ export default function CourseEditPage({ params, }: {
                 title: course.title,
                 description: course.description,
                 price: parseFloat(course.price),
-                currency: course.currency,
+                compareAtPrice: course.compareAtPrice ? parseFloat(String(course.compareAtPrice)) : undefined,
+                currency: "AED",
                 thumbnail: course.thumbnail || "",
                 categoryId: course.categoryId,
                 status: course.status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
@@ -87,18 +92,33 @@ export default function CourseEditPage({ params, }: {
         }
         try {
             const slug = generateSlug(values.title);
+            const dto: any = {
+                ...values,
+                currency: "AED",
+                shortDescription: values.description,
+                slug,
+            };
+            if (dto.compareAtPrice !== undefined && !Number.isFinite(dto.compareAtPrice)) {
+                delete dto.compareAtPrice;
+            }
             await updateCourse.mutateAsync({
                 id: courseId,
                 dto: {
-                    ...values,
-                    shortDescription: values.description,
-                    slug,
+                    ...dto,
                 },
             });
             router.push("/instructor/courses");
         }
         catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : "Failed to update course";
+            const axiosError = error as AxiosError<any>;
+            const serverMessage = (axiosError?.response?.data as any)?.message;
+            const errorMessage = Array.isArray(serverMessage)
+                ? serverMessage.join(", ")
+                : typeof serverMessage === "string"
+                    ? serverMessage
+                    : error instanceof Error
+                        ? error.message
+                        : "Failed to update course";
             toast.error(errorMessage);
         }
     }
@@ -154,6 +174,7 @@ export default function CourseEditPage({ params, }: {
                   
                   <input type="hidden" {...register("categoryId")} value={watch("categoryId") || ""}/>
                   <input type="hidden" {...register("status")} value={watch("status") || "DRAFT"}/>
+                  <input type="hidden" {...register("currency")} value="AED"/>
                   <div className="space-y-2">
                     <Label htmlFor="title">Title</Label>
                     <Input id="title" placeholder="Course title" {...register("title")}/>
@@ -170,18 +191,15 @@ export default function CourseEditPage({ params, }: {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="price">Price</Label>
+                      <Label htmlFor="price">Final Price (AED)</Label>
                       <Input id="price" type="number" step="0.01" placeholder="0.00" {...register("price", { valueAsNumber: true })}/>
                       {errors.price && (<p className="text-xs text-destructive">
                           {errors.price.message}
                         </p>)}
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="currency">Currency</Label>
-                      <Input id="currency" placeholder="USD" {...register("currency")}/>
-                      {errors.currency && (<p className="text-xs text-destructive">
-                          {errors.currency.message}
-                        </p>)}
+                      <Label htmlFor="compareAtPrice">Original Price (AED) (optional)</Label>
+                      <Input id="compareAtPrice" type="number" step="0.01" placeholder="0.00" {...register("compareAtPrice", { valueAsNumber: true })}/>
                     </div>
                   </div>
 
