@@ -141,9 +141,22 @@ export function CourseCarousel({ title, courses, className, showScrollButtons = 
                         </p>)}
                     </div>
                     <div className="flex items-center justify-between shrink-0 mt-2 pt-2 border-t border-border/50">
-                      <span className="text-lg font-bold text-primary">
-                        {course.currency} {parseFloat(course.price).toFixed(2)}
-                      </span>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-lg font-bold text-primary">
+                          AED {parseFloat(course.price).toFixed(2)}
+                        </span>
+                        {course.compareAtPrice &&
+                          !Number.isNaN(parseFloat(String(course.compareAtPrice))) &&
+                          parseFloat(String(course.compareAtPrice)) >
+                            parseFloat(course.price) && (
+                            <span className="text-xs text-muted-foreground line-through">
+                              AED{" "}
+                              {parseFloat(String(course.compareAtPrice)).toFixed(
+                                2
+                              )}
+                            </span>
+                          )}
+                      </div>
                       <Link href={isEnrolled ? `/learner/courses/${courseId}/watch` : `/learner/courses/${courseId}`} onClick={(e) => e.stopPropagation()}>
                         <Button variant="outline" size="sm" className={cn("text-xs transition-all duration-200 pointer-events-auto", hoveredIndex === index &&
                     "bg-primary text-primary-foreground border-primary")}>
