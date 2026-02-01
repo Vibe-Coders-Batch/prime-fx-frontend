@@ -9,6 +9,9 @@ interface CourseCardProps {
     course: Course;
 }
 export function CourseCard({ course }: CourseCardProps) {
+    const price = parseFloat(course.price);
+    const compareAt = course.compareAtPrice ? parseFloat(String(course.compareAtPrice)) : null;
+    const showCompareAt = compareAt !== null && !isNaN(compareAt) && compareAt > price;
     return (<Card className="flex flex-col h-full overflow-visible group hover:shadow-lg transition-shadow">
       {course.thumbnail && (<div className="aspect-video w-full overflow-hidden relative group">
           <img src={course.thumbnail} alt={course.title} className="h-full w-full object-cover transition-transform group-hover:scale-105"/>
@@ -38,9 +41,14 @@ export function CourseCard({ course }: CourseCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-0 border-t p-3 sm:p-4 bg-muted/20">
-        <span className="text-base sm:text-lg font-bold text-primary">
-          {course.currency} {parseFloat(course.price).toFixed(2)}
-        </span>
+        <div className="flex items-baseline gap-2">
+          <span className="text-base sm:text-lg font-bold text-primary">
+            AED {price.toFixed(2)}
+          </span>
+          {showCompareAt && (<span className="text-xs sm:text-sm text-muted-foreground line-through">
+              AED {compareAt!.toFixed(2)}
+            </span>)}
+        </div>
         <Link href={`/learner/courses/${course.courseId}`} className="w-full sm:w-auto">
           <Button size="sm" className="w-full text-xs sm:text-sm">
             View Details
