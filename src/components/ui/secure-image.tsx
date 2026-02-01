@@ -27,7 +27,7 @@ export function SecureImage({ src, alt, className, ...props }: SecureImageProps)
                 setSignedUrl(data.url);
             }
             catch (err) {
-                console.error("Failed to load secure image", err);
+                void err;
                 setError(true);
             }
             finally {
