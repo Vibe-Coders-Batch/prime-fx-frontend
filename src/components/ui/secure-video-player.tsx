@@ -44,11 +44,10 @@ export function SecureVideoPlayer({ lessonId, videoKey, className, autoPlay = fa
             const { data } = await axios.get<DebugInfo>(`${baseUrl}/video-encoding/debug/${lessonId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            console.log('[SecureVideoPlayer] Debug info:', data);
             setDebugInfo(data);
         }
         catch (err) {
-            console.error('[SecureVideoPlayer] Failed to fetch debug info:', err);
+            void err;
         }
     }, [lessonId, token]);
     useEffect(() => {
@@ -59,7 +58,6 @@ export function SecureVideoPlayer({ lessonId, videoKey, className, autoPlay = fa
                 return;
             }
             if (!token && lessonId) {
-                console.warn('[SecureVideoPlayer] No auth token available, cannot fetch playback URL');
                 setError('Authentication required');
                 setIsLoading(false);
                 return;
@@ -69,15 +67,8 @@ export function SecureVideoPlayer({ lessonId, videoKey, className, autoPlay = fa
                 setError(null);
                 const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
                 if (lessonId) {
-                    console.log(`[SecureVideoPlayer] Fetching playback URL for lesson: ${lessonId}`);
                     const { data } = await axios.get(`${baseUrl}/lessons/${lessonId}/play`, {
                         headers: { Authorization: `Bearer ${token}` }
-                    });
-                    console.log(`[SecureVideoPlayer] Received playback data:`, {
-                        signedUrl: data.signedUrl?.substring(0, 150) + '...',
-                        status: data.status,
-                        courseId: data.courseId,
-                        lessonId: data.lessonId,
                     });
                     if (isMounted) {
                         setSignedUrl(data.signedUrl);
@@ -102,12 +93,6 @@ export function SecureVideoPlayer({ lessonId, videoKey, className, autoPlay = fa
                 }
             }
             catch (err: any) {
-                console.error('[SecureVideoPlayer] Error fetching playback URL:', err);
-                console.error('[SecureVideoPlayer] Error details:', {
-                    status: err.response?.status,
-                    message: err.response?.data?.message,
-                    data: err.response?.data,
-                });
                 if (isMounted) {
                     const msg = err.response?.data?.message || err.message;
                     setError(`Failed to load: ${msg}`);

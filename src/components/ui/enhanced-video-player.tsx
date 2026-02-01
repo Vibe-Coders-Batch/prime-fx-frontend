@@ -149,12 +149,6 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
                 xhrSetup: (xhr: XMLHttpRequest, url: string) => {
                     xhr.timeout = 20000;
                     xhr.withCredentials = false;
-                    xhr.addEventListener("timeout", () => {
-                        console.warn("XHR timeout for:", url.substring(0, 100));
-                    });
-                    xhr.addEventListener("error", () => {
-                        console.warn("XHR error for:", url.substring(0, 100));
-                    });
                 },
             });
             hlsRef.current = hls;
@@ -174,7 +168,7 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
                     video.currentTime = initialPosition;
                 }
                 if (autoPlay) {
-                    video.play().catch(console.error);
+                    video.play().catch(() => { });
                 }
             });
             hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, (_, data) => {
@@ -188,25 +182,24 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
             });
             hls.on(Hls.Events.ERROR, (_, data) => {
                 if (data.fatal) {
-                    console.error("HLS Fatal Error:", data);
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
-                            console.warn("Attempting to recover from network error...");
                             try {
                                 hls.startLoad();
                             }
                             catch (e) {
+                                void e;
                                 setError("Network error - please check your connection");
                                 onError?.("Network error - please check your connection");
                                 setIsLoading(false);
                             }
                             break;
                         case Hls.ErrorTypes.MEDIA_ERROR:
-                            console.warn("Attempting to recover from media error...");
                             try {
                                 hls.recoverMediaError();
                             }
                             catch (e) {
+                                void e;
                                 setError("Media error - failed to decode video");
                                 onError?.("Media error - failed to decode video");
                                 setIsLoading(false);
@@ -232,7 +225,7 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
                 if (initialPosition > 0)
                     video.currentTime = initialPosition;
                 if (autoPlay)
-                    video.play().catch(console.error);
+                    video.play().catch(() => { });
             });
             video.addEventListener("error", () => {
                 setError("Failed to load video");
@@ -423,7 +416,7 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
             }
         }
         catch (err) {
-            console.error("PiP error:", err);
+            void err;
         }
     }, []);
     const handleQualityChange = useCallback((levelIndex: number) => {
