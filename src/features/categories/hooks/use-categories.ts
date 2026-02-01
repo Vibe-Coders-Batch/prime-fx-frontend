@@ -1,29 +1,22 @@
 "use client";
-
 import { useCategories as useAllCategories, useCategory as useSingleCategory, useCategoryBySlug as useCategorySlug } from "@/lib/hooks/use-data";
-
 interface UseCategoriesParams {
-  enabled?: boolean;
+    enabled?: boolean;
 }
-
 export function useCategories({ enabled }: UseCategoriesParams = {}) {
-  return useAllCategories({ enabled });
+    return useAllCategories({ enabled });
 }
-
 interface UseCategoryParams {
-  enabled?: boolean;
-  categoryId?: string;
+    enabled?: boolean;
+    categoryId?: string;
 }
-
 export function useCategory({ enabled, categoryId }: UseCategoryParams = {}) {
-  return useSingleCategory({ enabled, id: categoryId });
+    return useSingleCategory({ enabled, id: categoryId });
 }
-
 interface UseCategoryBySlugParams {
-  enabled?: boolean;
-  slug?: string;
+    enabled?: boolean;
+    slug?: string;
 }
-
 export function useCategoryBySlug({ enabled, slug }: UseCategoryBySlugParams = {}) {
-  return useCategorySlug({ enabled, slug });
+    return useCategorySlug({ enabled, slug });
 }

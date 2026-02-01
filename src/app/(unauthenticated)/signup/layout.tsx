@@ -1,33 +1,26 @@
 import type { Metadata } from "next";
-
 const siteUrl = "https://paet.ltd";
-const siteName = "PRIME E-Learning & Training";
-
+const siteName = "Prime Learning";
 export const metadata: Metadata = {
-  title: "Sign Up | PRIME E-Learning & Training",
-  description:
-    "Create your PRIME E-Learning & Training account. Start your journey to financial literacy with institutional-grade education, live trading sessions, and expert mentorship.",
-  alternates: {
-    canonical: `${siteUrl}/signup`,
-  },
-  openGraph: {
-    title: "Sign Up | PRIME E-Learning & Training",
-    description:
-      "Join thousands of learners mastering global markets. Create your free account today.",
-    url: `${siteUrl}/signup`,
-    siteName: siteName,
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+    title: "Sign Up | Prime Learning",
+    description: "Create your Prime Learning account. Start learning with expert-led courses, progress tracking, and certificates.",
+    alternates: {
+        canonical: `${siteUrl}/signup`,
+    },
+    openGraph: {
+        title: "Sign Up | Prime Learning",
+        description: "Start learning today with Prime Learning. Create your account in minutes.",
+        url: `${siteUrl}/signup`,
+        siteName: siteName,
+        type: "website",
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
-
-export default function SignupLayout({
-  children,
-}: {
-  children: React.ReactNode;
+export default function SignupLayout({ children, }: {
+    children: React.ReactNode;
 }) {
-  return <>{children}</>;
+    return <>{children}</>;
 }

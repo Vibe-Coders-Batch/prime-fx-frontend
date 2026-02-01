@@ -1,183 +1,162 @@
 import type { Metadata } from "next";
 import { LandingPageClient } from "@/components/sections/landing-page-client";
-
 const siteUrl = "https://paet.ltd";
-const siteName = "PRIME E-Learning & Training";
-
+const siteName = "Prime Learning";
 export const metadata: Metadata = {
-  title:
-    "Master Global Markets & Financial Literacy | PRIME E-Learning & Training",
-  description:
-    "Dubai's premier online education platform for financial literacy, trading skills, and professional development. Join thousands of learners mastering the markets with institutional-grade education. No prerequisites required.",
-  keywords: [
-    "online trading courses",
-    "financial literacy Dubai",
-    "forex education",
-    "stock market training",
-    "professional development courses",
-    "trading academy UAE",
-    "investment courses online",
-    "career transformation",
-    "live trading sessions",
-    "trading mentorship",
-  ],
-  alternates: {
-    canonical: siteUrl,
-  },
-  openGraph: {
-    title:
-      "Master Global Markets & Financial Literacy | PRIME E-Learning & Training",
-    description:
-      "Dubai's premier online education platform for financial literacy and professional development. Master the markets with institutional-grade education.",
-    url: siteUrl,
-    siteName: siteName,
-    type: "website",
-    images: [
-      {
-        url: `${siteUrl}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: "PRIME E-Learning & Training - Master Global Markets",
-      },
+    title: "Prime Learning | Learn Smarter. Grow Faster. Lead With Purpose.",
+    description: "Premium online courses for learners, professionals, and organisations. Build real-world skills through expert-led programs designed to help you grow faster and stay future-ready.",
+    keywords: [
+        "online courses",
+        "professional development",
+        "career growth",
+        "upskilling",
+        "reskilling",
+        "business and leadership",
+        "technology and data",
+        "finance and markets",
+        "creative and design",
+        "project management",
+        "test preparation",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Master Global Markets & Financial Literacy",
-    description:
-      "Dubai's premier online education platform for financial literacy and professional development.",
-    images: [`${siteUrl}/og-image.png`],
-  },
+    alternates: {
+        canonical: siteUrl,
+    },
+    openGraph: {
+        title: "Prime Learning | Unlock Skills That Drive Your Future",
+        description: "Premium, outcomes-driven online learning for learners, professionals, and organisations.",
+        url: siteUrl,
+        siteName: siteName,
+        type: "website",
+        images: [
+            {
+                url: `${siteUrl}/og-image.png`,
+                width: 1200,
+                height: 630,
+                alt: "Prime Learning - Learn Smarter. Grow Faster. Lead With Purpose.",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Prime Learning | Unlock Skills That Drive Your Future",
+        description: "Premium, outcomes-driven online learning for learners, professionals, and organisations.",
+        images: [`${siteUrl}/og-image.png`],
+    },
 };
-
 export default function HomePage() {
-  const courseListJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Featured Courses at PRIME E-Learning & Training",
-    description:
-      "Explore our most popular courses designed to enhance your trading and financial skills",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        item: {
-          "@type": "Course",
-          name: "Foundations - Trading Basics",
-          description:
-            "Master market literacy, risk management, and trading psychology",
-          provider: {
-            "@type": "Organization",
-            name: siteName,
-            url: siteUrl,
-          },
-          educationalLevel: "Beginner",
-          teaches: [
-            "Market Structure",
-            "Risk Management",
-            "Trading Psychology",
-          ],
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        item: {
-          "@type": "Course",
-          name: "Intermediate Trading",
-          description:
-            "Deep dive into volatility cycles, Gold & Macro playbooks, and correlation mapping",
-          provider: {
-            "@type": "Organization",
-            name: siteName,
-            url: siteUrl,
-          },
-          educationalLevel: "Intermediate",
-          teaches: [
-            "Smart Money Concepts",
-            "Psychology Mastery",
-            "Live Trading Sessions",
-          ],
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        item: {
-          "@type": "Course",
-          name: "Pro Labs - Advanced Trading",
-          description:
-            "System design, Monte Carlo simulations, and algorithmic edge development",
-          provider: {
-            "@type": "Organization",
-            name: siteName,
-            url: siteUrl,
-          },
-          educationalLevel: "Advanced",
-          teaches: [
-            "Algorithmic Trading",
-            "System Design",
-            "Institutional Strategies",
-          ],
-        },
-      },
-    ],
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is PRIME E-Learning & Training?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PRIME E-Learning & Training is a next-generation, online-only EdTech platform built to democratize access to high-quality learning in financial literacy, trading, and professional development. We require no prior academic prerequisites.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Do I need any prior experience to start learning?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No! Our platform offers practical, industry-aligned training modules that require no prior academic prerequisites. Whether you're starting a second career or upgrading your financial literacy, we make learning accessible.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What courses are available?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "We offer three tiers: Foundations (for beginners covering market structure, risk management), Intermediate (smart money concepts, live trading), and Pro Labs (algorithmic trading, institutional strategies).",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is the platform based in Dubai?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, PRIME E-Learning & Training is Dubai's premier financial trading academy, offering institutional-grade education to learners worldwide.",
-        },
-      },
-    ],
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(courseListJsonLd),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd),
-        }}
-      />
+    const courseListJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Featured Courses at Prime Learning",
+        description: "Explore popular, outcomes-driven courses designed to build real-world skills.",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                item: {
+                    "@type": "Course",
+                    name: "Business Strategy and Leadership",
+                    description: "Develop strategic thinking and leadership capabilities for real-world impact.",
+                    provider: {
+                        "@type": "Organization",
+                        name: siteName,
+                        url: siteUrl,
+                    },
+                    educationalLevel: "All levels",
+                    teaches: [
+                        "Strategy",
+                        "Leadership",
+                        "Decision Making",
+                    ],
+                },
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                item: {
+                    "@type": "Course",
+                    name: "Python for Data Science",
+                    description: "Build strong foundations and create real projects using Python and data tools.",
+                    provider: {
+                        "@type": "Organization",
+                        name: siteName,
+                        url: siteUrl,
+                    },
+                    educationalLevel: "Beginner to Intermediate",
+                    teaches: [
+                        "Python",
+                        "Data Analysis",
+                        "Projects",
+                    ],
+                },
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                item: {
+                    "@type": "Course",
+                    name: "Digital Marketing Essentials",
+                    description: "Master modern marketing channels, tools, and measurement frameworks.",
+                    provider: {
+                        "@type": "Organization",
+                        name: siteName,
+                        url: siteUrl,
+                    },
+                    educationalLevel: "All levels",
+                    teaches: [
+                        "Marketing Channels",
+                        "Content Strategy",
+                        "Analytics",
+                    ],
+                },
+            },
+        ],
+    };
+    const faqJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+            {
+                "@type": "Question",
+                name: "What is Prime Learning?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Prime Learning is a premium, outcomes-driven learning platform that blends academic rigor with practical application. Courses are designed to deliver skills you can use immediately.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "Can I learn at my own pace?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes. Learn on your schedule with flexible, on-demand access across desktop, tablet, and mobile.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "What topics do you cover?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We offer courses across business and leadership, technology and data, finance and markets, creative and design, professional skills, and academic and test preparation—plus business school admissions and career pathways.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "Do you provide certificates?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes. Track progress across your learning journey and earn certificates upon completion.",
+                },
+            },
+        ],
+    };
+    return (<>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+            __html: JSON.stringify(courseListJsonLd),
+        }}/>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqJsonLd),
+        }}/>
       <LandingPageClient />
-    </>
-  );
+    </>);
 }

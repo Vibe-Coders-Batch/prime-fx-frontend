@@ -5,6 +5,15 @@
   html {
     scroll-behavior: smooth;
   }
+
+  
+  body {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+  body::-webkit-scrollbar {
+    display: none; 
+  }
 }
 
 @layer utilities {
@@ -41,7 +50,7 @@
   --color-primary-dark: #0e1726;
   --color-primary-gold: #e0b458;
 
-  /* Additional semantic colors */
+  
   --color-navy-dark: #0a192f;
   --color-navy-card: #0e1726;
   --color-navy-lighter: #112240;
@@ -93,11 +102,7 @@
   }
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-*/
+
 @layer base {
   *,
   ::after,
@@ -109,8 +114,8 @@
 }
 
 :root {
-  --background: #fffcf5; /* Warm Cream */
-  --foreground: #1c1917; /* Warm Charcoal */
+  --background: #fffcf5; 
+  --foreground: #1c1917; 
 
   --card: #ffffff;
   --card-foreground: #1c1917;
@@ -118,14 +123,14 @@
   --popover: #ffffff;
   --popover-foreground: #1c1917;
 
-  --primary: #e0b458; /* Luxury Gold */
-  --primary-foreground: #0a192f; /* Deep Navy */
+  --primary: #e0b458; 
+  --primary-foreground: #0a192f; 
 
-  --secondary: #2563eb; /* Royal Blue */
+  --secondary: #2563eb; 
   --secondary-foreground: #ffffff;
 
-  --muted: #f5f0e6; /* Warm Beige */
-  --muted-foreground: #78716c; /* Stone Gray */
+  --muted: #f5f0e6; 
+  --muted-foreground: #78716c; 
 
   --accent: #f5f0e6;
   --accent-foreground: #1c1917;
@@ -133,7 +138,7 @@
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: #e6e1d6; /* Warm Border */
+  --border: #e6e1d6; 
   --input: #e6e1d6;
   --ring: #e0b458;
 
@@ -141,23 +146,23 @@
 }
 
 .dark {
-  --background: #0a192f; /* Deep Navy */
-  --foreground: #f8fafc; /* Slate 50 */
+  --background: #0a192f; 
+  --foreground: #f8fafc; 
 
-  --card: #112240; /* Slightly lighter navy for cards */
+  --card: #112240; 
   --card-foreground: #f8fafc;
 
   --popover: #0a192f;
   --popover-foreground: #f8fafc;
 
-  --primary: #e0b458; /* Luxury Gold */
+  --primary: #e0b458; 
   --primary-foreground: #0a192f;
 
-  --secondary: #2563eb; /* Royal Blue */
+  --secondary: #2563eb; 
   --secondary-foreground: #ffffff;
 
   --muted: #112240;
-  --muted-foreground: #94a3b8; /* Slate 400 */
+  --muted-foreground: #94a3b8; 
 
   --accent: #112240;
   --accent-foreground: #f8fafc;
@@ -165,7 +170,7 @@
   --destructive: #7f1d1d;
   --destructive-foreground: #f8fafc;
 
-  --border: #1e293b; /* Slate 800 */
+  --border: #1e293b; 
   --input: #1e293b;
   --ring: #e0b458;
 }

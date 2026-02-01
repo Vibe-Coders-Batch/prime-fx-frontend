@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
@@ -8,102 +7,75 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/theme-toggle";
 import { useAuthStore } from "@/lib/store/auth-store";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, LogOut, Settings } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
-
 export function Navbar() {
-  const router = useRouter();
-  const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { user, logout } = useAuthStore();
-  const queryClient = useQueryClient();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 150) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
-    setScrolled(latest > 50);
-  });
-
-  const handleLogout = () => {
-    logout();
-    queryClient.clear();
-    if (typeof window !== 'undefined') {
-      window.location.href = '/login';
-    }
-  };
-
-  const getUserInitials = () => {
-    if (!user) return "U";
-    const firstName = user.firstName || "";
-    const lastName = user.lastName || "";
-    if (firstName && lastName) {
-      return `${firstName[0]}${lastName[0]}`.toUpperCase();
-    }
-    return user.email ? user.email[0].toUpperCase() : "U";
-  };
-
-  return (
-    <motion.header
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: "-100%" },
-      }}
-      animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 transition-colors duration-300",
-        scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
-      )}
-    >
-      {/* Logo */}
-      <Link
-        href="/"
-        className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tighter text-foreground"
-      >
-        <span className="hidden sm:inline">PRIME </span>
-        <span className="text-primary hidden sm:inline">E-LEARNING & TRAINING</span>
-        <span className="sm:hidden">PRIME</span>
+    const router = useRouter();
+    const { scrollY } = useScroll();
+    const [hidden, setHidden] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const { user, logout } = useAuthStore();
+    const queryClient = useQueryClient();
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious() ?? 0;
+        if (latest > previous && latest > 150) {
+            setHidden(true);
+        }
+        else {
+            setHidden(false);
+        }
+        setScrolled(latest > 50);
+    });
+    const handleLogout = () => {
+        logout();
+        queryClient.clear();
+        if (typeof window !== 'undefined') {
+            window.location.href = '/login';
+        }
+    };
+    const getUserInitials = () => {
+        if (!user)
+            return "U";
+        const firstName = user.firstName || "";
+        const lastName = user.lastName || "";
+        if (firstName && lastName) {
+            return `${firstName[0]}${lastName[0]}`.toUpperCase();
+        }
+        return user.email ? user.email[0].toUpperCase() : "U";
+    };
+    return (<motion.header variants={{
+            visible: { y: 0 },
+            hidden: { y: "-100%" },
+        }} animate={hidden ? "hidden" : "visible"} transition={{ duration: 0.35, ease: "easeInOut" }} className={cn("fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 transition-colors duration-300", scrolled
+            ? "bg-background/80 backdrop-blur-md border-b border-border"
+            : "bg-transparent")}>
+      
+      <Link href="/" className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tighter text-foreground">
+        <span className="hidden sm:inline">Prime </span>
+        <span className="text-primary hidden sm:inline">Learning</span>
+        <span className="sm:hidden">Prime</span>
       </Link>
 
-      {/* Nav Links */}
+      
       <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-        {["Curriculum", "Markets", "Toolkits", "About"].map((item) => (
-          <Link
-            key={item}
-            href={`#${item.toLowerCase()}`}
-            className="text-xs sm:text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-          >
-            {item}
-          </Link>
-        ))}
+        {[
+            { label: "Why Prime Learning", href: "#why-prime-learning" },
+            { label: "Categories", href: "#categories" },
+            { label: "Courses", href: "#courses" },
+            { label: "How It Works", href: "#how-it-works" },
+        ].map((item) => (<Link key={item.label} href={item.href} className="text-xs sm:text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            {item.label}
+          </Link>))}
       </nav>
 
-      {/* CTA */}
+      
       <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
         <ModeToggle />
-        {user ? (
-          <DropdownMenu>
+        {user ? (<DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-full"
-              >
+              <Button variant="ghost" className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-full">
                 <Avatar className="h-9 w-9 sm:h-10 sm:w-10">
                   <AvatarFallback className="bg-primary text-primary-foreground text-xs sm:text-sm">
                     {getUserInitials()}
@@ -116,8 +88,8 @@ export function Navbar() {
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
                     {user.firstName && user.lastName
-                      ? `${user.firstName} ${user.lastName}`
-                      : "User"}
+                ? `${user.firstName} ${user.lastName}`
+                : "User"}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
                     {user.email}
@@ -127,50 +99,38 @@ export function Navbar() {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href={user?.role === 'LEARNER' ? "/learner/profile" : "/profile"} className="cursor-pointer">
-                  <User className="mr-2 h-4 w-4" />
+                  <User className="mr-2 h-4 w-4"/>
                   <span>Profile</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={
-                  user?.role === 'PLATFORM_ADMIN' ? "/admin/dashboard" :
-                  user?.role === 'INSTRUCTOR' ? "/instructor/dashboard" :
-                  user?.role === 'CORPORATE_ADMIN' ? "/corporate/dashboard" :
-                  "/learner/dashboard"
-                } className="cursor-pointer">
-                  <Settings className="mr-2 h-4 w-4" />
+                <Link href={user?.role === 'PLATFORM_ADMIN' ? "/admin/dashboard" :
+                user?.role === 'INSTRUCTOR' ? "/instructor/dashboard" :
+                    user?.role === 'CORPORATE_ADMIN' ? "/corporate/dashboard" :
+                        "/learner/dashboard"} className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4"/>
                   <span>Dashboard</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={handleLogout}
-                className="cursor-pointer text-destructive"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
+                <LogOut className="mr-2 h-4 w-4"/>
                 <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <>
+          </DropdownMenu>) : (<>
             <Link href="/login">
-              <Button
-                variant="outline"
-                className="hidden md:flex border-primary-gold text-primary-gold hover:bg-primary-gold hover:text-primary-dark text-sm sm:text-base"
-              >
+              <Button variant="outline" className="hidden md:flex border-primary-gold text-primary-gold hover:bg-primary-gold hover:text-primary-dark text-sm sm:text-base">
                 Login
               </Button>
             </Link>
             <Link href="/signup">
               <Button className="bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark font-semibold text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6 py-2 sm:py-2.5">
-                <span className="hidden sm:inline">Join Academy</span>
-                <span className="sm:hidden">Join</span>
+                <span className="hidden sm:inline">Start Learning Today</span>
+                <span className="sm:hidden">Start</span>
               </Button>
             </Link>
-          </>
-        )}
+          </>)}
       </div>
-    </motion.header>
-  );
+    </motion.header>);
 }

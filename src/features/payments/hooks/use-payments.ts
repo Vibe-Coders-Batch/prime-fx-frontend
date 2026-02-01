@@ -1,104 +1,90 @@
 "use client";
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/query-keys';
 import { axiosGet, axiosPost } from '@/lib/api/client';
 import { PaymentsResponse } from '../api/payments.api';
 import { CreatePaymentDto, CreateBulkPaymentDto, PaymentResponse, VerifyPaymentDto, VerifyPaymentResponse } from '../types';
-
 interface UsePaymentsParams {
-  enabled?: boolean;
-  filters?: { search?: string; page?: number; limit?: number };
+    enabled?: boolean;
+    filters?: {
+        search?: string;
+        page?: number;
+        limit?: number;
+    };
 }
-
 export function usePayments({ enabled, filters }: UsePaymentsParams = {}) {
-  const fetchPayments = async (): Promise<PaymentsResponse> => {
-    const params: Record<string, any> = {};
-    if (filters?.search) params.search = filters.search;
-    if (filters?.page) params.page = filters.page;
-    if (filters?.limit) params.limit = filters.limit;
-
-    const res = await axiosGet<PaymentsResponse>("payments", params);
-    return res.data;
-  };
-
-  return useQuery({
-    staleTime: Infinity,
-    queryFn: fetchPayments,
-    enabled: enabled !== false,
-    queryKey: queryKeys.payments.list(filters),
-  });
+    const fetchPayments = async (): Promise<PaymentsResponse> => {
+        const params: Record<string, any> = {};
+        if (filters?.search)
+            params.search = filters.search;
+        if (filters?.page)
+            params.page = filters.page;
+        if (filters?.limit)
+            params.limit = filters.limit;
+        const res = await axiosGet<PaymentsResponse>("payments", params);
+        return res.data;
+    };
+    return useQuery({
+        staleTime: Infinity,
+        queryFn: fetchPayments,
+        enabled: enabled !== false,
+        queryKey: queryKeys.payments.list(filters),
+    });
 }
-
 export const useCreatePayment = () => {
-  const queryClient = useQueryClient();
-
-  const fetchCreatePaymentMutationFunction = async (
-    data: CreatePaymentDto
-  ): Promise<PaymentResponse> => {
-    const res = await axiosPost<PaymentResponse>("payments", data);
-    return res.data;
-  };
-
-  return useMutation({
-    mutationKey: ["createPayment"],
-    mutationFn: fetchCreatePaymentMutationFunction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.payments.all(),
-      });
-    },
-  });
+    const queryClient = useQueryClient();
+    const fetchCreatePaymentMutationFunction = async (data: CreatePaymentDto): Promise<PaymentResponse> => {
+        const res = await axiosPost<PaymentResponse>("payments", data);
+        return res.data;
+    };
+    return useMutation({
+        mutationKey: ["createPayment"],
+        mutationFn: fetchCreatePaymentMutationFunction,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.payments.all(),
+            });
+        },
+    });
 };
-
 export const useCreateBulkPayment = () => {
-  const queryClient = useQueryClient();
-
-  const fetchCreateBulkPaymentMutationFunction = async (
-    data: CreateBulkPaymentDto
-  ): Promise<PaymentResponse> => {
-    const res = await axiosPost<PaymentResponse>("payments/bulk", data);
-    return res.data;
-  };
-
-  return useMutation({
-    mutationKey: ["createBulkPayment"],
-    mutationFn: fetchCreateBulkPaymentMutationFunction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.payments.all(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.cart.all(),
-      });
-    },
-  });
+    const queryClient = useQueryClient();
+    const fetchCreateBulkPaymentMutationFunction = async (data: CreateBulkPaymentDto): Promise<PaymentResponse> => {
+        const res = await axiosPost<PaymentResponse>("payments/bulk", data);
+        return res.data;
+    };
+    return useMutation({
+        mutationKey: ["createBulkPayment"],
+        mutationFn: fetchCreateBulkPaymentMutationFunction,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.payments.all(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.cart.all(),
+            });
+        },
+    });
 };
-
 export const useVerifyPayment = () => {
-  const queryClient = useQueryClient();
-
-  const fetchVerifyPaymentMutationFunction = async (
-    data: VerifyPaymentDto
-  ): Promise<VerifyPaymentResponse> => {
-    const res = await axiosPost<VerifyPaymentResponse>("payments/verify", data);
-    return res.data;
-  };
-
-  return useMutation({
-    mutationKey: ["verifyPayment"],
-    mutationFn: fetchVerifyPaymentMutationFunction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.payments.all(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.cart.all(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.enrollments.all(),
-      });
-    },
-  });
+    const queryClient = useQueryClient();
+    const fetchVerifyPaymentMutationFunction = async (data: VerifyPaymentDto): Promise<VerifyPaymentResponse> => {
+        const res = await axiosPost<VerifyPaymentResponse>("payments/verify", data);
+        return res.data;
+    };
+    return useMutation({
+        mutationKey: ["verifyPayment"],
+        mutationFn: fetchVerifyPaymentMutationFunction,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.payments.all(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.cart.all(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.enrollments.all(),
+            });
+        },
+    });
 };
-

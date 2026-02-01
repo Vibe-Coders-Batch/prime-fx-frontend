@@ -1,5 +1,4 @@
 "use client";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,53 +12,42 @@ import { CheckCircle, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
-
 const resetPasswordSchema = z
-  .object({
+    .object({
     newPassword: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
+})
+    .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
-  });
-
+});
 type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
-
 function ResetPasswordForm() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const resetPassword = useResetPassword();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitSuccessful },
-  } = useForm<ResetPasswordFormData>({
-    resolver: zodResolver(resetPasswordSchema),
-  });
-
-  useEffect(() => {
-    if (resetPassword.isError) {
-      const errorMessage = resetPassword.error instanceof Error 
-        ? resetPassword.error.message 
-        : "Failed to reset password. Please try again.";
-      toast.error(errorMessage);
-    }
-  }, [resetPassword.isError, resetPassword.error]);
-
-  const onSubmit = (data: ResetPasswordFormData) => {
-    if (!token) {
-      return;
-    }
-    resetPassword.mutate({
-      token,
-      newPassword: data.newPassword,
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
+    const resetPassword = useResetPassword();
+    const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, } = useForm<ResetPasswordFormData>({
+        resolver: zodResolver(resetPasswordSchema),
     });
-  };
-
-  if (!token) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    useEffect(() => {
+        if (resetPassword.isError) {
+            const errorMessage = resetPassword.error instanceof Error
+                ? resetPassword.error.message
+                : "Failed to reset password. Please try again.";
+            toast.error(errorMessage);
+        }
+    }, [resetPassword.isError, resetPassword.error]);
+    const onSubmit = (data: ResetPasswordFormData) => {
+        if (!token) {
+            return;
+        }
+        resetPassword.mutate({
+            token,
+            newPassword: data.newPassword,
+        });
+    };
+    if (!token) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold">Invalid Reset Link</CardTitle>
@@ -73,17 +61,14 @@ function ResetPasswordForm() {
             </Link>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  if (isSubmitSuccessful && resetPassword.isSuccess) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      </div>);
+    }
+    if (isSubmitSuccessful && resetPassword.isSuccess) {
+        return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
-              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400"/>
             </div>
             <CardTitle className="text-2xl font-bold">Password Reset Successful</CardTitle>
             <CardDescription>
@@ -96,12 +81,9 @@ function ResetPasswordForm() {
             </Link>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      </div>);
+    }
+    return (<div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-3xl font-bold text-center">Reset Password</CardTitle>
@@ -111,41 +93,23 @@ function ResetPasswordForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {resetPassword.isError && (
-              <div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
-                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+            {resetPassword.isError && (<div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                <AlertCircle className="h-4 w-4 flex-shrink-0"/>
                 <span>
-                  {resetPassword.error instanceof Error 
-                    ? resetPassword.error.message 
-                    : "Failed to reset password. The link may have expired."}
+                  {resetPassword.error instanceof Error
+                ? resetPassword.error.message
+                : "Failed to reset password. The link may have expired."}
                 </span>
-              </div>
-            )}
+              </div>)}
             <div className="space-y-2">
               <Label htmlFor="newPassword">New Password</Label>
-              <Input
-                id="newPassword"
-                type="password"
-                placeholder="••••••••"
-                {...register("newPassword")}
-                disabled={resetPassword.isPending}
-              />
-              {errors.newPassword && (
-                <p className="text-xs text-destructive">{errors.newPassword.message}</p>
-              )}
+              <Input id="newPassword" type="password" placeholder="••••••••" {...register("newPassword")} disabled={resetPassword.isPending}/>
+              {errors.newPassword && (<p className="text-xs text-destructive">{errors.newPassword.message}</p>)}
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="••••••••"
-                {...register("confirmPassword")}
-                disabled={resetPassword.isPending}
-              />
-              {errors.confirmPassword && (
-                <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>
-              )}
+              <Input id="confirmPassword" type="password" placeholder="••••••••" {...register("confirmPassword")} disabled={resetPassword.isPending}/>
+              {errors.confirmPassword && (<p className="text-xs text-destructive">{errors.confirmPassword.message}</p>)}
             </div>
             <Button type="submit" className="w-full" disabled={resetPassword.isPending}>
               {resetPassword.isPending ? "Resetting..." : "Reset Password"}
@@ -158,22 +122,16 @@ function ResetPasswordForm() {
           </form>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
 }
-
 export default function ResetPasswordPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    return (<Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">Loading...</CardTitle>
           </CardHeader>
         </Card>
-      </div>
-    }>
+      </div>}>
       <ResetPasswordForm />
-    </Suspense>
-  );
+    </Suspense>);
 }
