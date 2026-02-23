@@ -97,6 +97,8 @@ export default function CourseEditPage({ params, }: {
                 currency: "AED",
                 shortDescription: values.description,
                 slug,
+                // Ensure thumbnail is always sent so prod updates (upload or remove)
+                thumbnail: values.thumbnail ?? null,
             };
             if (dto.compareAtPrice !== undefined && !Number.isFinite(dto.compareAtPrice)) {
                 delete dto.compareAtPrice;
@@ -182,6 +184,41 @@ export default function CourseEditPage({ params, }: {
                         {errors.title.message}
                       </p>)}
                   </div>
+
+                  <div className="space-y-2">
+                    <Label>Course Thumbnail</Label>
+                    <p className="text-xs text-muted-foreground">
+                      Upload or change the image shown for this course. This appears on the course card and detail page. Save changes to update it.
+                    </p>
+                    <div className="border-2 border-dashed border-muted-foreground/20 rounded-xl p-4 max-w-xl">
+                      <div className="aspect-video relative rounded-lg overflow-hidden bg-muted mb-4 flex items-center justify-center min-h-[180px]">
+                        {watch("thumbnail") ? (
+                          <SecureImage src={watch("thumbnail")!} alt="Course thumbnail" className="w-full h-full object-cover"/>
+                        ) : (
+                          <span className="text-muted-foreground text-sm">No thumbnail — upload one below</span>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <FileUpload
+                          onUploadComplete={(key) => setValue("thumbnail", key, { shouldDirty: true })}
+                          folder="thumbnails"
+                          label="Upload or change image"
+                          className="w-full"
+                        />
+                        {watch("thumbnail") && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setValue("thumbnail", "", { shouldDirty: true })}
+                          >
+                            Remove thumbnail
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
                     <Textarea id="description" placeholder="Course description" {...register("description")}/>
@@ -189,6 +226,7 @@ export default function CourseEditPage({ params, }: {
                         {errors.description.message}
                       </p>)}
                   </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="price">Final Price (AED)</Label>

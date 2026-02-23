@@ -47,7 +47,7 @@ export default function InstructorDashboardPage() {
         },
         {
             title: "Total Revenue",
-            value: `$${(stats?.totalRevenue || 0).toFixed(2)}`,
+            value: `AED ${(stats?.totalRevenue || 0).toFixed(2)}`,
             icon: DollarSign,
             description: "Lifetime earnings",
         },
