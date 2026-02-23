@@ -1,9 +1,14 @@
 import { LoginDto, RegisterDto, LoginResponse, RegisterResponse, ForgotPasswordDto, ResetPasswordDto } from '../types';
 import { parseJsonResponse, parseErrorResponse } from '@/lib/types/api';
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
+function getAuthBaseUrl(): string {
+    if (typeof window !== 'undefined') return '/api';
+    return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/$/, '');
+}
+
 export const authApi = {
     async login(dto: LoginDto): Promise<LoginResponse> {
-        const response = await fetch(`${API_URL}/auth/login`, {
+        const response = await fetch(`${getAuthBaseUrl()}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -16,7 +21,7 @@ export const authApi = {
         return parseJsonResponse<LoginResponse>(response);
     },
     async register(dto: RegisterDto): Promise<RegisterResponse> {
-        const response = await fetch(`${API_URL}/auth/register`, {
+        const response = await fetch(`${getAuthBaseUrl()}/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -31,7 +36,7 @@ export const authApi = {
     async forgotPassword(dto: ForgotPasswordDto): Promise<{
         message: string;
     }> {
-        const response = await fetch(`${API_URL}/auth/forgot-password`, {
+        const response = await fetch(`${getAuthBaseUrl()}/auth/forgot-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dto),
@@ -47,7 +52,7 @@ export const authApi = {
     async resetPassword(dto: ResetPasswordDto): Promise<{
         message: string;
     }> {
-        const response = await fetch(`${API_URL}/auth/reset-password`, {
+        const response = await fetch(`${getAuthBaseUrl()}/auth/reset-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dto),
@@ -63,7 +68,7 @@ export const authApi = {
     async verifyEmail(token: string): Promise<{
         message: string;
     }> {
-        const response = await fetch(`${API_URL}/auth/verify-email`, {
+        const response = await fetch(`${getAuthBaseUrl()}/auth/verify-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token }),

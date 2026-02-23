@@ -20,6 +20,17 @@ export function VideoUpload({ currentUrl, onUploadComplete, onDurationChange, co
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
     const [encoding, setEncoding] = useState(false);
+    const startEncodingJob = async () => {
+        setEncoding(true);
+        try {
+            await apiClient.post(`/video-encoding/start/${lessonId}`);
+            toast.success("Encoding started. You'll be notified when it's complete.");
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || error.message || "Failed to start encoding");
+        } finally {
+            setEncoding(false);
+        }
+    };
     const handleRemove = () => {
         onUploadComplete("");
         setRemoved(true);
@@ -137,14 +148,22 @@ export function VideoUpload({ currentUrl, onUploadComplete, onDurationChange, co
         <h4 className="text-sm font-medium">Video Content</h4>
       </div>
 
-      {currentUrl && !removed && (<div className="flex items-center justify-between bg-background p-3 rounded border">
-          <div className="flex items-center gap-2 text-sm text-green-600">
-            <CheckCircle className="h-4 w-4"/>
-            <span className="truncate max-w-[200px]">Video uploaded</span>
+      {currentUrl && !removed && (<div className="flex flex-col gap-2 bg-background p-3 rounded border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm text-green-600">
+              <CheckCircle className="h-4 w-4"/>
+              <span className="truncate max-w-[200px]">Video uploaded</span>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleRemove} disabled={uploading || encoding}>
+              <X className="h-4 w-4 mr-2"/>
+              Remove
+            </Button>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleRemove} disabled={uploading || encoding}>
-            <X className="h-4 w-4 mr-2"/>
-            Remove
+          <p className="text-xs text-muted-foreground">
+            If encoding did not start, click &quot;Start encoding&quot; to process the video for playback.
+          </p>
+          <Button variant="outline" size="sm" onClick={startEncodingJob} disabled={uploading || encoding}>
+            {encoding ? <><Loader2 className="h-4 w-4 animate-spin mr-2"/> Starting...</> : "Start encoding"}
           </Button>
         </div>)}
 

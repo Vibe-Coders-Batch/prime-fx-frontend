@@ -1,9 +1,16 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { useAuthStore } from "@/lib/store/auth-store";
 
-const getBaseUrl = () =>
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const getBaseUrl = (): string => {
+  // Use same-origin /api so Next.js rewrites proxy to the backend (avoids CORS and network errors)
+  if (typeof window !== "undefined") {
+    return "/api";
+  }
+  // Server-side: call backend directly so rewrites are not used for SSR
+  const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  return url.replace(/\/$/, "");
+};
 
 const getAuthToken = (): string | null => {
   try {
@@ -18,6 +25,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  timeout: 30000,
 });
 
 apiClient.interceptors.request.use(
@@ -35,9 +43,19 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error: AxiosError) => {
     if (error.response?.status === 401) {
       useAuthStore.getState().logout();
+    }
+    // Make "Network Error" more actionable (often CORS or backend unreachable)
+    if (error.message === "Network Error" || error.code === "ERR_NETWORK") {
+      const base = apiClient.defaults.baseURL || "unknown";
+      const url = error.config?.url ? `${base}${error.config.url}` : base;
+      const hint =
+        "Check that the API is running, NEXT_PUBLIC_API_URL is correct, and the backend allows your origin (CORS).";
+      Object.assign(error, {
+        message: `Network Error calling ${url}. ${hint}`,
+      });
     }
     return Promise.reject(error);
   }

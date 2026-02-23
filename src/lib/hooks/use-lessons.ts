@@ -128,14 +128,16 @@ interface UseSectionsParams {
 }
 export function useSections({ enabled, courseId }: UseSectionsParams = {}) {
     const fetchSections = async (): Promise<Section[]> => {
-        const res = await axiosGet<Section[]>(`sections/course/${courseId}`);
-        return res.data;
+        const res = await axiosGet<Section[] | { data?: Section[] }>(`sections/course/${courseId}`);
+        const raw = res.data;
+        return Array.isArray(raw) ? raw : (raw && Array.isArray((raw as { data?: Section[] }).data) ? (raw as { data: Section[] }).data : []);
     };
     return useQuery({
-        staleTime: Infinity,
+        staleTime: 0,
         queryFn: fetchSections,
         enabled: !!courseId && enabled !== false,
         queryKey: queryKeys.sections.list(courseId),
+        refetchOnWindowFocus: true,
     });
 }
 export const useCreateSection = () => {

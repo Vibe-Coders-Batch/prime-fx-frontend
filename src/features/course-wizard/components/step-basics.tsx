@@ -16,6 +16,8 @@ import { FileUpload } from "@/components/ui/file-upload";
 import { Label } from "@/components/ui/label";
 import { SecureImage } from "@/components/ui/secure-image";
 import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+
 const basicsSchema = z.object({
     title: z.string().min(5, "Title must be at least 5 characters"),
     description: z.string().min(20, "Description must be at least 20 characters"),
@@ -31,13 +33,11 @@ const basicsSchema = z.object({
         .default("English"),
     thumbnail: z
         .string()
-        .min(1, "Thumbnail is required")
-        .optional()
-        .or(z.literal(""))
-        .transform((val) => val === "" ? undefined : val),
+        .min(1, "Thumbnail is required. Please upload the course image."),
 });
 type BasicsFormData = z.infer<typeof basicsSchema>;
 export function StepBasics() {
+    const searchParams = useSearchParams();
     const { nextStep, setCourseId, setCourseTitle, courseId, currentStep } = useCourseWizard();
     const createCourse = useCreateCourse();
     const updateCourse = useUpdateCourse();
@@ -50,6 +50,11 @@ export function StepBasics() {
         },
     });
     const thumbnail = watch("thumbnail");
+
+    useEffect(() => {
+        const key = searchParams.get("thumbnailKey");
+        if (key) setValue("thumbnail", key, { shouldValidate: true });
+    }, [searchParams, setValue]);
     const onSubmit = async (data: BasicsFormData) => {
         try {
             if (!courseId) {
@@ -106,7 +111,7 @@ export function StepBasics() {
             
             <div className="space-y-3">
                <Label className="text-lg font-semibold">What is the title of your course?</Label>
-               <Input placeholder="e.g. The Complete Financial Analyst Course 2024" {...register("title")} className="text-2xl md:text-3xl h-16 px-6 font-bold bg-transparent border-0 border-b-2 border-input rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors placeholder:text-muted-foreground/30"/>
+               <Input data-testid="course-title" placeholder="e.g. The Complete Financial Analyst Course 2024" {...register("title")} className="text-2xl md:text-3xl h-16 px-6 font-bold bg-transparent border-0 border-b-2 border-input rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors placeholder:text-muted-foreground/30"/>
                {errors.title?.message && <p className="text-destructive text-sm mt-2">{errors.title.message}</p>}
                <p className="text-sm text-muted-foreground">It's okay if you can't think of a good title now. You can change it later.</p>
             </div>
@@ -114,7 +119,7 @@ export function StepBasics() {
             
             <div className="space-y-3">
                <Label className="text-base font-semibold">What is this course about?</Label>
-               <Textarea placeholder="Describe the key value of your course in a few sentences." rows={4} {...register("description")} className="resize-none text-base p-4 bg-muted/20 border-muted-foreground/20 focus-visible:bg-background transition-colors"/>
+               <Textarea data-testid="course-description" placeholder="Describe the key value of your course in a few sentences." rows={4} {...register("description")} className="resize-none text-base p-4 bg-muted/20 border-muted-foreground/20 focus-visible:bg-background transition-colors"/>
                 {errors.description?.message && <p className="text-destructive text-sm">{errors.description.message}</p>}
             </div>
 
@@ -123,7 +128,7 @@ export function StepBasics() {
                <div className="space-y-6">
                  <FormField label="Category" required error={errors.categoryId?.message}>
                     <Controller control={control} name="categoryId" render={({ field }) => (<Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="h-12 text-base">
+                          <SelectTrigger data-testid="category-select" className="h-12 text-base">
                             <SelectValue placeholder="Select Category"/>
                           </SelectTrigger>
                           <SelectContent>
@@ -179,7 +184,7 @@ export function StepBasics() {
             </div>
 
             <div className="flex justify-end pt-8">
-              <Button type="submit" size="lg" className="px-8 h-12 text-lg rounded-full" disabled={createCourse.isPending || updateCourse.isPending}>
+              <Button type="submit" data-testid="step-basics-continue" size="lg" className="px-8 h-12 text-lg rounded-full" disabled={createCourse.isPending || updateCourse.isPending}>
                 {createCourse.isPending || updateCourse.isPending ? "Saving..." : "Continue"}
               </Button>
             </div>
