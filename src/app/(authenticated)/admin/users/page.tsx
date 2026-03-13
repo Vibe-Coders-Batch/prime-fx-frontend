@@ -1,6 +1,6 @@
 "use client";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Users, UserPlus, Search } from "lucide-react";
+import { Users, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { toast } from "sonner";
@@ -73,12 +73,6 @@ export default function AdminUserManagementPage() {
                 </SelectContent>
               </Select>) : (<Skeleton className="w-full sm:w-[160px] h-9"/>)}
           </div>
-          <Button onClick={() => {
-            toast.info("User creation feature coming soon. This will allow you to add new users to the platform.");
-        }} className="w-full sm:w-auto h-9">
-            <UserPlus className="h-4 w-4 mr-2"/>
-            Add User
-          </Button>
         </div>
 
         {isLoading && !isFetching ? (<DataTableSkeleton columnCount={6} rowCount={10}/>) : usersArray.length === 0 ? (<EmptyState title="No users found" description="Users will appear here once they register." illustration="/illustrations/engineering_team.svg"/>) : (<Card>
