@@ -18,7 +18,8 @@ const signupSchema = z.object({
     email: z
         .string()
         .min(1, "Email is required")
-        .email("Please provide a valid email address"),
+        .email("Please provide a valid email address")
+        .transform((e) => e.toLowerCase().trim()),
     password: z
         .string()
         .min(8, "Password must be at least 8 characters long")

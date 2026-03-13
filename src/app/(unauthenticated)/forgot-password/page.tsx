@@ -12,7 +12,7 @@ import { CheckCircle, AlertCircle } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
 const forgotPasswordSchema = z.object({
-    email: z.string().email("Invalid email address"),
+    email: z.string().email("Invalid email address").transform((e) => e.toLowerCase().trim()),
 });
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export default function ForgotPasswordPage() {

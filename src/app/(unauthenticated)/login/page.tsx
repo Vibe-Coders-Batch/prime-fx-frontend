@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { AnimatedLineChart } from "@/components/auth/auth-charts";
 const loginSchema = z.object({
-    email: z.string().email("Invalid email address"),
+    email: z.string().email("Invalid email address").transform((e) => e.toLowerCase().trim()),
     password: z.string().min(1, "Password is required"),
 });
 type LoginFormData = z.infer<typeof loginSchema>;
