@@ -2,6 +2,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/sections/hero";
+import { LandingBannerCarousel } from "@/components/sections/landing-banner-carousel";
 import { TrustStats } from "@/components/sections/trust-stats";
 import { CTA } from "@/components/sections/cta";
 import { useCourses } from "@/features/courses/hooks/use-courses";
@@ -12,9 +13,44 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Award, BookOpen, BriefcaseBusiness, Check, Compass, GraduationCap, Layers, LineChart, MonitorSmartphone, Users, Wand2, } from "lucide-react";
+
+const STATIC_CATEGORIES = [
+  {
+    id: "ai",
+    name: "ARTIFICIAL INTELLIGENCE",
+    courses: [
+      { title: "Machine Learning Fundamentals", description: "Master supervised and unsupervised learning, regression, classification, and model evaluation techniques.", price: "AED 2700.00", thumbnail: "/courses/ai/1.jpg" },
+      { title: "Deep Learning & Neural Networks", description: "Build CNNs, RNNs, and transformers from scratch. Understand backpropagation, optimization, and architectures.", price: "AED 3200.00", thumbnail: "/courses/ai/2.jpg" },
+      { title: "Generative AI & Prompt Engineering", description: "Harness LLMs, ChatGPT, and generative models. Learn prompt design, fine-tuning, and real-world AI applications.", price: "AED 2500.00", thumbnail: "/courses/ai/3.jpg" },
+      { title: "Computer Vision with Python", description: "Image classification, object detection, and segmentation using OpenCV, TensorFlow, and PyTorch.", price: "AED 2900.00", thumbnail: "/courses/ai/4.jpg" },
+    ],
+  },
+  {
+    id: "data-science",
+    name: "DATA SCIENCE",
+    courses: [
+      { title: "Python for Data Science", description: "Master NumPy, Pandas, Matplotlib, and Seaborn. Clean, analyze, and visualize data like a professional.", price: "AED 2200.00", thumbnail: "/courses/data-science/1.jpg" },
+      { title: "SQL & Database Mastery", description: "Write advanced queries, optimize performance, and manage relational databases for analytics workflows.", price: "AED 1800.00", thumbnail: "/courses/data-science/2.jpg" },
+      { title: "Data Visualization & Storytelling", description: "Create compelling dashboards with Power BI and Tableau. Transform raw data into actionable business insights.", price: "AED 2400.00", thumbnail: "/courses/data-science/3.jpg" },
+      { title: "Statistics & Probability for Analytics", description: "Hypothesis testing, regression analysis, Bayesian thinking, and statistical modeling for data-driven decisions.", price: "AED 2000.00", thumbnail: "/courses/data-science/4.jpg" },
+    ],
+  },
+  {
+    id: "product-management",
+    name: "PRODUCT MANAGEMENT",
+    courses: [
+      { title: "Product Management Fundamentals", description: "Learn the product lifecycle, roadmapping, prioritization frameworks, and stakeholder management.", price: "AED 2500.00", thumbnail: "/courses/product-management/1.jpg" },
+      { title: "Agile & Scrum for Product Teams", description: "Sprint planning, backlog grooming, user stories, and agile ceremonies. Ship products faster and smarter.", price: "AED 2200.00", thumbnail: "/courses/product-management/2.jpg" },
+      { title: "Product Strategy & Go-to-Market", description: "Market analysis, competitive positioning, pricing strategies, and GTM planning for successful launches.", price: "AED 2800.00", thumbnail: "/courses/product-management/3.jpg" },
+      { title: "User Research & Product Discovery", description: "Customer interviews, journey mapping, A/B testing, and data-driven product decisions.", price: "AED 2400.00", thumbnail: "/courses/product-management/4.jpg" },
+    ],
+  },
+];
+
 export function LandingPageClient() {
     const { data: categories, isLoading: categoriesLoading } = useCategories({ enabled: true });
     const [activeCategoryId, setActiveCategoryId] = useState<string>("");
+    const [staticTab, setStaticTab] = useState<string>("");
     const filteredCategories = (categories ?? []).filter((category) => {
         const value = `${category.name} ${category.slug}`.toLowerCase();
         const isForex = value.includes("forex");
@@ -47,10 +83,11 @@ export function LandingPageClient() {
       </a>
       <Navbar />
       <div id="main-content">
+        <LandingBannerCarousel />
         <Hero />
         <TrustStats />
 
-        
+
         <section id="courses" className="py-16" aria-labelledby="skills-to-transform-heading">
           <div className="container mx-auto px-4">
             <header className="max-w-4xl">
@@ -63,21 +100,53 @@ export function LandingPageClient() {
             </header>
 
             <div className="mt-8">
-              {filteredCategories.length > 0 ? (<div className="flex items-center gap-6 overflow-x-auto scrollbar-hide border-b border-border pb-2">
+              <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide border-b border-border pb-2">
                 {filteredCategories.map((category) => {
-            const isActive = category.categoryId === activeCategoryId;
-            return (<button key={category.categoryId} type="button" onClick={() => setActiveCategoryId(category.categoryId)} className={[
+            const isActive = !staticTab && category.categoryId === activeCategoryId;
+            return (<button key={category.categoryId} type="button" onClick={() => { setActiveCategoryId(category.categoryId); setStaticTab(""); }} className={[
                     "whitespace-nowrap text-sm font-semibold pb-2 transition-colors",
                     isActive ? "text-foreground border-b-2 border-foreground" : "text-muted-foreground hover:text-foreground",
                 ].join(" ")} aria-current={isActive ? "page" : undefined}>
                       {category.name}
                     </button>);
         })}
-              </div>) : null}
+                {STATIC_CATEGORIES.map((cat) => {
+            const isActive = staticTab === cat.id;
+            return (<button key={cat.id} type="button" onClick={() => setStaticTab(cat.id)} className={[
+                    "whitespace-nowrap text-sm font-semibold pb-2 transition-colors",
+                    isActive ? "text-foreground border-b-2 border-foreground" : "text-muted-foreground hover:text-foreground",
+                ].join(" ")} aria-current={isActive ? "page" : undefined}>
+                      {cat.name}
+                    </button>);
+        })}
+              </div>
 
               <div className="mt-6">
                 <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                  {coursesLoading || categoriesLoading ? (<div className="w-full">
+                  {staticTab ? (
+                    STATIC_CATEGORIES.find((c) => c.id === staticTab)!.courses.map((course) => (
+                      <div key={course.title} className="min-w-[280px] max-w-[280px]">
+                        <Link href="/learner/courses" aria-label={`View ${course.title}`} className="group block">
+                          <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted flex items-center justify-center">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={course.thumbnail} alt={`${course.title} course thumbnail`} className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = "none"; }}/>
+                            <span className="text-xs text-muted-foreground z-10 pointer-events-none">{course.title}</span>
+                          </div>
+                          <div className="mt-3 space-y-1">
+                            <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:underline">
+                              {course.title}
+                            </h3>
+                            <p className="text-xs text-muted-foreground line-clamp-2">
+                              {course.description}
+                            </p>
+                            <div className="text-sm font-semibold">
+                              {course.price}
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    ))
+                  ) : coursesLoading || categoriesLoading ? (<div className="w-full">
                       <p className="text-muted-foreground">Loading courses…</p>
                     </div>) : filteredCategories.length === 0 ? (<div className="w-full">
                       <p className="text-muted-foreground">No Forex/Crypto categories available yet.</p>
@@ -104,16 +173,22 @@ export function LandingPageClient() {
                 </div>
 
                 <div className="mt-6">
-                  <Link href={activeCategory?.slug ? `/learner/categories/${activeCategory.slug}` : "/learner/courses"} className="text-sm font-semibold text-primary hover:underline">
-                    Show all {activeCategory?.name ?? "available"} courses →
-                  </Link>
+                  {staticTab ? (
+                    <Link href="/learner/courses" className="text-sm font-semibold text-primary hover:underline">
+                      Show all {STATIC_CATEGORIES.find((c) => c.id === staticTab)!.name} courses →
+                    </Link>
+                  ) : (
+                    <Link href={activeCategory?.slug ? `/learner/categories/${activeCategory.slug}` : "/learner/courses"} className="text-sm font-semibold text-primary hover:underline">
+                      Show all {activeCategory?.name ?? "available"} courses →
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        
+
         <section id="why-prime-learning" className="py-16" aria-labelledby="why-prime-learning-heading">
           <div className="container mx-auto px-4">
             <motion.header initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12 max-w-3xl mx-auto">
