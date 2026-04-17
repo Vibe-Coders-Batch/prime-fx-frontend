@@ -5,43 +5,42 @@ import { Hero } from "@/components/sections/hero";
 import { TrustStats } from "@/components/sections/trust-stats";
 import { CTA } from "@/components/sections/cta";
 import { useCourses } from "@/features/courses/hooks/use-courses";
-import { useMemo, useState } from "react";
+import { useCategories } from "@/features/categories/hooks/use-categories";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Award, BookOpen, BriefcaseBusiness, Check, Compass, GraduationCap, Layers, LineChart, MonitorSmartphone, Users, Wand2, } from "lucide-react";
-const TOPIC_TABS = [
-    {
-        id: "ai",
-        label: "Artificial Intelligence (AI)",
-        keywords: ["ai", "artificial intelligence", "machine learning", "genai"],
-    },
-    { id: "python", label: "Python", keywords: ["python"] },
-    { id: "excel", label: "Microsoft Excel", keywords: ["excel"] },
-    { id: "agents", label: "AI Agents & Agentic AI", keywords: ["agent", "agents"] },
-    { id: "marketing", label: "Digital Marketing", keywords: ["marketing"] },
-    { id: "aws", label: "Amazon AWS", keywords: ["aws", "cloud"] },
-];
 export function LandingPageClient() {
+    const { data: categories, isLoading: categoriesLoading } = useCategories({ enabled: true });
+    const [activeCategoryId, setActiveCategoryId] = useState<string>("");
+    const filteredCategories = (categories ?? []).filter((category) => {
+        const value = `${category.name} ${category.slug}`.toLowerCase();
+        const isForex = value.includes("forex");
+        const isCrypto = value.includes("crypto");
+        const isBlockchain = value.includes("blockchain");
+        return (isForex || isCrypto) && !isBlockchain;
+    });
+    useEffect(() => {
+        if (!filteredCategories.length) {
+            return;
+        }
+        const activeStillExists = filteredCategories.some((category) => category.categoryId === activeCategoryId);
+        if (!activeCategoryId || !activeStillExists) {
+            setActiveCategoryId(filteredCategories[0].categoryId);
+        }
+    }, [activeCategoryId, filteredCategories]);
+    const activeCategory = filteredCategories.find((category) => category.categoryId === activeCategoryId);
     const { data: featuredCourses, isLoading: coursesLoading } = useCourses({
         enabled: true,
         filters: {
             status: "PUBLISHED",
-            limit: 6,
+            limit: 8,
+            categoryId: activeCategoryId || undefined,
         },
     });
-    const [activeTopicId, setActiveTopicId] = useState(TOPIC_TABS[0]?.id ?? "ai");
-    const activeTopic = TOPIC_TABS.find((t) => t.id === activeTopicId) ?? TOPIC_TABS[0];
-    const topicCourses = useMemo(() => {
-        const list = featuredCourses?.data ?? [];
-        const keywords = (activeTopic?.keywords ?? []).map((k) => k.toLowerCase());
-        const matches = list.filter((course) => {
-            const haystack = `${course.title ?? ""} ${course.description ?? ""} ${course.category?.name ?? ""}`.toLowerCase();
-            return keywords.some((k) => haystack.includes(k));
-        });
-        return (matches.length > 0 ? matches : list).slice(0, 8);
-    }, [activeTopic?.keywords, featuredCourses?.data]);
+    const topicCourses = featuredCourses?.data ?? [];
     return (<main className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md">
         Skip to main content
@@ -64,22 +63,24 @@ export function LandingPageClient() {
             </header>
 
             <div className="mt-8">
-              <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide border-b border-border pb-2">
-                {TOPIC_TABS.map((tab) => {
-            const isActive = tab.id === activeTopicId;
-            return (<button key={tab.id} type="button" onClick={() => setActiveTopicId(tab.id)} className={[
+              {filteredCategories.length > 0 ? (<div className="flex items-center gap-6 overflow-x-auto scrollbar-hide border-b border-border pb-2">
+                {filteredCategories.map((category) => {
+            const isActive = category.categoryId === activeCategoryId;
+            return (<button key={category.categoryId} type="button" onClick={() => setActiveCategoryId(category.categoryId)} className={[
                     "whitespace-nowrap text-sm font-semibold pb-2 transition-colors",
                     isActive ? "text-foreground border-b-2 border-foreground" : "text-muted-foreground hover:text-foreground",
                 ].join(" ")} aria-current={isActive ? "page" : undefined}>
-                      {tab.label}
+                      {category.name}
                     </button>);
         })}
-              </div>
+              </div>) : null}
 
               <div className="mt-6">
                 <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                  {coursesLoading ? (<div className="w-full">
+                  {coursesLoading || categoriesLoading ? (<div className="w-full">
                       <p className="text-muted-foreground">Loading courses…</p>
+                    </div>) : filteredCategories.length === 0 ? (<div className="w-full">
+                      <p className="text-muted-foreground">No Forex/Crypto categories available yet.</p>
                     </div>) : topicCourses.length === 0 ? (<div className="w-full">
                       <p className="text-muted-foreground">No courses available yet. Check back soon!</p>
                     </div>) : (topicCourses.map((course) => (<div key={course.courseId} className="min-w-[280px] max-w-[280px]">
@@ -103,8 +104,8 @@ export function LandingPageClient() {
                 </div>
 
                 <div className="mt-6">
-                  <Link href="/learner/courses" className="text-sm font-semibold text-primary hover:underline">
-                    Show all {activeTopic?.label ?? "selected"} courses →
+                  <Link href={activeCategory?.slug ? `/learner/categories/${activeCategory.slug}` : "/learner/courses"} className="text-sm font-semibold text-primary hover:underline">
+                    Show all {activeCategory?.name ?? "available"} courses →
                   </Link>
                 </div>
               </div>
