@@ -25,7 +25,7 @@ export function LandingBannerCarousel() {
 
   return (
     <section
-      className="relative h-screen w-full overflow-hidden bg-[#0A192F]"
+      className="relative w-full overflow-hidden bg-[#0A192F] aspect-[9/16] sm:aspect-[4/3] md:aspect-[16/9] lg:aspect-auto lg:h-screen"
       aria-label="Featured learning banners"
     >
       {BANNERS.map((banner, index) => (
@@ -40,7 +40,7 @@ export function LandingBannerCarousel() {
           <img
             src={banner}
             alt={`Prime Learning banner ${index + 1}`}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain sm:object-cover"
           />
         </div>
       ))}
@@ -48,7 +48,7 @@ export function LandingBannerCarousel() {
       <div className="pointer-events-none absolute inset-0 bg-[#0A192F]/10" />
 
       {BANNERS.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
           {BANNERS.map((_, index) => (
             <button
               key={index}
@@ -56,7 +56,7 @@ export function LandingBannerCarousel() {
               onClick={() => setActiveIndex(index)}
               aria-label={`Go to banner ${index + 1}`}
               className={[
-                "h-2.5 w-2.5 rounded-full border border-white/50 transition",
+                "h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full border border-white/50 transition",
                 index === activeIndex
                   ? "bg-white"
                   : "bg-white/30 hover:bg-white/60",
