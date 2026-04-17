@@ -50,7 +50,7 @@ const STATIC_CATEGORIES = [
 export function LandingPageClient() {
     const { data: categories, isLoading: categoriesLoading } = useCategories({ enabled: true });
     const [activeCategoryId, setActiveCategoryId] = useState<string>("");
-    const [staticTab, setStaticTab] = useState<string>("");
+    const [staticTab, setStaticTab] = useState<string>("ai");
     const filteredCategories = (categories ?? []).filter((category) => {
         const value = `${category.name} ${category.slug}`.toLowerCase();
         const isForex = value.includes("forex");
@@ -101,15 +101,6 @@ export function LandingPageClient() {
 
             <div className="mt-8">
               <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide border-b border-border pb-2">
-                {filteredCategories.map((category) => {
-            const isActive = !staticTab && category.categoryId === activeCategoryId;
-            return (<button key={category.categoryId} type="button" onClick={() => { setActiveCategoryId(category.categoryId); setStaticTab(""); }} className={[
-                    "whitespace-nowrap text-sm font-semibold pb-2 transition-colors",
-                    isActive ? "text-foreground border-b-2 border-foreground" : "text-muted-foreground hover:text-foreground",
-                ].join(" ")} aria-current={isActive ? "page" : undefined}>
-                      {category.name}
-                    </button>);
-        })}
                 {STATIC_CATEGORIES.map((cat) => {
             const isActive = staticTab === cat.id;
             return (<button key={cat.id} type="button" onClick={() => setStaticTab(cat.id)} className={[
@@ -123,8 +114,7 @@ export function LandingPageClient() {
 
               <div className="mt-6">
                 <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                  {staticTab ? (
-                    STATIC_CATEGORIES.find((c) => c.id === staticTab)!.courses.map((course) => (
+                  {(STATIC_CATEGORIES.find((c) => c.id === staticTab) ?? STATIC_CATEGORIES[0]).courses.map((course) => (
                       <div key={course.title} className="min-w-[280px] max-w-[280px]">
                         <Link href="/learner/courses" aria-label={`View ${course.title}`} className="group block">
                           <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted flex items-center justify-center">
@@ -145,43 +135,13 @@ export function LandingPageClient() {
                           </div>
                         </Link>
                       </div>
-                    ))
-                  ) : coursesLoading || categoriesLoading ? (<div className="w-full">
-                      <p className="text-muted-foreground">Loading courses…</p>
-                    </div>) : filteredCategories.length === 0 ? (<div className="w-full">
-                      <p className="text-muted-foreground">No Forex/Crypto categories available yet.</p>
-                    </div>) : topicCourses.length === 0 ? (<div className="w-full">
-                      <p className="text-muted-foreground">No courses available yet. Check back soon!</p>
-                    </div>) : (topicCourses.map((course) => (<div key={course.courseId} className="min-w-[280px] max-w-[280px]">
-                        <Link href={`/learner/courses/${course.courseId}`} aria-label={`View ${course.title}`} className="group block">
-                          <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted">
-                            {course.thumbnail ? (<Image src={course.thumbnail} alt={`${course.title} course thumbnail`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="280px"/>) : null}
-                          </div>
-                          <div className="mt-3 space-y-1">
-                            <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:underline">
-                              {course.title}
-                            </h3>
-                            <p className="text-xs text-muted-foreground line-clamp-2">
-                              {course.description}
-                            </p>
-                            <div className="text-sm font-semibold">
-                              {course.currency} {parseFloat(course.price).toFixed(2)}
-                            </div>
-                          </div>
-                        </Link>
-                      </div>)))}
+                    ))}
                 </div>
 
                 <div className="mt-6">
-                  {staticTab ? (
-                    <Link href="/learner/courses" className="text-sm font-semibold text-primary hover:underline">
-                      Show all {STATIC_CATEGORIES.find((c) => c.id === staticTab)!.name} courses →
-                    </Link>
-                  ) : (
-                    <Link href={activeCategory?.slug ? `/learner/categories/${activeCategory.slug}` : "/learner/courses"} className="text-sm font-semibold text-primary hover:underline">
-                      Show all {activeCategory?.name ?? "available"} courses →
-                    </Link>
-                  )}
+                  <Link href="/learner/courses" className="text-sm font-semibold text-primary hover:underline">
+                    Show all {(STATIC_CATEGORIES.find((c) => c.id === staticTab) ?? STATIC_CATEGORIES[0]).name} courses →
+                  </Link>
                 </div>
               </div>
             </div>

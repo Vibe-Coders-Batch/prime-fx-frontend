@@ -10,6 +10,8 @@ import { useAuthStore } from "@/lib/store/auth-store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, LogOut, Settings } from "lucide-react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 import { useQueryClient } from "@tanstack/react-query";
 export function Navbar() {
     const router = useRouter();
@@ -17,6 +19,8 @@ export function Navbar() {
     const [hidden, setHidden] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { user, logout } = useAuthStore();
+    const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === "dark";
     const queryClient = useQueryClient();
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
@@ -52,10 +56,9 @@ export function Navbar() {
             ? "bg-background/80 backdrop-blur-md border-b border-border"
             : "bg-transparent")}>
       
-      <Link href="/" className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tighter text-foreground">
-        <span className="hidden sm:inline">Prime </span>
-        <span className="text-primary hidden sm:inline">Learning</span>
-        <span className="sm:hidden">Prime</span>
+      <Link href="/" className="flex-shrink-0">
+        <Image src={isDark || !scrolled ? "/logo-dark.svg" : "/logo.svg"} alt="Prime Learning" width={240} height={120} className="hidden sm:block h-14 md:h-16 lg:h-20 w-auto" priority/>
+        <Image src={isDark || !scrolled ? "/logo-square-dark.svg" : "/logo-square.svg"} alt="Prime Learning" width={80} height={80} className="sm:hidden h-12 w-auto" priority/>
       </Link>
 
       
