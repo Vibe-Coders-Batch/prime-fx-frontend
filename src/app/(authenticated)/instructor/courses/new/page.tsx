@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { PageTransition } from "@/components/page-transition";
 import { useCourseWizard } from "@/features/course-wizard/store";
 import { StepBasics } from "@/features/course-wizard/components/step-basics";
@@ -13,6 +14,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BackButton } from "@/components/ui/back-button";
 import { cn } from "@/lib/utils";
 export default function CourseCreationPage() {
+    return (<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Loading...</p></div>}><CourseCreationContent /></Suspense>);
+}
+function CourseCreationContent() {
     const { currentStep, totalSteps, courseTitle } = useCourseWizard();
     const renderStep = () => {
         switch (currentStep) {
