@@ -9,6 +9,7 @@ interface AnimatedMetricCardProps {
     icon: React.ComponentType<{
         className?: string;
     }>;
+    
     gradient: string;
     index: number;
     suffix?: string;
