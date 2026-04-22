@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, LogOut, Settings } from "lucide-react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 import { useQueryClient } from "@tanstack/react-query";
 export function Navbar() {
     const router = useRouter();
@@ -19,15 +18,6 @@ export function Navbar() {
     const [hidden, setHidden] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { user, logout } = useAuthStore();
-    const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-    const isDark = mounted && resolvedTheme === "dark";
-    const useLightLogo = mounted && !isDark && scrolled;
-    const wideLogoSrc = useLightLogo ? "/logo.svg" : "/logo-dark.svg";
-    const squareLogoSrc = useLightLogo ? "/logo-square.svg" : "/logo-square-dark.svg";
     const queryClient = useQueryClient();
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
@@ -64,8 +54,14 @@ export function Navbar() {
             : "bg-transparent")}>
       
       <Link href="/" className="flex-shrink-0">
-        <Image src={wideLogoSrc} alt="Prime Learning" width={240} height={120} className="hidden sm:block h-14 md:h-16 lg:h-20 w-auto" priority unoptimized/>
-        <Image src={squareLogoSrc} alt="Prime Learning" width={80} height={80} className="sm:hidden h-12 w-auto" priority unoptimized/>
+        <div className="hidden sm:block">
+          <Image src="/logo.svg" alt="Prime Learning" width={240} height={120} className="dark:hidden h-14 md:h-16 lg:h-20 w-auto" priority unoptimized/>
+          <Image src="/logo-dark.svg" alt="Prime Learning" width={240} height={120} className="hidden dark:block h-14 md:h-16 lg:h-20 w-auto" priority unoptimized/>
+        </div>
+        <div className="sm:hidden">
+          <Image src="/logo-square.svg" alt="Prime Learning" width={80} height={80} className="dark:hidden h-12 w-auto" priority unoptimized/>
+          <Image src="/logo-square-dark.svg" alt="Prime Learning" width={80} height={80} className="hidden dark:block h-12 w-auto" priority unoptimized/>
+        </div>
       </Link>
 
       
