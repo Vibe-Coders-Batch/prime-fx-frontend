@@ -9,7 +9,7 @@ export function Hero() {
         target: containerRef,
         offset: ["start start", "end start"],
     });
-    const circleClipPath = useTransform(scrollYProgress, [0, 0.5], ["circle(0vmax at 50% 50%)", "circle(150vmax at 50% 50%)"]);
+    const circleClipPath = useTransform(scrollYProgress, [0, 0.5], ["circle(0% at 50% 50%)", "circle(150% at 50% 50%)"]);
     const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
     const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
     const revealedContentOpacity = useTransform(scrollYProgress, [0.5, 0.6], [0, 1]);
@@ -20,7 +20,7 @@ export function Hero() {
     return (<section ref={containerRef} className="relative h-[250vh] bg-background" aria-label="Hero section - Prime Learning">
       <div className="sticky top-0 h-screen h-[100dvh] overflow-hidden">
         
-        <motion.div style={{ clipPath: circleClipPath }} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+        <motion.div initial={{ clipPath: "circle(0% at 50% 50%)" }} style={{ clipPath: circleClipPath }} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
           <motion.div style={{ opacity: backgroundPhotoOpacity }} className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center grayscale" role="img" aria-label="Online learning background"/>
 
           <div className="relative z-10 flex flex-col items-center justify-center px-4">
