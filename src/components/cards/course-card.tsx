@@ -19,15 +19,14 @@ export function CourseCard({ course }: CourseCardProps) {
               {course.category.name}
             </Badge>)}
         </div>)}
-      <CardHeader className="flex-1 p-3 sm:p-4 md:p-6">
-        <div className="flex justify-between items-start gap-2">
-          <CardTitle className="text-sm sm:text-base md:text-lg group-hover:line-clamp-none line-clamp-2">{course.title}</CardTitle>
-        </div>
-        <CardDescription className="line-clamp-2 sm:line-clamp-3 group-hover:line-clamp-none mt-1.5 sm:mt-2 text-xs sm:text-sm">
+      <CardHeader className="flex-1 p-4 sm:p-5 md:p-6 space-y-3">
+        <CardTitle className="text-sm sm:text-base md:text-lg leading-snug group-hover:line-clamp-none line-clamp-2 text-foreground">
+          {course.title}
+        </CardTitle>
+        <CardDescription className="line-clamp-2 sm:line-clamp-3 group-hover:line-clamp-none text-xs sm:text-sm leading-relaxed">
           {course.description}
         </CardDescription>
-
-        <div className="flex items-center gap-1 mt-1.5 sm:mt-2 text-xs sm:text-sm text-yellow-500 font-medium">
+        <div className="flex items-center gap-1 text-xs sm:text-sm text-yellow-500 font-medium">
           <span>4.8</span>
           <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current"/>
           <span className="text-muted-foreground ml-1">(120)</span>

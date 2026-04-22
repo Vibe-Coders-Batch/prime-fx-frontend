@@ -6,12 +6,12 @@ import { TrustStats } from "@/components/sections/trust-stats";
 import { CTA } from "@/components/sections/cta";
 import { useCourses } from "@/features/courses/hooks/use-courses";
 import { useCategories } from "@/features/categories/hooks/use-categories";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Award, BookOpen, BriefcaseBusiness, Check, Compass, GraduationCap, Layers, LineChart, MonitorSmartphone, Users, Wand2, } from "lucide-react";
+import { Award, BookOpen, BriefcaseBusiness, Check, ChevronLeft, ChevronRight, Compass, GraduationCap, Layers, LineChart, MonitorSmartphone, Users, Wand2, } from "lucide-react";
 
 const STATIC_CATEGORIES = [
   {
@@ -50,6 +50,13 @@ export function LandingPageClient() {
     const { data: categories, isLoading: categoriesLoading } = useCategories({ enabled: true });
     const [activeCategoryId, setActiveCategoryId] = useState<string>("");
     const [staticTab, setStaticTab] = useState<string>("ai");
+    const coursesScrollRef = useRef<HTMLDivElement | null>(null);
+    const scrollCourses = (direction: "left" | "right") => {
+        const el = coursesScrollRef.current;
+        if (!el) return;
+        const delta = (el.clientWidth * 0.9) * (direction === "left" ? -1 : 1);
+        el.scrollBy({ left: delta, behavior: "smooth" });
+    };
     const filteredCategories = (categories ?? []).filter((category) => {
         const value = `${category.name} ${category.slug}`.toLowerCase();
         const isForex = value.includes("forex");
@@ -110,24 +117,40 @@ export function LandingPageClient() {
         })}
               </div>
 
-              <div className="mt-6">
-                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              <div className="mt-6 relative">
+                <button
+                  type="button"
+                  aria-label="Scroll courses left"
+                  onClick={() => scrollCourses("left")}
+                  className="hidden md:flex absolute left-0 top-[36%] -translate-y-1/2 -translate-x-2 z-10 h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-background/90 shadow-md hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Scroll courses right"
+                  onClick={() => scrollCourses("right")}
+                  className="hidden md:flex absolute right-0 top-[36%] -translate-y-1/2 translate-x-2 z-10 h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-background/90 shadow-md hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+                <div ref={coursesScrollRef} className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth">
                   {(STATIC_CATEGORIES.find((c) => c.id === staticTab) ?? STATIC_CATEGORIES[0]).courses.map((course) => (
                       <div key={course.title} className="min-w-[280px] max-w-[280px]">
                         <Link href="/learner/courses" aria-label={`View ${course.title}`} className="group block">
                           <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted flex items-center justify-center">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={course.thumbnail} alt={`${course.title} course thumbnail`} className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = "none"; }}/>
-                            <span className="text-xs text-muted-foreground z-10 pointer-events-none">{course.title}</span>
+                            <span className="relative z-10 rounded-md bg-background/70 px-2 py-1 text-xs font-medium text-foreground backdrop-blur-sm pointer-events-none">{course.title}</span>
                           </div>
-                          <div className="mt-3 space-y-1">
-                            <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:underline">
+                          <div className="mt-4 flex flex-col gap-2">
+                            <h3 className="text-sm font-semibold leading-snug line-clamp-2 text-foreground group-hover:underline">
                               {course.title}
                             </h3>
-                            <p className="text-xs text-muted-foreground line-clamp-2">
+                            <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                               {course.description}
                             </p>
-                            <div className="text-sm font-semibold">
+                            <div className="text-sm font-semibold text-foreground">
                               {course.price}
                             </div>
                           </div>
@@ -356,6 +379,7 @@ export function LandingPageClient() {
                 title: "Team Plan",
                 subtitle: "2 to 50 people — For your team",
                 cta: "Start subscription",
+                href: "/signup",
                 price: "From $X / month per user",
                 note: "Billed annually. Cancel anytime.",
                 bullets: [
@@ -372,6 +396,7 @@ export function LandingPageClient() {
                 title: "Enterprise Plan",
                 subtitle: "More than 20 people — For your organisation",
                 cta: "Request a demo",
+                href: "mailto:info@paet.ltd?subject=Prime%20Learning%20Enterprise%20Demo%20Request",
                 price: "Contact sales for pricing",
                 bullets: [
                     "Access to course library",
@@ -390,6 +415,7 @@ export function LandingPageClient() {
                 title: "AI Fluency",
                 subtitle: "From AI foundations to transformation",
                 cta: "Contact Us",
+                href: "mailto:info@paet.ltd?subject=Prime%20Learning%20AI%20Fluency%20Inquiry",
                 blocks: [
                     {
                         title: "AI Readiness Collection",
@@ -417,8 +443,12 @@ export function LandingPageClient() {
                     </div>
 
                     <div className="mt-5">
-                      <Button className="bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark">
-                        {plan.cta}
+                      <Button asChild className="bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark">
+                        {plan.href.startsWith("/") ? (
+                          <Link href={plan.href}>{plan.cta}</Link>
+                        ) : (
+                          <a href={plan.href}>{plan.cta}</a>
+                        )}
                       </Button>
                     </div>
 
