@@ -2,6 +2,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/sections/hero";
+import { PromotionalBanners } from "@/components/sections/promotional-banners";
 import { TrustStats } from "@/components/sections/trust-stats";
 import { CTA } from "@/components/sections/cta";
 import { useCourses } from "@/features/courses/hooks/use-courses";
@@ -89,6 +90,7 @@ export function LandingPageClient() {
       </a>
       <Navbar />
       <div id="main-content">
+        <PromotionalBanners />
         <Hero />
         <TrustStats />
 
