@@ -84,7 +84,7 @@ export function LandingPageClient() {
         },
     });
     const topicCourses = featuredCourses?.data ?? [];
-    return (<main className="min-h-screen bg-background text-foreground transition-colors duration-300">
+    return (<main className="min-h-screen overflow-x-hidden bg-background text-foreground transition-colors duration-300">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md">
         Skip to main content
       </a>
@@ -98,7 +98,7 @@ export function LandingPageClient() {
         <section id="courses" className="py-16" aria-labelledby="skills-to-transform-heading">
           <div className="container mx-auto px-4">
             <header className="max-w-4xl">
-              <h2 id="skills-to-transform-heading" className="text-3xl font-bold">
+              <h2 id="skills-to-transform-heading" className="text-2xl font-bold sm:text-3xl">
                 Skills to transform your career and life
               </h2>
               <p className="mt-2 text-muted-foreground">
@@ -138,7 +138,7 @@ export function LandingPageClient() {
                 </button>
                 <div ref={coursesScrollRef} className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth">
                   {(STATIC_CATEGORIES.find((c) => c.id === staticTab) ?? STATIC_CATEGORIES[0]).courses.map((course) => (
-                      <div key={course.title} className="min-w-[280px] max-w-[280px]">
+                      <div key={course.title} className="min-w-[82vw] max-w-[82vw] sm:min-w-[280px] sm:max-w-[280px]">
                         <Link href="/learner/courses" aria-label={`View ${course.title}`} className="group block">
                           <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted flex items-center justify-center">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -175,7 +175,7 @@ export function LandingPageClient() {
         <section id="why-prime-learning" className="py-16" aria-labelledby="why-prime-learning-heading">
           <div className="container mx-auto px-4">
             <motion.header initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12 max-w-3xl mx-auto">
-              <h2 id="why-prime-learning-heading" className="text-3xl font-bold mb-4">
+              <h2 id="why-prime-learning-heading" className="text-2xl font-bold mb-4 sm:text-3xl">
                 A Modern Learning Platform Built for Results
               </h2>
               <p className="text-muted-foreground">
@@ -224,7 +224,7 @@ export function LandingPageClient() {
         <section id="categories" className="py-16 bg-muted/50" aria-labelledby="categories-heading">
           <div className="container mx-auto px-4">
             <motion.header initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12 max-w-3xl mx-auto">
-              <h2 id="categories-heading" className="text-3xl font-bold mb-4">
+              <h2 id="categories-heading" className="text-2xl font-bold mb-4 sm:text-3xl">
                 Explore Learning Categories
               </h2>
               <p className="text-muted-foreground">
@@ -308,7 +308,7 @@ export function LandingPageClient() {
         <section className="py-16" aria-labelledby="designed-for-results-heading">
           <div className="container mx-auto px-4">
             <motion.header initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12 max-w-3xl mx-auto">
-              <h2 id="designed-for-results-heading" className="text-3xl font-bold mb-4">
+              <h2 id="designed-for-results-heading" className="text-2xl font-bold mb-4 sm:text-3xl">
                 Designed for Learners Who Want Results
               </h2>
               <p className="text-muted-foreground">
@@ -365,7 +365,7 @@ export function LandingPageClient() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-muted/20 to-transparent" aria-hidden="true"/>
           <div className="container mx-auto px-4">
             <header className="max-w-4xl">
-              <h2 id="plans-heading" className="text-3xl font-bold">
+              <h2 id="plans-heading" className="text-2xl font-bold sm:text-3xl">
                 Grow your team&apos;s skills and your business
               </h2>
               <p className="mt-2 text-muted-foreground">
@@ -445,7 +445,7 @@ export function LandingPageClient() {
                     </div>
 
                     <div className="mt-5">
-                      <Button asChild className="bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark">
+                      <Button asChild className="w-full sm:w-auto bg-primary-gold text-primary-dark hover:bg-white hover:text-primary-dark">
                         {plan.href.startsWith("/") ? (
                           <Link href={plan.href}>{plan.cta}</Link>
                         ) : (
@@ -481,7 +481,7 @@ export function LandingPageClient() {
         
         <section className="py-16 bg-muted/50" aria-labelledby="popular-skills-heading">
           <div className="container mx-auto px-4">
-            <h2 id="popular-skills-heading" className="text-3xl font-bold">
+              <h2 id="popular-skills-heading" className="text-2xl font-bold sm:text-3xl">
               Popular Skills
             </h2>
 
@@ -545,7 +545,7 @@ export function LandingPageClient() {
         <section id="how-it-works" className="py-16" aria-labelledby="how-it-works-heading">
           <div className="container mx-auto px-4">
             <motion.header initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12 max-w-3xl mx-auto">
-              <h2 id="how-it-works-heading" className="text-3xl font-bold mb-4">
+              <h2 id="how-it-works-heading" className="text-2xl font-bold mb-4 sm:text-3xl">
                 How It Works
               </h2>
               <p className="text-muted-foreground">Getting started is simple.</p>
@@ -593,7 +593,7 @@ export function LandingPageClient() {
         <section className="py-16 bg-muted/50" aria-labelledby="who-we-serve-heading">
           <div className="container mx-auto px-4">
             <motion.header initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12 max-w-3xl mx-auto">
-              <h2 id="who-we-serve-heading" className="text-3xl font-bold mb-4">
+              <h2 id="who-we-serve-heading" className="text-2xl font-bold mb-4 sm:text-3xl">
                 Who We Serve
               </h2>
               <p className="text-muted-foreground">

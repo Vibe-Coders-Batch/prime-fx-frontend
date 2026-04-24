@@ -9,7 +9,7 @@ import { ModeToggle } from "@/components/theme-toggle";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, LogOut, Settings } from "lucide-react";
+import { User, LogOut, Settings, Menu } from "lucide-react";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
 export function Navbar() {
@@ -78,6 +78,43 @@ export function Navbar() {
 
       
       <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+        {!user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="lg:hidden h-9 w-9 sm:h-10 sm:w-10"
+                aria-label="Open navigation menu"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuLabel>Navigation</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="#why-prime-learning">Why Prime Learning</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#categories">Categories</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#courses">Courses</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#how-it-works">How It Works</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/login">Login</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/signup">Start Learning Today</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : null}
         <ModeToggle />
         {user ? (<DropdownMenu>
             <DropdownMenuTrigger asChild>

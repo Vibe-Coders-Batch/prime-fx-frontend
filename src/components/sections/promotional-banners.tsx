@@ -197,7 +197,7 @@ export function PromotionalBanners() {
               type="button"
               onClick={() => goTo(activeIndex - 1)}
               aria-label="Previous banner"
-              className="absolute left-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-gold sm:left-4 sm:h-11 sm:w-11"
+              className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-gold sm:inline-flex sm:left-4 sm:h-11 sm:w-11"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -205,7 +205,7 @@ export function PromotionalBanners() {
               type="button"
               onClick={() => goTo(activeIndex + 1)}
               aria-label="Next banner"
-              className="absolute right-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-gold sm:right-4 sm:h-11 sm:w-11"
+              className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-gold sm:inline-flex sm:right-4 sm:h-11 sm:w-11"
             >
               <ChevronRight className="h-5 w-5" />
             </button>

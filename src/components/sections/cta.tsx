@@ -11,13 +11,13 @@ export function CTA() {
           Start building skills that create real opportunities. Learn smarter, grow faster,
           and lead with purpose.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          <Link href="/learner/courses" aria-label="Explore courses">
+        <div className="flex w-full flex-col sm:w-auto sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <Link href="/learner/courses" aria-label="Explore courses" className="w-full sm:w-auto">
             <Button className="w-full sm:w-auto bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-105">
               Explore Courses
             </Button>
           </Link>
-          <Link href="/signup" aria-label="Start learning today">
+          <Link href="/signup" aria-label="Start learning today" className="w-full sm:w-auto">
             <Button variant="outline" className="w-full sm:w-auto bg-transparent border-primary-dark/30 text-primary-dark hover:bg-primary-dark hover:text-white text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold rounded-full">
               Start Learning Today
             </Button>
