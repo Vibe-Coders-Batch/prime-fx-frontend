@@ -1,0 +1,195 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
+import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
+import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
+import { COURSES, CATEGORIES } from "@/features/prime-landing/components/chapters/courseData";
+import { CoursePattern } from "@/features/prime-landing/components/chapters/CoursePattern";
+
+export function Chapter5Courses() {
+  const rootRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const underlineRef = useRef<HTMLSpanElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const setChapter = useScrollStore((s) => s.setChapter);
+
+  const activeCategory = CATEGORIES[activeIdx];
+  const courses = COURSES[activeCategory];
+
+  useEffect(() => {
+    registerGsap();
+    const root = rootRef.current;
+    if (!root) return;
+
+    const t = ScrollTrigger.create({
+      trigger: root,
+      start: "top 70%",
+      end: "bottom 30%",
+      onEnter: () => setChapter("courses"),
+      onEnterBack: () => setChapter("courses"),
+    });
+    return () => t.kill();
+  }, [setChapter]);
+
+  useEffect(() => {
+    const tab = tabRefs.current[activeIdx];
+    const underline = underlineRef.current;
+    if (!tab || !underline) return;
+    const rect = tab.getBoundingClientRect();
+    const parentRect = tab.parentElement?.getBoundingClientRect();
+    if (!parentRect) return;
+    gsap.to(underline, {
+      x: rect.left - parentRect.left,
+      width: rect.width,
+      duration: 0.55,
+      ease: "expo.out",
+    });
+  }, [activeIdx]);
+
+  const prevIdx = useRef(activeIdx);
+  useEffect(() => {
+    if (prevIdx.current === activeIdx) return;
+    prevIdx.current = activeIdx;
+    const cards = cardsRef.current?.querySelectorAll<HTMLElement>("[data-card]");
+    if (!cards) return;
+    gsap.fromTo(
+      cards,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.06, ease: "expo.out" }
+    );
+  }, [activeIdx]);
+
+  return (
+    <section
+      ref={rootRef}
+      id="chapter-courses"
+      className="relative w-full px-4 py-24 sm:px-6 lg:px-16 lg:py-32"
+      style={{ backgroundColor: "var(--ink)" }}
+      aria-label="Courses"
+    >
+      <div className="mx-auto max-w-7xl rounded-[2rem] border border-[var(--fog)]/60 bg-[rgba(255,255,255,0.02)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-sm sm:p-7 lg:p-10">
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <Eyebrow>What to study</Eyebrow>
+            <h2
+              className="display mt-3 max-w-[18ch]"
+              style={{
+                fontSize: "clamp(2rem, 5.5vw, 4.25rem)",
+                color: "var(--text-primary)",
+              }}
+            >
+              Courses built with{" "}
+              <em className="italic text-[var(--gold)]">intent</em>.
+            </h2>
+          </div>
+          <a
+            href="#"
+            className="group inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--gold-bright)]"
+          >
+            Show all
+            <span
+              aria-hidden="true"
+              className="transition-transform group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </a>
+        </div>
+
+        <div className="relative mt-12 flex gap-6 overflow-x-auto border-b border-[var(--fog)] pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {CATEGORIES.map((cat, i) => (
+            <button
+              key={cat}
+              ref={(el) => {
+                tabRefs.current[i] = el;
+              }}
+              onClick={() => setActiveIdx(i)}
+              className={`relative shrink-0 py-4 text-sm uppercase tracking-[0.2em] transition-colors duration-300 ${
+                i === activeIdx
+                  ? "text-[var(--text-primary)]"
+                  : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+          <span
+            ref={underlineRef}
+            aria-hidden="true"
+            className="absolute bottom-0 left-0 h-px bg-[var(--gold)]"
+            style={{ width: 0 }}
+          />
+        </div>
+
+        <div
+          ref={cardsRef}
+          className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-14 lg:grid-cols-4"
+        >
+          {courses.map((c) => (
+            <article
+              key={c.title}
+              data-card
+              className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--fog)]/80 bg-[var(--mist)] shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--gold)]/60 hover:shadow-[0_20px_45px_rgba(0,0,0,0.28)]"
+            >
+              <div className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--mist)]">
+                <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.05]">
+                  <Image
+                    src={c.image}
+                    alt={c.imageAlt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                    className="object-cover"
+                    quality={75}
+                  />
+                </div>
+                <div aria-hidden="true" className="absolute inset-0" style={{ background: c.gradient }} />
+                <CoursePattern pattern={c.pattern} />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/70 bg-black/30 backdrop-blur">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="translate-x-[1px] text-white"
+                    >
+                      <path d="M3 2l11 6-11 6V2z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-1 flex-col justify-between gap-6 p-6">
+                <div>
+                  <h3
+                    className="headline text-lg"
+                    style={{ lineHeight: 1.25, color: "var(--text-primary)" }}
+                  >
+                    {c.title}
+                  </h3>
+                  <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                    {c.instructor}
+                  </p>
+                </div>
+                <div
+                  className="flex items-center justify-between text-xs uppercase tracking-[0.18em]"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  <span className="rounded-full border border-[var(--fog)]/70 px-3 py-1">
+                    {c.duration}
+                  </span>
+                  <span className="rounded-full bg-[var(--gold)]/15 px-3 py-1 text-[var(--gold-bright)]">
+                    AED {c.priceAed.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+

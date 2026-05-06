@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LandingPageClient } from "@/components/sections/landing-page-client";
+import { PrimeLandingPage } from "@/features/prime-landing/PrimeLandingPage";
 const siteUrl = "https://paet.ltd";
 const siteName = "Prime Learning";
 export const metadata: Metadata = {
@@ -157,6 +157,6 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{
             __html: JSON.stringify(faqJsonLd),
         }}/>
-      <LandingPageClient />
+      <PrimeLandingPage />
     </>);
 }

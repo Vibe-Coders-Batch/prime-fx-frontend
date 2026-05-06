@@ -1,0 +1,148 @@
+:global(.primeLanding) {
+  --ink: #0b192f;
+  --paper: #fffcf5;
+
+  --gold: #e0b458;
+  --gold-bright: #f2d184;
+  --gold-dark: #e0b458;
+  --gold-soft: #f2d184;
+
+  --electric: #2563eb;
+  --mist: #112240;
+  --mist-alt: #0e1726;
+  --fog: #1e293b;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #94a3b8;
+
+  --text-primary-ink: #1c1917;
+  --text-secondary-ink: #78716c;
+  --text-tertiary-ink: #78716c;
+
+  --paper-card: #ffffff;
+  --paper-muted: #f5f0e6;
+  --paper-border: #e6e1d6;
+
+  color: var(--text-primary);
+}
+
+:global(.primeLanding ::selection) {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+:global(.primeLanding :focus-visible) {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+:global(.primeLanding .eyebrow) {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+:global(.primeLanding .eyebrow.on-paper),
+:global(.primeLanding .eyebrow-on-paper) {
+  color: var(--gold-dark);
+}
+
+:global(.primeLanding .display) {
+  font-family: var(--font-display, ui-serif, Georgia, serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+:global(.primeLanding .headline) {
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+:global(.primeLanding .body-lg) {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+:global(.primeLanding .no-scrollbar::-webkit-scrollbar) {
+  display: none;
+}
+
+:global(.primeLanding .cursor-dot) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  pointer-events: none;
+  z-index: 999;
+  mix-blend-mode: difference;
+  transition: background 0.3s ease;
+  will-change: transform;
+}
+
+:global(.primeLanding .cursor-dot.cursor-hover) {
+  background: white;
+}
+
+:global(.primeLanding .grain) {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+:global(.primeLanding .marquee-track) {
+  display: flex;
+  width: max-content;
+  gap: 1.25rem;
+}
+
+:global(.primeLanding .animate-marquee) {
+  animation: marquee 35s linear infinite;
+}
+
+:global(.primeLanding .animate-marquee-rev) {
+  animation: marquee-rev 35s linear infinite;
+}
+
+@keyframes ken-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+:global(.primeLanding .animate-ken-burns) {
+  animation: ken-burns 12s ease-in-out infinite alternate;
+}
+
+@keyframes logo-appear {
+  from { opacity: 0; transform: translateY(-6px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+:global(.primeLanding .logo-appear) {
+  animation: logo-appear 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
