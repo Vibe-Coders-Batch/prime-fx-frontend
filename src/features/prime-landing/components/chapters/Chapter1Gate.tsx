@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
-import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { ScrollIndicator } from "@/features/prime-landing/components/ui/ScrollIndicator";
 import { FallbackHero } from "@/features/prime-landing/components/hero/FallbackHero";
@@ -123,9 +122,6 @@ export function Chapter1Gate() {
         ref={contentRef}
         className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center"
       >
-        <div data-hero-item>
-          <Eyebrow>Prime Learning</Eyebrow>
-        </div>
         <h1
           data-hero-item
           className="display mt-8 max-w-[14ch]"
