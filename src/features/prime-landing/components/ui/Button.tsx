@@ -9,6 +9,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   as?: "button" | "a";
   href?: string;
+  target?: string;
+  rel?: string;
 }
 
 const base =
@@ -30,13 +32,13 @@ const variants: Record<Variant, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
-  { variant = "primary", className, children, as, href, ...rest },
+  { variant = "primary", className, children, as, href, target, rel, ...rest },
   ref
 ) {
   const classes = cn(base, variants[variant], className);
   if (as === "a" && href) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={classes} target={target} rel={rel}>
         {children}
       </a>
     );

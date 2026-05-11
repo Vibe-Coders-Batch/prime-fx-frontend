@@ -17,6 +17,7 @@ import { Chapter2Manifesto } from "@/features/prime-landing/components/chapters/
 import { Chapter3Stats } from "@/features/prime-landing/components/chapters/Chapter3Stats";
 import { Chapter4Categories } from "@/features/prime-landing/components/chapters/Chapter4Categories";
 import { Chapter5Courses } from "@/features/prime-landing/components/chapters/Chapter5Courses";
+import { ChapterAgenticAICohort } from "@/features/prime-landing/components/chapters/ChapterAgenticAICohort";
 import { Chapter6HowItWorks } from "@/features/prime-landing/components/chapters/Chapter6HowItWorks";
 import { ChapterInstructorSpotlight } from "@/features/prime-landing/components/chapters/ChapterInstructorSpotlight";
 import { ChapterTestimonials } from "@/features/prime-landing/components/chapters/ChapterTestimonials";
@@ -36,6 +37,7 @@ export function PrimeLandingPage() {
           <Chapter3Stats />
           <Chapter4Categories />
           <Chapter5Courses />
+          <ChapterAgenticAICohort />
           <Chapter6HowItWorks />
           <ChapterInstructorSpotlight />
           <ChapterTestimonials />
