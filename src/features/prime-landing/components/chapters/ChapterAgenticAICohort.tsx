@@ -6,20 +6,61 @@ import { useScrollStore } from "@/features/prime-landing/components/providers/Sc
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 
-const SESSIONS = [
+const FELLOWSHIPS = [
   {
-    region: "EMEA",
-    date: "Saturday, May 2, 2026",
-    time: "02:00 PM IST",
-    duration: "2-Hour Executive Session",
-    angle: "From AI Experimentation to Production Capability",
+    tag: "Fellowship 01",
+    title: "The Agentic AI Builders Fellowship",
+    subtitle: "Zero to Deployed",
+    meta: "7 Phases · 50 Sessions",
+    phases: [
+      { code: "P0", name: "Onboarding", deliverable: "Environment setup" },
+      { code: "P1", name: "Python for AI", deliverable: "CLI Tool (Capstone)" },
+      { code: "P2", name: "LLM Foundations", deliverable: "API Wrappers" },
+      { code: "P3", name: "Data & Embeddings", deliverable: "Feeds Phase 4" },
+      { code: "P4", name: "RAG Mastery", deliverable: "RAG Pipeline (Capstone)" },
+      {
+        code: "P5",
+        name: "Agents & Agentic AI",
+        deliverable: "Multi-Agent (Capstone)",
+      },
+      {
+        code: "P6",
+        name: "Vibe-Coding & Shipping",
+        deliverable: "Deployed Product (Capstone)",
+      },
+    ],
+    footer:
+      "9 Portfolio Projects · Every project ships · Session 49 = Your first live AI product",
   },
   {
-    region: "North America",
-    date: "Saturday, May 2, 2026",
-    time: "07:30 PM IST",
-    duration: "2-Hour Executive Session",
-    angle: "Redefining the Execution Layer of IT Services",
+    tag: "Fellowship 02",
+    title: "The AI Generalist Global Fellowship",
+    subtitle: "Zero to Deployed",
+    meta: "5 Modules · 25 Sessions",
+    phases: [
+      {
+        code: "M1",
+        name: "Prompt Engineering + RAG",
+        deliverable: "AI Concierge + RAG Chatbot",
+      },
+      {
+        code: "M2",
+        name: "Automations Foundations",
+        deliverable: "Business Workflow Live",
+      },
+      {
+        code: "M3",
+        name: "Automations Advanced",
+        deliverable: "AI Agent Running",
+      },
+      { code: "M4", name: "Vibe-Coding", deliverable: "Moris Eats Web App" },
+      {
+        code: "M5",
+        name: "Deployments + Emergent",
+        deliverable: "Live URL + Mobile App",
+      },
+    ],
+    footer: "Every session ships something · Session 25 = your product, live",
   },
 ];
 
@@ -193,55 +234,79 @@ export function ChapterAgenticAICohort() {
           systems that ship outcomes.
         </p>
 
-        {/* ───────── SESSION BADGES ───────── */}
+        {/* ───────── FELLOWSHIP TRACKS ───────── */}
         <div
           data-cohort-reveal
-          className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2"
+          className="mt-12 flex items-center gap-3"
         >
-          {SESSIONS.map((s) => (
-            <div
-              key={s.region}
-              className="group relative overflow-hidden rounded-2xl border border-[var(--fog)]/80 bg-[var(--mist)]/60 p-6 backdrop-blur-sm transition-colors duration-300 hover:border-[var(--gold)]/60"
+          <Eyebrow>Two fellowship tracks</Eyebrow>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+          {FELLOWSHIPS.map((f) => (
+            <article
+              key={f.title}
+              data-cohort-reveal
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--fog)]/80 bg-[var(--mist)]/60 p-6 backdrop-blur-sm transition-colors duration-300 hover:border-[var(--gold)]/60 sm:p-8"
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="text-[11px] uppercase tracking-[0.22em] text-[var(--gold-bright)]">
-                  {s.region} Session
+                  {f.tag}
                 </span>
                 <span className="rounded-full border border-[var(--fog)] px-2.5 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]">
-                  By Invitation
+                  {f.subtitle}
                 </span>
               </div>
-              <p
-                className="display mt-4 text-2xl sm:text-[1.65rem]"
+              <h3
+                className="display mt-4 text-2xl sm:text-[1.7rem]"
                 style={{ color: "var(--text-primary)", lineHeight: 1.15 }}
               >
-                {s.angle}
-              </p>
-              <div
-                className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm"
+                {f.title}
+              </h3>
+              <p
+                className="mt-2 text-sm uppercase tracking-[0.18em]"
                 style={{ color: "var(--text-secondary)" }}
               >
-                <span className="inline-flex items-center gap-2">
-                  <CalendarIcon /> {s.date}
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <ClockIcon /> {s.time}{" "}
-                  <span className="text-[var(--text-tertiary)]">
-                    · {s.duration}
-                  </span>
-                </span>
-              </div>
-            </div>
+                {f.meta}
+              </p>
+
+              <ul className="mt-6 flex flex-col divide-y divide-[var(--fog)]/60 border-y border-[var(--fog)]/60">
+                {f.phases.map((p) => (
+                  <li
+                    key={p.code}
+                    className="flex items-center gap-4 py-3 text-sm"
+                  >
+                    <span
+                      className="display shrink-0 text-base tracking-wide"
+                      style={{ color: "var(--gold-bright)", minWidth: "2.25rem" }}
+                    >
+                      {p.code}
+                    </span>
+                    <span
+                      className="flex-1 font-medium"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {p.name}
+                    </span>
+                    <span
+                      className="hidden text-xs sm:inline"
+                      style={{ color: "var(--text-tertiary)" }}
+                    >
+                      {p.deliverable}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <p
+                className="mt-5 text-xs leading-relaxed"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                {f.footer}
+              </p>
+            </article>
           ))}
         </div>
-
-        <p
-          data-cohort-reveal
-          className="mt-4 text-xs uppercase tracking-[0.22em]"
-          style={{ color: "var(--text-tertiary)" }}
-        >
-          By Invitation Only · Limited Leadership Seats
-        </p>
 
         {/* ───────── PILLARS ───────── */}
         <div className="mt-20">
@@ -522,42 +587,3 @@ export function ChapterAgenticAICohort() {
   );
 }
 
-function CalendarIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="text-[var(--gold-bright)]"
-    >
-      <rect x="3" y="5" width="18" height="16" rx="2" />
-      <path d="M3 9h18M8 3v4M16 3v4" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="text-[var(--gold-bright)]"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </svg>
-  );
-}
