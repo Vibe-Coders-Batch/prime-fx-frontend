@@ -111,8 +111,8 @@ export function TopNav() {
           <Image
             src={theme === "paper" ? "/logo.svg" : "/logo-dark.svg"}
             alt="Prime Learning"
-            width={544}
-            height={138}
+            width={521}
+            height={304}
             className="hidden h-[90px] w-auto md:block lg:h-[102px]"
             priority
           />
