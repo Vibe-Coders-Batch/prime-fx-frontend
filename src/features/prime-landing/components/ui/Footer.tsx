@@ -30,16 +30,17 @@ export function Footer() {
           <Image
             src="/logo-dark.svg"
             alt="Prime Learning"
-            width={220}
-            height={56}
-            className="h-10 w-auto"
+            width={521}
+            height={304}
+            className="h-16 w-auto sm:h-20 lg:h-24"
+            priority
           />
-          <p className="body-lg mt-4 max-w-xs">
+          <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
             Learn Smarter. Grow Faster. Lead With Purpose.
           </p>
           <a
             href="mailto:hello@primelearning.ae"
-            className="mt-6 inline-block text-sm text-[var(--text-secondary)] hover:text-[var(--gold-bright)]"
+            className="mt-6 inline-block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
           >
             hello@primelearning.ae
           </a>
@@ -48,13 +49,13 @@ export function Footer() {
         <div className="grid grid-cols-3 gap-8">
           {Object.entries(LINKS).map(([header, items]) => (
             <div key={header}>
-              <Eyebrow>{header}</Eyebrow>
-              <ul className="mt-4 space-y-2">
+              <Eyebrow className="!text-xs sm:!text-sm">{header}</Eyebrow>
+              <ul className="mt-5 space-y-3">
                 {items.map((i) => (
                   <li key={i}>
                     <a
                       href="#"
-                      className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)]"
+                      className="text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
                     >
                       {i}
                     </a>
@@ -66,11 +67,11 @@ export function Footer() {
         </div>
 
         <div>
-          <Eyebrow>Stay in the loop</Eyebrow>
-          <p className="body-lg mt-4 max-w-xs">
+          <Eyebrow className="!text-xs sm:!text-sm">Stay in the loop</Eyebrow>
+          <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
             Monthly dispatch on new courses and free resources.
           </p>
-          <form className="mt-6 flex gap-2" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-6 flex gap-3" onSubmit={(e) => e.preventDefault()}>
             <label className="sr-only" htmlFor="footer-email">
               Email address
             </label>
@@ -78,9 +79,9 @@ export function Footer() {
               id="footer-email"
               type="email"
               placeholder="you@example.com"
-              className="h-11 flex-1 rounded-full border border-[var(--fog)] bg-transparent px-4 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--gold-bright)] focus:outline-2 focus:outline-offset-2 focus:outline-[var(--gold-bright)]"
+              className="h-12 flex-1 rounded-full border border-[var(--fog)] bg-transparent px-5 text-base text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--gold-bright)] focus:outline-2 focus:outline-offset-2 focus:outline-[var(--gold-bright)]"
             />
-            <Button type="submit" variant="gold" className="h-11 px-5">
+            <Button type="submit" variant="gold" className="h-12 px-6 text-base">
               Join
             </Button>
           </form>
@@ -88,7 +89,7 @@ export function Footer() {
       </div>
 
       <div
-        className="mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-[var(--fog)] pt-6 text-xs md:flex-row"
+        className="mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-[var(--fog)] pt-6 text-sm sm:text-base md:flex-row"
         style={{ color: "var(--text-tertiary)" }}
       >
         <span>© {new Date().getFullYear()} Prime Learning. All rights reserved.</span>
