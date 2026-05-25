@@ -218,11 +218,6 @@ export default function PrivacyPolicyPage() {
               {/* Document Metadata Details Card */}
               <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-muted-foreground bg-card/50 backdrop-blur-md border border-border/40 rounded-2xl p-4 shadow-md shadow-black/10">
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-primary" />
-                  <span>Effective Date: <strong>May 25, 2026</strong></span>
-                </div>
-                <div className="hidden sm:block h-4 w-px bg-border/40" />
-                <div className="flex items-center gap-2">
                   <FileText className="h-4 w-4 text-primary" />
                   <span>Version: <strong>1.0 (DPDPA Aligned)</strong></span>
                 </div>
