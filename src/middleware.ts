@@ -6,6 +6,7 @@ const publicRoutes = [
     "/forgot-password",
     "/reset-password",
     "/verify-email",
+    "/privacy-policy",
 ];
 const authRoutes = [
     "/login",
@@ -28,7 +29,9 @@ const roleBasedRoutes: Record<string, string[]> = {
     INSTRUCTOR: ["/instructor"],
     CORPORATE_ADMIN: ["/corporate"],
     PLATFORM_ADMIN: ["/admin", "/instructor"],
+    CONTENT_ADMIN: ["/admin/blogs"],
 };
+const publicPrefixes = ["/blogs", "/leadership", "/events", "/spotlight"];
 function decodeJwtPayload(token: string): {
     role?: string;
 } | null {
@@ -51,6 +54,7 @@ function getDashboardRoute(role: string): string {
         PLATFORM_ADMIN: "/admin/dashboard",
         INSTRUCTOR: "/instructor/dashboard",
         CORPORATE_ADMIN: "/corporate/dashboard",
+        CONTENT_ADMIN: "/admin/blogs",
     };
     return roleToRoute[role] || "/learner/dashboard";
 }
@@ -64,6 +68,7 @@ export function middleware(request: NextRequest) {
         pathname.startsWith("/api") ||
         pathname.startsWith("/_next"))
         return NextResponse.next();
+    const isPublicPrefix = publicPrefixes.some((p) => pathname === p || pathname.startsWith(p + "/"));
     const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
     const commonRoutes = [
         "/learner/profile",
@@ -72,9 +77,14 @@ export function middleware(request: NextRequest) {
         "/categories",
         "/learner/cart",
         "/learner/courses",
+        "/blogs",
+        "/leadership",
+        "/events",
+        "/spotlight",
+        "/privacy-policy",
     ];
     if (!token) {
-        if (isPublicRoute)
+        if (isPublicRoute || isPublicPrefix)
             return NextResponse.next();
         const loginUrl = new URL("/login", request.url);
         loginUrl.searchParams.set("redirect", pathname);
