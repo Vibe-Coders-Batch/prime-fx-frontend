@@ -249,7 +249,7 @@ export default function PrivacyPolicyPage() {
             <div className="space-y-1">
               <span className="text-xs text-muted-foreground uppercase tracking-wider block">DPO Contact</span>
               <span className="font-semibold text-primary hover:underline">
-                <a href="mailto:privacy@primelearning.in">privacy@primelearning.in</a>
+                <a href="mailto:learning@primelearning.ae">learning@primelearning.ae</a>
               </span>
             </div>
           </div>
@@ -324,10 +324,10 @@ export default function PrivacyPolicyPage() {
                   Our compliance officer is available to handle DSAR requests, withdrawals, or verification of credentials under DPDPA.
                 </p>
                 <a 
-                  href="mailto:privacy@primelearning.in" 
+                  href="mailto:learning@primelearning.ae" 
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline hover:text-primary-bright"
                 >
-                  privacy@primelearning.in &rarr;
+                  learning@primelearning.ae &rarr;
                 </a>
               </div>
             </div>
@@ -1136,7 +1136,7 @@ export default function PrivacyPolicyPage() {
                       <tr>
                         <td className="px-6 py-4 font-semibold text-primary">Official Email</td>
                         <td className="px-6 py-4 text-primary font-semibold hover:underline">
-                          <a href="mailto:privacy@primelearning.in">privacy@primelearning.in</a>
+                          <a href="mailto:learning@primelearning.ae">learning@primelearning.ae</a>
                         </td>
                       </tr>
                       <tr className="bg-card/5">
