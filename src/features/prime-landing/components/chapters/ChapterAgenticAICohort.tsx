@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
+import { useRegion } from "@/context/RegionContext";
+import { REGION_CONTENT } from "@/config/pricing";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import { Button } from "@/features/prime-landing/components/ui/Button";
@@ -91,42 +93,20 @@ const FLOW = [
   { step: "03", title: "Multi-Agent System", body: "Orchestrate to a live endpoint." },
 ];
 
-const PRACTITIONERS = [
-  {
-    name: "Prakash Gudipati",
-    role: "CTO — Idensys Technologies",
-    pedigree: "ex-Microsoft · ex-Dell",
-    bullets: [
-      "15+ years building production systems",
-      "Architected platforms handling 1.3M+ daily transactions",
-      "Designed the “Zero → Deployed AI Product” curriculum",
-    ],
-  },
-  {
-    name: "Krishna Chandrala",
-    role: "Founder & CEO — Idensys Technologies",
-    pedigree: "Aviation · Compliance · Enterprise Automation",
-    bullets: [
-      "25+ years building AI systems across regulated industries",
-      "Advisor on AI-driven enterprise transformation",
-      "Led delivery of mission-critical AI rollouts",
-    ],
-  },
-];
-
 /**
  * Chapter — Agentic AI Cohort.
  *
  * Flagship-event spotlight (closed-door executive session). Pure ink theme,
  * composed of: hero block, dual-region session badges, three pillars, three
- * trend stats, the prompt → agent → multi-agent flow, two practitioner
- * cards, and a closing quote + CTA panel.
+ * trend stats, the prompt → agent → multi-agent flow, and a closing quote + CTA panel.
  *
  * Self-registers with the scroll store ("cohort") so BackgroundCanvas stays
  * on the ink palette while this section is in view.
  */
 export function ChapterAgenticAICohort() {
   const rootRef = useRef<HTMLElement>(null);
+  const { region } = useRegion();
+  const regional = REGION_CONTENT[region];
   const setChapter = useScrollStore((s) => s.setChapter);
 
   useEffect(() => {
@@ -467,65 +447,6 @@ export function ChapterAgenticAICohort() {
           </div>
         </div>
 
-        {/* ───────── PRACTITIONERS ───────── */}
-        <div className="mt-20">
-          <Eyebrow>Led by practitioners</Eyebrow>
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-            {PRACTITIONERS.map((p) => (
-              <article
-                key={p.name}
-                data-cohort-reveal
-                className="group flex flex-col rounded-2xl border border-[var(--fog)]/80 bg-[var(--mist)]/40 p-6 transition-colors duration-300 hover:border-[var(--gold)]/50 sm:p-8"
-              >
-                <div className="flex items-start gap-4">
-                  <div
-                    aria-hidden="true"
-                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[var(--gold)]/60 bg-[var(--ink)] text-lg"
-                    style={{ color: "var(--gold-bright)" }}
-                  >
-                    {p.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </div>
-                  <div>
-                    <h4
-                      className="headline text-xl"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      {p.name}
-                    </h4>
-                    <p
-                      className="mt-1 text-sm"
-                      style={{ color: "var(--text-secondary)" }}
-                    >
-                      {p.role}
-                    </p>
-                    <p
-                      className="mt-1 text-xs uppercase tracking-[0.18em]"
-                      style={{ color: "var(--text-tertiary)" }}
-                    >
-                      {p.pedigree}
-                    </p>
-                  </div>
-                </div>
-                <ul className="mt-5 space-y-2">
-                  {p.bullets.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-3 text-sm leading-relaxed"
-                      style={{ color: "var(--text-secondary)" }}
-                    >
-                      <span className="mt-2 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--gold)]" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-
         {/* ───────── QUOTE + CTA ───────── */}
         <div
           data-cohort-reveal
@@ -560,7 +481,7 @@ export function ChapterAgenticAICohort() {
                 rel="noopener noreferrer"
                 variant="primary"
               >
-                Reserve Your Seat
+                {regional.fellowshipCta}
               </Button>
               <Button
                 as="a"
@@ -575,9 +496,13 @@ export function ChapterAgenticAICohort() {
                 className="mt-2 text-xs leading-relaxed"
                 style={{ color: "var(--text-tertiary)" }}
               >
-                Hosted by Rajesh Roy · Senior Director
-                <br />
-                rajesh.roy@paet.ltd · +91 99494 70071
+                India enquiries ·{" "}
+                <a
+                  href="mailto:prime@primelearning.ae"
+                  className="hover:text-[var(--gold-bright)] transition-colors"
+                >
+                  prime@primelearning.ae
+                </a>
               </p>
             </div>
           </div>
