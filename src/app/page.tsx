@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { PrimeLandingPage } from "@/features/prime-landing/PrimeLandingPage";
-const siteUrl = "https://paet.ltd";
+const siteUrl = "https://primelearning.ae";
 const siteName = "Prime Learning";
+const ogDescription =
+    "Premium online learning for professionals in India, the UAE, and beyond. Build real-world skills. Ship real outcomes.";
 export const metadata: Metadata = {
     title: "Prime Learning | Learn Smarter. Grow Faster. Lead With Purpose.",
-    description: "Premium online courses for learners, professionals, and organisations. Build real-world skills through expert-led programs designed to help you grow faster and stay future-ready.",
+    description: ogDescription,
     keywords: [
         "online courses",
         "professional development",
@@ -17,13 +19,24 @@ export const metadata: Metadata = {
         "creative and design",
         "project management",
         "test preparation",
+        "online courses India",
+        "upskilling India",
+        "AI courses Bangalore",
+        "professional development India",
+        "edtech India",
+        "tech courses Hyderabad",
     ],
     alternates: {
         canonical: siteUrl,
+        languages: {
+            "en-AE": siteUrl,
+            "en-IN": siteUrl,
+            en: siteUrl,
+        },
     },
     openGraph: {
         title: "Prime Learning | Unlock Skills That Drive Your Future",
-        description: "Premium, outcomes-driven online learning for learners, professionals, and organisations.",
+        description: ogDescription,
         url: siteUrl,
         siteName: siteName,
         type: "website",
@@ -39,7 +52,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Prime Learning | Unlock Skills That Drive Your Future",
-        description: "Premium, outcomes-driven online learning for learners, professionals, and organisations.",
+        description: ogDescription,
         images: [`${siteUrl}/og-image.png`],
     },
 };

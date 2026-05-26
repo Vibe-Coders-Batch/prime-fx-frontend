@@ -54,6 +54,14 @@ export const queryKeys = {
         detail: (id?: string) => [...queryKeys.courses.all(), "getById", id] as const,
         bySlug: (slug?: string) => [...queryKeys.courses.all(), "getBySlug", slug] as const,
     },
+    blogs: {
+        all: () => ["blogs"] as const,
+        list: (filters?: any) => [...queryKeys.blogs.all(), "getAll", filters] as const,
+        detail: (id?: string) => [...queryKeys.blogs.all(), "getById", id] as const,
+        bySlug: (slug?: string) => [...queryKeys.blogs.all(), "getBySlug", slug] as const,
+        admin: (filters?: any) => [...queryKeys.blogs.all(), "admin", filters] as const,
+        related: (slug?: string) => [...queryKeys.blogs.all(), "related", slug] as const,
+    },
     dashboard: {
         all: () => ["dashboard"] as const,
         stats: (userId?: string) => [...queryKeys.dashboard.all(), "stats", userId] as const,

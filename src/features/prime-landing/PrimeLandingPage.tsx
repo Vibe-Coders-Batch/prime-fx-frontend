@@ -10,6 +10,7 @@ import { BackgroundCanvas } from "@/features/prime-landing/components/ui/Backgro
 import { Loader } from "@/features/prime-landing/components/ui/Loader";
 import { CustomCursor } from "@/features/prime-landing/components/ui/CustomCursor";
 import { TopNav } from "@/features/prime-landing/components/ui/TopNav";
+import { HashScrollHandler } from "@/features/prime-landing/components/ui/HashScrollHandler";
 import { Footer } from "@/features/prime-landing/components/ui/Footer";
 
 import { Chapter1Gate } from "@/features/prime-landing/components/chapters/Chapter1Gate";
@@ -19,7 +20,8 @@ import { Chapter4Categories } from "@/features/prime-landing/components/chapters
 import { Chapter5Courses } from "@/features/prime-landing/components/chapters/Chapter5Courses";
 import { ChapterAgenticAICohort } from "@/features/prime-landing/components/chapters/ChapterAgenticAICohort";
 import { Chapter6HowItWorks } from "@/features/prime-landing/components/chapters/Chapter6HowItWorks";
-import { ChapterInstructorSpotlight } from "@/features/prime-landing/components/chapters/ChapterInstructorSpotlight";
+// import { ChapterInstructorSpotlight } from "@/features/prime-landing/components/chapters/ChapterInstructorSpotlight";
+import { ChapterCoreTeam } from "@/features/prime-landing/components/chapters/ChapterCoreTeam";
 import { ChapterTestimonials } from "@/features/prime-landing/components/chapters/ChapterTestimonials";
 import { Chapter7Plans } from "@/features/prime-landing/components/chapters/Chapter7Plans";
 import { Chapter8Graduation } from "@/features/prime-landing/components/chapters/Chapter8Graduation";
@@ -30,6 +32,7 @@ export function PrimeLandingPage() {
       <BackgroundCanvas />
       <DebugFlags />
       <LenisProvider>
+        <HashScrollHandler />
         <TopNav />
         <main id="main" className="relative">
           <Chapter1Gate />
@@ -39,7 +42,8 @@ export function PrimeLandingPage() {
           <Chapter5Courses />
           <ChapterAgenticAICohort />
           <Chapter6HowItWorks />
-          <ChapterInstructorSpotlight />
+          {/* <ChapterInstructorSpotlight /> */}
+          <ChapterCoreTeam />
           <ChapterTestimonials />
           <Chapter7Plans />
           <Chapter8Graduation />

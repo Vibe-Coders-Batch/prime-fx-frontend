@@ -1,7 +1,7 @@
 export interface User {
     id: string;
     email: string;
-    role: 'LEARNER' | 'INSTRUCTOR' | 'CORPORATE_ADMIN' | 'PLATFORM_ADMIN';
+    role: 'LEARNER' | 'INSTRUCTOR' | 'CORPORATE_ADMIN' | 'PLATFORM_ADMIN' | 'CONTENT_ADMIN';
     firstName?: string | null;
     lastName?: string | null;
     emailVerified: boolean;

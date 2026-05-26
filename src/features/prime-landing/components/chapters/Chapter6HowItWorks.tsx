@@ -19,7 +19,7 @@ const STEPS = [
   {
     title: "Earn Certificate",
     blurb:
-      "Ship real work, get reviewed, and walk away with a credential recruiters recognize. Made in Dubai, honored everywhere.",
+      "Ship real work, get reviewed, and walk away with a credential recruiters recognize. Built in India & the UAE. Recognized everywhere.",
   },
 ];
 

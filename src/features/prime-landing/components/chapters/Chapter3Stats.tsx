@@ -16,7 +16,7 @@ interface Stat {
 const STATS: Stat[] = [
   {
     label: "Learners enrolled",
-    description: "across 43 countries and counting",
+    description: "across 43 countries — including our home markets, India and the UAE",
     value: 12400,
     suffix: "+",
   },

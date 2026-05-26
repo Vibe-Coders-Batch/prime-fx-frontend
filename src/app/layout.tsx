@@ -10,9 +10,10 @@ const poppins = Poppins({
     subsets: ["latin"],
     variable: "--font-poppins",
 });
-const siteUrl = "https://paet.ltd";
+const siteUrl = "https://primelearning.ae";
 const siteName = "Prime Learning";
-const siteDescription = "Premium, outcomes-driven online learning for learners, professionals, and organisations. Build real-world skills through expert-led courses designed to help you grow faster and stay future-ready.";
+const siteDescription =
+    "Premium online learning for professionals in India, the UAE, and beyond. Build real-world skills. Ship real outcomes.";
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
     title: {
@@ -33,6 +34,12 @@ export const metadata: Metadata = {
         "project management",
         "test preparation",
         "certificates",
+        "online courses India",
+        "upskilling India",
+        "AI courses Bangalore",
+        "professional development India",
+        "edtech India",
+        "tech courses Hyderabad",
     ],
     authors: [{ name: siteName, url: siteUrl }],
     creator: siteName,
@@ -44,6 +51,11 @@ export const metadata: Metadata = {
     },
     alternates: {
         canonical: siteUrl,
+        languages: {
+            "en-AE": siteUrl,
+            "en-IN": siteUrl,
+            en: siteUrl,
+        },
     },
     openGraph: {
         type: "website",
@@ -136,6 +148,9 @@ export default function RootLayout({ children, }: Readonly<{
     return (<html lang="en" suppressHydrationWarning>
       <head>
         <link rel="canonical" href={siteUrl}/>
+        <link rel="alternate" hrefLang="en-AE" href={siteUrl}/>
+        <link rel="alternate" hrefLang="en-IN" href={siteUrl}/>
+        <link rel="alternate" hrefLang="en" href={siteUrl}/>
         <link rel="icon" href="/favicon.ico" sizes="any"/>
         <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>

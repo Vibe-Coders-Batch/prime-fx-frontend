@@ -55,12 +55,12 @@ export function Navbar() {
       
       <Link href="/" className="flex-shrink-0">
         <div className="hidden sm:block">
-          <Image src="/logo.svg" alt="Prime Learning" width={240} height={120} className="dark:hidden h-14 md:h-16 lg:h-20 w-auto" priority unoptimized/>
-          <Image src="/logo-dark.svg" alt="Prime Learning" width={240} height={120} className="hidden dark:block h-14 md:h-16 lg:h-20 w-auto" priority unoptimized/>
+          <Image src="/logo.svg" alt="Prime Learning" width={520} height={200} className="dark:hidden h-9 w-auto max-w-[min(200px,42vw)] object-contain object-left md:h-10 md:max-w-[220px]" priority unoptimized/>
+          <Image src="/logo-dark.svg" alt="Prime Learning" width={520} height={200} className="hidden h-9 w-auto max-w-[min(200px,42vw)] object-contain object-left dark:block md:h-10 md:max-w-[220px]" priority unoptimized/>
         </div>
         <div className="sm:hidden">
-          <Image src="/logo-square.svg" alt="Prime Learning" width={80} height={80} className="dark:hidden h-12 w-auto" priority unoptimized/>
-          <Image src="/logo-square-dark.svg" alt="Prime Learning" width={80} height={80} className="hidden dark:block h-12 w-auto" priority unoptimized/>
+          <Image src="/logo-square.svg" alt="Prime Learning" width={160} height={160} className="dark:hidden h-11 w-11 object-contain" priority unoptimized/>
+          <Image src="/logo-square-dark.svg" alt="Prime Learning" width={160} height={160} className="hidden h-11 w-11 object-contain dark:block" priority unoptimized/>
         </div>
       </Link>
 

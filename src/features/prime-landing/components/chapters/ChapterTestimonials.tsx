@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
+import { useRegion, type Region } from "@/context/RegionContext";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 
@@ -11,7 +12,39 @@ type Quote = {
   role: string;
   avatar: string;
   text: string;
+  region?: Region;
 };
+
+const IN_TESTIMONIALS: Quote[] = [
+  {
+    name: "Arjun Mehta",
+    role: "Product Manager · Razorpay",
+    region: "IN",
+    avatar: "https://i.pravatar.cc/80?img=68",
+    text: "I've done three Coursera specializations. Prime Learning is the only platform where I actually shipped something at the end. The AI track alone was worth it.",
+  },
+  {
+    name: "Sneha Krishnan",
+    role: "Senior Engineer · Swiggy",
+    region: "IN",
+    avatar: "https://i.pravatar.cc/80?img=47",
+    text: "The mentor reviews are surgical. Every comment made my code better. Nothing I've tried comes close to this level of feedback.",
+  },
+  {
+    name: "Rohan Bhatia",
+    role: "Founder · Bangalore",
+    region: "IN",
+    avatar: "https://i.pravatar.cc/80?img=52",
+    text: "I enrolled before our Series A. Half of what I pitched came directly from what I built during the AI cohort.",
+  },
+  {
+    name: "Preethi Nair",
+    role: "Data Analyst · Infosys",
+    region: "IN",
+    avatar: "https://i.pravatar.cc/80?img=31",
+    text: "The Finance + AI combination is exactly what the Indian market needs. I've recommended this to my entire team.",
+  },
+];
 
 const ROW_A: Quote[] = [
   {
@@ -79,10 +112,21 @@ const ROW_B: Quote[] = [
   },
 ];
 
+function sortQuotesForRegion(quotes: Quote[], region: Region): Quote[] {
+  const merged = [...IN_TESTIMONIALS, ...quotes];
+  const indian = merged.filter((q) => q.region === "IN");
+  const global = merged.filter((q) => q.region !== "IN");
+  return region === "IN" ? [...indian, ...global] : [...global, ...indian];
+}
+
 export function ChapterTestimonials() {
   const rootRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+  const { region } = useRegion();
   const setChapter = useScrollStore((s) => s.setChapter);
+
+  const rowA = useMemo(() => sortQuotesForRegion(ROW_A, region), [region]);
+  const rowB = useMemo(() => sortQuotesForRegion(ROW_B, region), [region]);
 
   useEffect(() => {
     registerGsap();
@@ -149,9 +193,9 @@ export function ChapterTestimonials() {
         </h2>
       </div>
 
-      <div className="relative mt-14 space-y-5">
-        <MarqueeRow items={ROW_A} direction="left" />
-        <MarqueeRow items={ROW_B} direction="right" />
+      <div key={region} className="relative mt-14 space-y-5">
+        <MarqueeRow items={rowA} direction="left" />
+        <MarqueeRow items={rowB} direction="right" />
       </div>
 
       <div
@@ -231,4 +275,3 @@ function MarqueeRow({
     </div>
   );
 }
-

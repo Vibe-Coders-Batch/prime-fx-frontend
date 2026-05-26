@@ -7,7 +7,7 @@ import { ModeToggle } from "@/components/theme-toggle";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, LayoutDashboard, BookOpen, Settings, Video } from "lucide-react";
+import { LogOut, LayoutDashboard, BookOpen, Settings, Video, Pen } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 export function InstructorNavbar() {
     const router = useRouter();
@@ -35,6 +35,7 @@ export function InstructorNavbar() {
         { href: "/instructor/dashboard", label: "Dashboard", icon: LayoutDashboard },
         { href: "/instructor/courses", label: "My Courses", icon: BookOpen },
         { href: "/instructor/videos", label: "My Videos", icon: Video },
+        { href: "/instructor/blogs", label: "Blog posts", icon: Pen },
     ];
     return (<header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-background/80 backdrop-blur-md border-b border-border">
       <Link href="/instructor/dashboard" className="flex items-center gap-2">

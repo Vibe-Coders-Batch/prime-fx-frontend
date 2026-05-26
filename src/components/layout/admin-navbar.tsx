@@ -10,7 +10,7 @@ import { useAuthStore } from "@/lib/store/auth-store";
 import { useQueryClient } from "@tanstack/react-query";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, LogOut, Settings, LayoutDashboard, Shield, Bell, } from "lucide-react";
+import { User, LogOut, Settings, LayoutDashboard, Shield, Bell, Pen, } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 export function AdminNavbar() {
     const router = useRouter();
@@ -117,6 +117,12 @@ export function AdminNavbar() {
                 <Link href="/admin/dashboard" className="cursor-pointer">
                   <LayoutDashboard className="mr-2 h-4 w-4"/>
                   <span>Admin Dashboard</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/admin/blogs" className="cursor-pointer">
+                  <Pen className="mr-2 h-4 w-4"/>
+                  <span>Blog Moderation</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>

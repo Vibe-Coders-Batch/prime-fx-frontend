@@ -9,11 +9,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/lib/store/auth-store";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
 import { AnimatedBarChart } from "@/components/auth/auth-charts";
+
+function safeRedirectTarget(raw: string | null): string | null {
+    if (!raw) return null;
+    if (!raw.startsWith("/") || raw.startsWith("//")) return null;
+    return raw;
+}
 const signupSchema = z.object({
     email: z
         .string()
@@ -33,7 +39,16 @@ const signupSchema = z.object({
 });
 type SignupFormData = z.infer<typeof signupSchema>;
 export default function SignupPage() {
+    return (
+        <Suspense fallback={null}>
+            <SignupPageInner />
+        </Suspense>
+    );
+}
+function SignupPageInner() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTarget = safeRedirectTarget(searchParams.get("redirect"));
     const { user } = useAuthStore();
     const registerUser = useRegister();
     const { register, handleSubmit, formState: { errors }, } = useForm<SignupFormData>({
@@ -41,9 +56,9 @@ export default function SignupPage() {
     });
     useEffect(() => {
         if (user) {
-            router.push("/dashboard");
+            router.push(redirectTarget ?? "/dashboard");
         }
-    }, [user, router]);
+    }, [user, router, redirectTarget]);
     function handleFormSubmit(data: SignupFormData) {
         const [firstName, ...lastNameParts] = data.fullName.split(" ");
         const lastName = lastNameParts.join(" ");

@@ -9,18 +9,33 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/lib/store/auth-store";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
 import { AnimatedLineChart } from "@/components/auth/auth-charts";
+
+function safeRedirectTarget(raw: string | null): string | null {
+    if (!raw) return null;
+    if (!raw.startsWith("/") || raw.startsWith("//")) return null;
+    return raw;
+}
 const loginSchema = z.object({
     email: z.string().email("Invalid email address").transform((e) => e.toLowerCase().trim()),
     password: z.string().min(1, "Password is required"),
 });
 type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
+    return (
+        <Suspense fallback={null}>
+            <LoginPageInner />
+        </Suspense>
+    );
+}
+function LoginPageInner() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTarget = safeRedirectTarget(searchParams.get("redirect"));
     const { user } = useAuthStore();
     const login = useLogin();
     const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
@@ -28,9 +43,9 @@ export default function LoginPage() {
     });
     useEffect(() => {
         if (user) {
-            router.push("/dashboard");
+            router.push(redirectTarget ?? "/dashboard");
         }
-    }, [user, router]);
+    }, [user, router, redirectTarget]);
     function handleFormSubmit(data: LoginFormData) {
         login.mutateAsync(data).catch((error: unknown) => {
             const errorMessage = error instanceof Error

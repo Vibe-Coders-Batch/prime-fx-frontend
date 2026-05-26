@@ -5,8 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
+import { RegionToggle } from "@/components/RegionToggle";
 import { COURSES, CATEGORIES } from "@/features/prime-landing/components/chapters/courseData";
 import { CoursePattern } from "@/features/prime-landing/components/chapters/CoursePattern";
+import { CoursePriceBadge } from "@/features/prime-landing/components/chapters/CoursePriceBadge";
 
 export function Chapter5Courses() {
   const rootRef = useRef<HTMLElement>(null);
@@ -124,9 +126,13 @@ export function Chapter5Courses() {
           />
         </div>
 
+        <div className="mt-10 flex justify-center lg:justify-end">
+          <RegionToggle size="md" />
+        </div>
+
         <div
           ref={cardsRef}
-          className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-14 lg:grid-cols-4"
+          className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-10 lg:grid-cols-4"
         >
           {courses.map((c) => (
             <article
@@ -180,9 +186,7 @@ export function Chapter5Courses() {
                   <span className="rounded-full border border-[var(--fog)]/70 px-3 py-1">
                     {c.duration}
                   </span>
-                  <span className="rounded-full bg-[var(--gold)]/15 px-3 py-1 text-[var(--gold-bright)]">
-                    AED {c.priceAed.toLocaleString()}
-                  </span>
+                  <CoursePriceBadge course={c} />
                 </div>
               </div>
             </article>

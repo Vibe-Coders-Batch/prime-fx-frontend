@@ -11,6 +11,7 @@ export type ChapterKey =
   | "cohort"
   | "how"
   | "instructors"
+  | "core-team"
   | "testimonials"
   | "plans"
   | "graduation";
@@ -39,6 +40,7 @@ const themeByChapter: Record<ChapterKey, Theme> = {
   cohort: "ink",
   how: "ink",
   instructors: "ink",
+  "core-team": "ink",
   testimonials: "ink",
   plans: "paper",
   graduation: "ink",

@@ -139,6 +139,17 @@ export function Chapter1Gate() {
         </p>
         <div
           data-hero-item
+          className="mt-6 flex items-center justify-center gap-4 text-[13px] opacity-60"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          <span>🇮🇳 India</span>
+          <span aria-hidden="true">·</span>
+          <span>🇦🇪 UAE</span>
+          <span aria-hidden="true">·</span>
+          <span>🌍 43 countries</span>
+        </div>
+        <div
+          data-hero-item
           className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
         >
           <Button type="button" variant="primary" onClick={() => scrollTo("#chapter-courses")}>

@@ -2,16 +2,40 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRegion } from "@/context/RegionContext";
+import { REGION_CONTENT } from "@/config/pricing";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 
-const LINKS = {
-  Academy: ["Courses", "Categories", "Live Cohorts", "Instructors"],
-  Resources: ["Blog", "Guides", "Case Studies", "Help Center"],
-  Legal: ["Privacy", "Terms", "Code of Conduct", "Contact"],
+type FooterLink = { label: string; href: string };
+
+const LINKS: Record<string, FooterLink[]> = {
+  Academy: [
+    { label: "Courses", href: "/#chapter-courses" },
+    { label: "Categories", href: "/#chapter-categories" },
+    { label: "Events", href: "/events" },
+    { label: "Spotlight", href: "/spotlight" },
+    { label: "Leadership", href: "/leadership" },
+    { label: "Plans", href: "/#chapter-plans" },
+  ],
+  Resources: [
+    { label: "Blog", href: "/blogs" },
+    { label: "Guides", href: "/blogs" },
+    { label: "Case Studies", href: "/blogs" },
+    { label: "Help Center", href: "mailto:hello@primelearning.ae" },
+  ],
+  Legal: [
+    { label: "Privacy", href: "/privacy-policy" },
+    { label: "Terms", href: "/terms-of-service" },
+    { label: "Code of Conduct", href: "/terms-of-service" },
+    { label: "Contact", href: "mailto:hello@primelearning.ae" },
+  ],
 };
 
 export function Footer() {
+  const { region } = useRegion();
+  const regional = REGION_CONTENT[region];
   const [noWebgl, setNoWebgl] = useState(false);
 
   const toggleWebgl = () => {
@@ -30,19 +54,19 @@ export function Footer() {
           <Image
             src="/logo-dark.svg"
             alt="Prime Learning"
-            width={521}
-            height={304}
-            className="h-16 w-auto sm:h-20 lg:h-24"
+            width={520}
+            height={200}
+            className="h-12 w-auto max-w-[220px] object-contain object-left sm:h-14 lg:h-16 lg:max-w-[260px]"
             priority
           />
           <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
             Learn Smarter. Grow Faster. Lead With Purpose.
           </p>
           <a
-            href="mailto:hello@primelearning.ae"
+            href={`mailto:${regional.email}`}
             className="mt-6 inline-block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
           >
-            hello@primelearning.ae
+            {regional.contactLine}
           </a>
         </div>
 
@@ -51,14 +75,14 @@ export function Footer() {
             <div key={header}>
               <Eyebrow className="!text-xs sm:!text-sm">{header}</Eyebrow>
               <ul className="mt-5 space-y-3">
-                {items.map((i) => (
-                  <li key={i}>
-                    <a
-                      href="#"
+                {items.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
                       className="text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
                     >
-                      {i}
-                    </a>
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -93,7 +117,7 @@ export function Footer() {
         style={{ color: "var(--text-tertiary)" }}
       >
         <span>© {new Date().getFullYear()} Prime Learning. All rights reserved.</span>
-        <span>Made in Dubai</span>
+        <span>Built in India & the UAE</span>
         <button
           onClick={toggleWebgl}
           className="text-[var(--text-secondary)] underline-offset-4 hover:text-[var(--gold-bright)] hover:underline"

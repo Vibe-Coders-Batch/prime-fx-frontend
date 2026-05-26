@@ -73,8 +73,9 @@ export function Loader() {
         <Image
           src="/logo-dark.svg"
           alt=""
-          width={420}
-          height={126}
+          width={520}
+          height={200}
+          className="h-auto w-full max-w-[min(280px,80vw)] object-contain"
           priority
         />
         <div className="h-px w-full bg-white/10">

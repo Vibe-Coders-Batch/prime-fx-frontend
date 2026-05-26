@@ -2,6 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
+import { useRegion } from "@/context/RegionContext";
+import { REGION_CONTENT, type PriceKey } from "@/config/pricing";
+import { RegionToggle } from "@/components/RegionToggle";
+import { PriceDisplay } from "@/components/PriceDisplay";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import { Button } from "@/features/prime-landing/components/ui/Button";
@@ -9,7 +13,8 @@ import { Button } from "@/features/prime-landing/components/ui/Button";
 interface Plan {
   name: string;
   tag: string;
-  price: string;
+  priceKey?: PriceKey;
+  priceStatic?: string;
   unit: string;
   features: string[];
   cta: string;
@@ -20,15 +25,15 @@ const PLANS: Plan[] = [
   {
     name: "Team",
     tag: "For growing teams",
-    price: "AED 990",
-    unit: "/seat/mo",
+    priceKey: "team_per_seat",
+    unit: "",
     features: ["Up to 25 seats", "Full course catalog", "Quarterly skill reports", "Email support"],
     cta: "Start a team",
   },
   {
     name: "Enterprise",
     tag: "For organizations",
-    price: "Custom",
+    priceStatic: "Custom",
     unit: "annual plan",
     features: ["Unlimited seats", "Dedicated learning advisor", "Custom cohorts & content", "SSO, audit, and SLA"],
     cta: "Talk to sales",
@@ -37,7 +42,7 @@ const PLANS: Plan[] = [
   {
     name: "AI Fluency",
     tag: "For leaders, fast",
-    price: "AED 4,900",
+    priceKey: "ai_fluency_program",
     unit: "one-time program",
     features: ["6-week cohort", "Executive-level curriculum", "Capstone review", "Credential included"],
     cta: "Enroll",
@@ -47,6 +52,8 @@ const PLANS: Plan[] = [
 export function Chapter7Plans() {
   const rootRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const { region } = useRegion();
+  const regional = REGION_CONTENT[region];
   const setChapter = useScrollStore((s) => s.setChapter);
 
   useEffect(() => {
@@ -125,7 +132,11 @@ export function Chapter7Plans() {
           </h2>
         </div>
 
-        <div className="mt-20 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-12 flex justify-center">
+          <RegionToggle size="md" />
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           {PLANS.map((plan, i) => (
             <div
               key={plan.name}
@@ -161,16 +172,22 @@ export function Chapter7Plans() {
               </div>
               <div className="mt-8">
                 <span className="display" style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)" }}>
-                  {plan.price}
+                  {plan.priceKey ? (
+                    <PriceDisplay priceKey={plan.priceKey} />
+                  ) : (
+                    plan.priceStatic
+                  )}
                 </span>
-                <span
-                  className="ml-2 text-sm"
-                  style={{
-                    color: plan.recommended ? "var(--text-secondary)" : "var(--text-secondary-ink)",
-                  }}
-                >
-                  {plan.unit}
-                </span>
+                {plan.unit && (
+                  <span
+                    className="ml-2 text-sm"
+                    style={{
+                      color: plan.recommended ? "var(--text-secondary)" : "var(--text-secondary-ink)",
+                    }}
+                  >
+                    {plan.unit}
+                  </span>
+                )}
               </div>
               <ul className="mt-8 space-y-3 text-sm">
                 {plan.features.map((f) => (
@@ -194,8 +211,14 @@ export function Chapter7Plans() {
             </div>
           ))}
         </div>
+
+        <p
+          className="mt-10 text-center text-sm"
+          style={{ color: "var(--text-secondary-ink)" }}
+        >
+          {regional.paymentNote}
+        </p>
       </div>
     </section>
   );
 }
-
