@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { FellowshipEvent } from "@/data/events";
+import type { EventItem } from "@/data/events";
 import {
   defaultTransition,
   fadeUp,
@@ -11,7 +11,7 @@ import {
 
 const REGION_LABEL = { IN: "🇮🇳 India", AE: "🇦🇪 UAE", GLOBAL: "🌍 Global" } as const;
 
-export function EventCard({ event }: { event: FellowshipEvent }) {
+export function EventCard({ event }: { event: EventItem }) {
   return (
     <motion.article
       variants={fadeUp}

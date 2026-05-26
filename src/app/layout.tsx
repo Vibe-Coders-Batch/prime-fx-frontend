@@ -3,6 +3,7 @@ import { Manrope, Inter, Poppins } from "next/font/google";
 import "../../globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Providers } from "@/components/providers";
+import { SUPPORT_PHONE } from "@/config/pricing";
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({
@@ -127,6 +128,7 @@ export default function RootLayout({ children, }: Readonly<{
         contactPoint: {
             "@type": "ContactPoint",
             contactType: "customer service",
+            telephone: SUPPORT_PHONE,
             availableLanguage: ["English", "Arabic"],
         },
     };

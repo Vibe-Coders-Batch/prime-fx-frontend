@@ -39,11 +39,11 @@ export function EventsPage() {
             eyebrow="Events"
             title={
               <>
-                Fellowships &{" "}
-                <em className="italic text-[var(--gold)]">live cohorts</em>
+                Live{" "}
+                <em className="italic text-[var(--gold)]">cohorts</em>
               </>
             }
-            description="Closed-door executive briefings, builder fellowships, and production AI programmes — hosted across India, the UAE, and online."
+            description="Closed-door executive briefings and production AI programmes — hosted across India, the UAE, and online."
           />
 
           <Reveal as="section" className="mt-16" aria-label="Upcoming sessions">
@@ -99,8 +99,8 @@ export function EventsPage() {
             </motion.ul>
           </Reveal>
 
-          <Reveal as="section" className="mt-20" aria-label="Fellowship programmes" delay={0.05}>
-            <Eyebrow>Fellowship tracks</Eyebrow>
+          <Reveal as="section" className="mt-20" aria-label="Programmes" delay={0.05}>
+            <Eyebrow>Programme tracks</Eyebrow>
             <motion.div
               className="mt-8 grid gap-6 lg:grid-cols-2"
               variants={staggerContainer}
@@ -130,7 +130,7 @@ export function EventsPage() {
                   {regional.contactLine}
                 </p>
                 <p className="mt-2 text-lg" style={{ color: "var(--text-primary)" }}>
-                  {regional.fellowshipCta}
+                  {regional.applyCta}
                 </p>
               </motion.div>
               <motion.div

@@ -1,5 +1,9 @@
 import { useRegion, type Region } from "@/context/RegionContext";
 
+// Single support contact number used across the entire website.
+export const SUPPORT_PHONE = "+91 95505 33955";
+export const SUPPORT_PHONE_HREF = "tel:+919550533955";
+
 export type PriceKey =
   | "applied_llm"
   | "ai_fluency_leaders"
@@ -22,7 +26,7 @@ export const REGION_CONTENT: Record<
   {
     contactLine: string;
     email: string;
-    fellowshipCta: string;
+    applyCta: string;
     paymentNote: string;
     currencyLabel: string;
   }
@@ -30,14 +34,14 @@ export const REGION_CONTENT: Record<
   IN: {
     contactLine: "India · prime@primelearning.ae",
     email: "prime@primelearning.ae",
-    fellowshipCta: "Apply from India",
+    applyCta: "Apply from India",
     paymentNote: "All prices in INR. Payments via Razorpay, UPI, and cards.",
     currencyLabel: "₹ INR",
   },
   AE: {
     contactLine: "UAE · hello@primelearning.ae",
     email: "hello@primelearning.ae",
-    fellowshipCta: "Reserve Your Seat",
+    applyCta: "Reserve Your Seat",
     paymentNote: "All prices in AED. Payments via Stripe and cards.",
     currencyLabel: "AED",
   },

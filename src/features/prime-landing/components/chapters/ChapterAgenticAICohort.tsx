@@ -8,10 +8,10 @@ import { useScrollStore } from "@/features/prime-landing/components/providers/Sc
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 
-const FELLOWSHIPS = [
+const TRACKS = [
   {
-    tag: "Fellowship 01",
-    title: "The Agentic AI Builders Fellowship",
+    tag: "Track 01",
+    title: "The Agentic AI Builders",
     subtitle: "Zero to Deployed",
     meta: "7 Phases · 50 Sessions",
     phases: [
@@ -35,8 +35,8 @@ const FELLOWSHIPS = [
       "9 Portfolio Projects · Every project ships · Session 49 = Your first live AI product",
   },
   {
-    tag: "Fellowship 02",
-    title: "The AI Generalist Global Fellowship",
+    tag: "Track 02",
+    title: "The Global AI Generalist",
     subtitle: "Zero to Deployed",
     meta: "5 Modules · 25 Sessions",
     phases: [
@@ -214,16 +214,16 @@ export function ChapterAgenticAICohort() {
           systems that ship outcomes.
         </p>
 
-        {/* ───────── FELLOWSHIP TRACKS ───────── */}
+        {/* ───────── PROGRAMME TRACKS ───────── */}
         <div
           data-cohort-reveal
           className="mt-12 flex items-center gap-3"
         >
-          <Eyebrow>Two fellowship tracks</Eyebrow>
+          <Eyebrow>Two programme tracks</Eyebrow>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-          {FELLOWSHIPS.map((f) => (
+          {TRACKS.map((f) => (
             <article
               key={f.title}
               data-cohort-reveal
@@ -481,7 +481,7 @@ export function ChapterAgenticAICohort() {
                 rel="noopener noreferrer"
                 variant="primary"
               >
-                {regional.fellowshipCta}
+                {regional.applyCta}
               </Button>
               <Button
                 as="a"

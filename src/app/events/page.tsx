@@ -4,13 +4,13 @@ import { EventsPage } from "@/features/events/components/EventsPage";
 const siteUrl = "https://primelearning.ae";
 
 export const metadata: Metadata = {
-  title: "Events — Fellowships & Live Cohorts",
+  title: "Events — Live Cohorts",
   description:
-    "Prime Learning fellowships and live cohorts across India, the UAE, and globally. Agentic AI programmes built for production outcomes.",
+    "Prime Learning live cohorts across India, the UAE, and globally. Agentic AI programmes built for production outcomes.",
   alternates: { canonical: `${siteUrl}/events` },
   openGraph: {
     title: "Prime Learning Events",
-    description: "Fellowships and live cohorts — India, UAE, and global intake.",
+    description: "Live cohorts — India, UAE, and global intake.",
     url: `${siteUrl}/events`,
     type: "website",
   },

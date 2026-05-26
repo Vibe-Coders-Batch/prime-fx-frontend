@@ -1,10 +1,10 @@
-export type FellowshipPhase = {
+export type EventPhase = {
   code: string;
   name: string;
   deliverable: string;
 };
 
-export type FellowshipEvent = {
+export type EventItem = {
   id: string;
   tag: string;
   title: string;
@@ -12,15 +12,15 @@ export type FellowshipEvent = {
   meta: string;
   regions: ("IN" | "AE" | "GLOBAL")[];
   format: string;
-  phases: FellowshipPhase[];
+  phases: EventPhase[];
   footer: string;
 };
 
-export const FLAGSHIP_EVENTS: FellowshipEvent[] = [
+export const FLAGSHIP_EVENTS: EventItem[] = [
   {
     id: "agentic-ai-builders",
-    tag: "Fellowship 01",
-    title: "The Agentic AI Builders Fellowship",
+    tag: "Track 01",
+    title: "The Agentic AI Builders",
     subtitle: "Zero to Deployed",
     meta: "7 Phases · 50 Sessions",
     regions: ["IN", "AE", "GLOBAL"],
@@ -39,8 +39,8 @@ export const FLAGSHIP_EVENTS: FellowshipEvent[] = [
   },
   {
     id: "ai-generalist-global",
-    tag: "Fellowship 02",
-    title: "The AI Generalist Global Fellowship",
+    tag: "Track 02",
+    title: "The Global AI Generalist",
     subtitle: "Zero to Deployed",
     meta: "5 Modules · 25 Sessions",
     regions: ["IN", "AE", "GLOBAL"],
@@ -64,7 +64,7 @@ export const UPCOMING_SESSIONS = [
     date: "By invitation",
   },
   {
-    title: "Builders Fellowship — Hyderabad Cohort",
+    title: "Builders — Hyderabad Cohort",
     location: "Hyderabad, India",
     region: "IN" as const,
     date: "Enrollment open",

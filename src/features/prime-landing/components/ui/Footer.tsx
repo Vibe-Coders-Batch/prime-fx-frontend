@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRegion } from "@/context/RegionContext";
-import { REGION_CONTENT } from "@/config/pricing";
+import { REGION_CONTENT, SUPPORT_PHONE, SUPPORT_PHONE_HREF } from "@/config/pricing";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 
@@ -67,6 +67,12 @@ export function Footer() {
             className="mt-6 inline-block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
           >
             {regional.contactLine}
+          </a>
+          <a
+            href={SUPPORT_PHONE_HREF}
+            className="mt-2 block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
+          >
+            Support · {SUPPORT_PHONE}
           </a>
         </div>
 
