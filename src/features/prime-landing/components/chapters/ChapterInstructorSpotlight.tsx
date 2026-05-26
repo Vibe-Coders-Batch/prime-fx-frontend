@@ -11,6 +11,7 @@ type Instructor = {
   credential: string;
   courses: number;
   portrait: string;
+  portraitPosition?: string;
 };
 
 const INSTRUCTORS: Instructor[] = [
@@ -22,11 +23,11 @@ const INSTRUCTORS: Instructor[] = [
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=70",
   },
   {
-    name: "Andre Cole",
-    credential: "Design Director, ex-Apple",
+    name: "Vinay Kumar",
+    credential: "AI and Healthcare Consultant",
     courses: 4,
-    portrait:
-      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=70",
+    portrait: "/team/VinayKumar.png",
+    portraitPosition: "center 25%",
   },
   {
     name: "Priya Sharma",
@@ -219,6 +220,7 @@ export function ChapterInstructorSpotlight() {
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover grayscale transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
+                  style={p.portraitPosition ? { objectPosition: p.portraitPosition } : undefined}
                 />
                 <div className="absolute inset-0 bg-black/50" />
               </div>

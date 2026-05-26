@@ -46,6 +46,7 @@ export function SpotlightPage() {
                 name={instructor.name}
                 subtitle={instructor.credential}
                 portrait={instructor.portrait}
+                objectPosition={instructor.portraitPosition}
                 meta={`${instructor.courses} courses`}
                 priority={i < 2}
               />

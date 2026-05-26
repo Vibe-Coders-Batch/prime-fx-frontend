@@ -3,6 +3,7 @@ export type Instructor = {
   credential: string;
   courses: number;
   portrait: string;
+  portraitPosition?: string;
 };
 
 export const FEATURED_INSTRUCTOR = {
@@ -24,11 +25,11 @@ export const INSTRUCTORS: Instructor[] = [
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=70",
   },
   {
-    name: "Andre Cole",
-    credential: "Design Director, ex-Apple",
+    name: "Vinay Kumar",
+    credential: "AI and Healthcare Consultant",
     courses: 4,
-    portrait:
-      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=70",
+    portrait: "/team/VinayKumar.png",
+    portraitPosition: "center 25%",
   },
   {
     name: "Priya Sharma",

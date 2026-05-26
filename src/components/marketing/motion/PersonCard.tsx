@@ -11,6 +11,7 @@ type PersonCardProps = {
   meta?: string;
   alt?: string;
   priority?: boolean;
+  objectPosition?: string;
 };
 
 export function PersonCard({
@@ -20,6 +21,7 @@ export function PersonCard({
   meta,
   alt,
   priority = false,
+  objectPosition,
 }: PersonCardProps) {
   return (
     <motion.figure variants={fadeUp} transition={defaultTransition} className="group cursor-default">
@@ -42,6 +44,7 @@ export function PersonCard({
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
               className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+              style={objectPosition ? { objectPosition } : undefined}
               priority={priority}
             />
           </motion.div>
