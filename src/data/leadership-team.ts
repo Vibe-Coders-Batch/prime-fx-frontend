@@ -2,6 +2,9 @@ export type LeadershipMember = {
   name: string;
   role: string;
   portrait: string;
+  /** Zoom factor for the circular portrait (1 = no zoom). Use to re-center
+   * faces that are framed too small/high in the source image. */
+  portraitZoom?: number;
 };
 
 export const FEATURED_LEADER = {
@@ -32,10 +35,12 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     name: "Vijay Sarathi",
     role: "India Business Head",
     portrait: "/team/vijay-sarathi.png",
+    portraitZoom: 1.45,
   },
   {
     name: "Biswajit Sircar",
     role: "Senior Director — HR",
     portrait: "/team/biswajit-sircar.png",
+    portraitZoom: 1.22,
   },
 ];

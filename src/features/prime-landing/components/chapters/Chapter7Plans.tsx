@@ -171,7 +171,10 @@ export function Chapter7Plans() {
                 </p>
               </div>
               <div className="mt-8">
-                <span className="display" style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)" }}>
+                <span
+                  className="display block whitespace-nowrap leading-none"
+                  style={{ fontSize: "clamp(1.375rem, 4.2vw, 2.25rem)" }}
+                >
                   {plan.priceKey ? (
                     <PriceDisplay priceKey={plan.priceKey} />
                   ) : (

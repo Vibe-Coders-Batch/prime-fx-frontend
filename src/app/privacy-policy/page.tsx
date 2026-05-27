@@ -1006,7 +1006,7 @@ export default function PrivacyPolicyPage() {
                   If you are a Minor, please do not create an account or provide personal data without your parent or guardian&apos;s knowledge and consent. If you suspect a minor has registered without consent, contact our Grievance Officer immediately; we will promptly purge the account data.
                 </p>
                 <p className="text-xs text-muted-foreground italic">
-                  * In cases where training is delivered to institutions (schools/colleges), the partner institution is responsible for verifying parental consents before onboarding students.
+                  * In cases where training is delivered to institutions , the partner institution is responsible for verifying parental consents before onboarding students.
                 </p>
               </div>
             </section>

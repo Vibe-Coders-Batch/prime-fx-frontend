@@ -8,15 +8,85 @@ import {
   registerGsap,
 } from "@/features/prime-landing/lib/gsap";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
-import { LEADERSHIP_TEAM } from "@/data/leadership-team";
+import { LEADERSHIP_TEAM, type LeadershipMember } from "@/data/leadership-team";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import Link from "next/link";
 
+/** A single person: circular portrait + name + role. */
+function TeamNode({
+  member,
+  priority = false,
+}: {
+  member: LeadershipMember;
+  priority?: boolean;
+}) {
+  return (
+    <div
+      data-team-node
+      className="group flex w-full max-w-[10rem] flex-col items-center px-1 text-center"
+    >
+      <div
+        className="relative h-24 w-24 overflow-hidden rounded-full sm:h-36 sm:w-36 lg:h-44 lg:w-44"
+        style={{
+          border: "1px solid rgba(212,175,55,0.35)",
+          boxShadow:
+            "0 18px 40px -18px rgba(0,0,0,0.55), inset 0 0 0 4px rgba(11,25,47,0.85)",
+          background:
+            "radial-gradient(circle at 50% 30%, rgba(212,175,55,0.18), rgba(11,25,47,0) 70%)",
+        }}
+      >
+        <div
+          className="absolute inset-0"
+          style={
+            member.portraitZoom
+              ? {
+                  transform: `scale(${member.portraitZoom})`,
+                  transformOrigin: "50% 0%",
+                }
+              : undefined
+          }
+        >
+          <Image
+            src={member.portrait}
+            alt={`${member.name} — ${member.role}`}
+            fill
+            sizes="(max-width: 640px) 6rem, 11rem"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+            priority={priority}
+          />
+        </div>
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 100%, rgba(11,25,47,0.45), transparent 55%)",
+          }}
+        />
+      </div>
+
+      <h3
+        className="display mt-4 text-sm leading-tight sm:text-base lg:text-lg"
+        style={{ color: "var(--gold-bright)" }}
+      >
+        {member.name}
+      </h3>
+      <p
+        className="mt-1 text-[11px] leading-snug sm:text-xs lg:text-sm"
+        style={{ color: "var(--text-secondary)" }}
+      >
+        {member.role}
+      </p>
+    </div>
+  );
+}
+
 export function ChapterCoreTeam() {
   const rootRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLElement | null)[]>([]);
   const setChapter = useScrollStore((s) => s.setChapter);
+
+  // Top tier: first three. Bottom tier: remaining two, centered under the gaps.
+  const topRow = LEADERSHIP_TEAM.slice(0, 3);
+  const bottomRow = LEADERSHIP_TEAM.slice(3, 5);
 
   useEffect(() => {
     registerGsap();
@@ -24,47 +94,31 @@ export function ChapterCoreTeam() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(headerRef.current, { opacity: 0, y: 40 });
-      gsap.set(cardsRef.current.filter(Boolean) as HTMLElement[], {
-        opacity: 0,
-        y: 30,
+      // Additive reveal: nodes are visible by default; the scroll-in only
+      // enhances them, so a missed ScrollTrigger never hides the tree.
+      const reveals = root.querySelectorAll<HTMLElement>(
+        "[data-team-reveal], [data-team-node]"
+      );
+      ScrollTrigger.batch(reveals, {
+        start: "top 88%",
+        onEnter: (els) =>
+          gsap.fromTo(
+            els,
+            { y: 24, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: "expo.out" }
+          ),
       });
 
       ScrollTrigger.create({
         trigger: root,
-        start: "top 75%",
-        once: true,
-        onEnter: () => {
-          gsap.to(headerRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "expo.out",
-          });
-          gsap.to(cardsRef.current.filter(Boolean) as HTMLElement[], {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "expo.out",
-            stagger: 0.08,
-            delay: 0.15,
-          });
-        },
+        start: "top center",
+        end: "bottom center",
+        onEnter: () => setChapter("core-team"),
+        onEnterBack: () => setChapter("core-team"),
       });
     }, root);
 
-    const chapterTrigger = ScrollTrigger.create({
-      trigger: root,
-      start: "top center",
-      end: "bottom center",
-      onEnter: () => setChapter("core-team"),
-      onEnterBack: () => setChapter("core-team"),
-    });
-
-    return () => {
-      ctx.revert();
-      chapterTrigger.kill();
-    };
+    return () => ctx.revert();
   }, [setChapter]);
 
   return (
@@ -76,7 +130,7 @@ export function ChapterCoreTeam() {
       aria-label="Core team and mentors"
     >
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div ref={headerRef} className="mx-auto max-w-3xl text-center">
+        <div data-team-reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>Leadership</Eyebrow>
           <h2
             className="display mt-6"
@@ -113,60 +167,26 @@ export function ChapterCoreTeam() {
           </div>
         </div>
 
-        <ul
-          className="mt-16 grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"
-          role="list"
-        >
-          {LEADERSHIP_TEAM.map((m, i) => (
-            <li
-              key={m.name}
-              ref={(el) => {
-                cardsRef.current[i] = el;
-              }}
-              className="group flex flex-col items-center text-center"
-            >
-              <div
-                className="relative h-44 w-44 overflow-hidden rounded-full sm:h-52 sm:w-52"
-                style={{
-                  border: "1px solid rgba(212,175,55,0.35)",
-                  boxShadow:
-                    "0 18px 40px -18px rgba(0,0,0,0.55), inset 0 0 0 4px rgba(11,25,47,0.85)",
-                  background:
-                    "radial-gradient(circle at 50% 30%, rgba(212,175,55,0.18), rgba(11,25,47,0) 70%)",
-                }}
-              >
-                <Image
-                  src={m.portrait}
-                  alt={`${m.name} — ${m.role}`}
-                  fill
-                  sizes="(max-width: 640px) 11rem, 13rem"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-                  priority={i < 3}
-                />
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 50% 100%, rgba(11,25,47,0.45), transparent 55%)",
-                  }}
-                />
+        {/* ───────── 3 on top → 2 centered below ───────── */}
+        <div className="mx-auto mt-16 max-w-4xl">
+          {/* Tier 1 — three nodes (centers at 1/6 · 3/6 · 5/6) */}
+          <div className="flex items-start">
+            {topRow.map((m) => (
+              <div key={m.name} className="flex flex-1 flex-col items-center">
+                <TeamNode member={m} priority />
               </div>
+            ))}
+          </div>
 
-              <h3
-                className="display mt-6 text-lg sm:text-xl"
-                style={{ color: "var(--gold-bright)" }}
-              >
-                {m.name}
-              </h3>
-              <p
-                className="mt-1 text-sm sm:text-base"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {m.role}
-              </p>
-            </li>
-          ))}
-        </ul>
+          {/* Tier 2 — two nodes centred in the middle (centers at 1/3 · 2/3) */}
+          <div className="mx-auto mt-12 flex w-2/3 items-start sm:mt-16">
+            {bottomRow.map((m) => (
+              <div key={m.name} className="flex flex-1 flex-col items-center">
+                <TeamNode member={m} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

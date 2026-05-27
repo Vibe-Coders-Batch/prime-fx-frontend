@@ -26,6 +26,7 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
   const [visible, setVisible] = useState(!isLanding);
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoKey, setLogoKey] = useState(0);
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const hasAnimatedRef = useRef(false);
   const lastYRef = useRef(0);
 
@@ -101,9 +102,6 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
     setMenuOpen(false);
   };
 
-  const linkClass =
-    "opacity-70 transition-opacity hover:opacity-100 whitespace-nowrap";
-
   return (
     <>
       <a
@@ -127,43 +125,80 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
         <Link
           key={logoKey}
           href="/"
-          className={`inline-flex shrink-0 items-center${logoKey > 0 && isLanding ? " logo-appear" : ""}`}
+          className={`group inline-flex shrink-0 items-center transition-transform duration-500 ease-out hover:scale-[1.03] active:scale-[0.99]${logoKey > 0 && isLanding ? " logo-appear" : ""}`}
           aria-label="Prime Learning home"
         >
           <Image
             src={isPaper ? "/logo-square.svg" : "/logo-square-dark.svg"}
             alt="Prime Learning"
-            width={70}
-            height={70}
-            className="h-12 w-12 sm:h-14 sm:w-14 lg:hidden"
+            width={80}
+            height={80}
+            className="h-14 w-14 object-contain drop-shadow-[0_2px_10px_rgba(212,175,55,0.3)] transition-[filter] duration-500 group-hover:drop-shadow-[0_4px_18px_rgba(212,175,55,0.6)] sm:h-16 sm:w-16 lg:hidden"
             priority
           />
           <Image
             src={isPaper ? "/logo.svg" : "/logo-dark.svg"}
             alt="Prime Learning"
-            width={520}
+            width={620}
             height={200}
-            className="hidden h-9 w-auto max-w-[min(200px,42vw)] object-contain object-left lg:block xl:h-10 xl:max-w-[220px]"
+            className="hidden h-12 w-auto max-w-[min(280px,50vw)] object-contain object-left drop-shadow-[0_2px_12px_rgba(212,175,55,0.28)] transition-[filter] duration-500 group-hover:drop-shadow-[0_5px_22px_rgba(212,175,55,0.6)] lg:block xl:h-14 xl:max-w-[320px]"
             priority
           />
         </Link>
 
-        <ul className="hidden min-w-0 flex-1 items-center justify-center gap-x-5 gap-y-1 overflow-x-auto text-xs lg:flex xl:gap-7 xl:text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {PRIMARY_NAV.map((item) => (
-            <li key={item.href} className="shrink-0">
-              <a
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(item.href);
-                }}
-                className={linkClass}
-                aria-current={pathname === item.href ? "page" : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
+        <ul
+          className="relative hidden min-w-0 flex-1 items-center justify-center gap-0.5 overflow-x-auto rounded-full border px-1.5 py-1 text-xs lg:flex xl:text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{
+            borderColor: isPaper ? "rgba(11,25,47,0.08)" : "rgba(255,255,255,0.08)",
+            background: isPaper ? "rgba(11,25,47,0.03)" : "rgba(255,255,255,0.04)",
+          }}
+          onMouseLeave={() => setHoveredHref(null)}
+        >
+          {PRIMARY_NAV.map((item) => {
+            const active = pathname === item.href;
+            const hovered = hoveredHref === item.href;
+            return (
+              <li key={item.href} className="shrink-0">
+                <a
+                  href={item.href}
+                  onMouseEnter={() => setHoveredHref(item.href)}
+                  onFocus={() => setHoveredHref(item.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(item.href);
+                  }}
+                  className="group relative z-10 inline-flex items-center whitespace-nowrap rounded-full px-3 py-1.5 font-medium tracking-wide outline-none transition-[color,transform] duration-300 hover:scale-[1.04]"
+                  style={{ color: hovered ? "var(--ink)" : undefined, opacity: hovered ? 1 : 0.7 }}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {hovered && (
+                    <motion.span
+                      layoutId="nav-spotlight"
+                      aria-hidden="true"
+                      className="absolute inset-0 -z-10 rounded-full"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, var(--gold-bright), var(--gold))",
+                        boxShadow:
+                          "0 0 0 1px rgba(212,175,55,0.55), 0 8px 22px -6px rgba(212,175,55,0.7), 0 0 16px rgba(212,175,55,0.4)",
+                      }}
+                      transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 }}
+                    />
+                  )}
+                  <span className="relative">
+                    {item.label}
+                    {active && (
+                      <span
+                        aria-hidden="true"
+                        className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full"
+                        style={{ background: hovered ? "var(--ink)" : "var(--gold-bright)" }}
+                      />
+                    )}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
