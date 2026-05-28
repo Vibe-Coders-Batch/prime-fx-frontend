@@ -37,7 +37,7 @@ export function LeadershipPage() {
           />
 
           <motion.div
-            className="mt-20 grid grid-cols-2 gap-5 md:grid-cols-4"
+            className="mt-20 grid grid-cols-2 gap-5 sm:grid-cols-3"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"

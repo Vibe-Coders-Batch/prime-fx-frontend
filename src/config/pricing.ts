@@ -1,8 +1,27 @@
 import { useRegion, type Region } from "@/context/RegionContext";
 
-// Single support contact number used across the entire website.
-export const SUPPORT_PHONE = "+91 95505 33955";
-export const SUPPORT_PHONE_HREF = "tel:+919550533955";
+export {
+  COMMUNICATION_CONTACTS,
+  STAFFING_PHONE,
+  STAFFING_PHONE_HREF,
+  SUPPORT_PHONE,
+  SUPPORT_PHONE_HREF,
+} from "@/config/contact";
+
+export const OFFICE_LOCATION = {
+  name: "Trendz Trinity",
+  streetAddress: "Plot No. 21, Madhapur, Gafoornagar",
+  addressLocality: "Hyderabad",
+  addressRegion: "Telangana",
+  postalCode: "500081",
+  addressCountry: "IN",
+} as const;
+
+export const OFFICE_MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent(
+    "Trendz Trinity, Plot No. 21, Madhapur, Gafoornagar, Hyderabad, Telangana 500081"
+  );
 
 export type PriceKey =
   | "applied_llm"
@@ -32,8 +51,8 @@ export const REGION_CONTENT: Record<
   }
 > = {
   IN: {
-    contactLine: "India · prime@primelearning.ae",
-    email: "prime@primelearning.ae",
+    contactLine: "India · learning@primelearning.ae",
+    email: "learning@primelearning.ae",
     applyCta: "Apply from India",
     paymentNote: "All prices in INR. Payments via Razorpay, UPI, and cards.",
     currencyLabel: "₹ INR",

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRegion } from "@/context/RegionContext";
-import { REGION_CONTENT, SUPPORT_PHONE, SUPPORT_PHONE_HREF } from "@/config/pricing";
+import { CommunicationContacts } from "@/components/marketing/CommunicationContacts";
+import { OFFICE_LOCATION, OFFICE_MAPS_URL } from "@/config/pricing";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 
@@ -23,19 +23,17 @@ const LINKS: Record<string, FooterLink[]> = {
     { label: "Blog", href: "/blogs" },
     { label: "Guides", href: "/blogs" },
     { label: "Case Studies", href: "/blogs" },
-    { label: "Help Center", href: "mailto:hello@primelearning.ae" },
+    { label: "Help Center", href: "mailto:learning@primelearning.ae" },
   ],
   Legal: [
     { label: "Privacy", href: "/privacy-policy" },
     { label: "Terms", href: "/terms-of-service" },
     { label: "Code of Conduct", href: "/terms-of-service" },
-    { label: "Contact", href: "mailto:hello@primelearning.ae" },
+    { label: "Contact", href: "mailto:learning@primelearning.ae" },
   ],
 };
 
 export function Footer() {
-  const { region } = useRegion();
-  const regional = REGION_CONTENT[region];
   const [noWebgl, setNoWebgl] = useState(false);
 
   const toggleWebgl = () => {
@@ -62,18 +60,21 @@ export function Footer() {
           <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
             Learn Smarter. Grow Faster. Lead With Purpose.
           </p>
-          <a
-            href={`mailto:${regional.email}`}
-            className="mt-6 inline-block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
-          >
-            {regional.contactLine}
-          </a>
-          <a
-            href={SUPPORT_PHONE_HREF}
-            className="mt-2 block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
-          >
-            Support · {SUPPORT_PHONE}
-          </a>
+          <CommunicationContacts className="mt-6" />
+          <address className="mt-8 not-italic text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
+            <p className="font-medium text-[var(--text-primary)]">{OFFICE_LOCATION.name}</p>
+            <a
+              href={OFFICE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 block transition-colors hover:text-[var(--gold-bright)]"
+            >
+              {OFFICE_LOCATION.streetAddress}
+              <br />
+              {OFFICE_LOCATION.addressLocality}, {OFFICE_LOCATION.addressRegion}{" "}
+              {OFFICE_LOCATION.postalCode}
+            </a>
+          </address>
         </div>
 
         <div className="grid grid-cols-3 gap-8">
