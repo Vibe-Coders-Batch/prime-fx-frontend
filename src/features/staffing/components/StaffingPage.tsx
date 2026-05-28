@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { MarketingPageShell } from "@/components/marketing/MarketingPageShell";
 import { PageHeader } from "@/components/marketing/motion/PageHeader";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 import { Button } from "@/features/prime-landing/components/ui/Button";
+import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
 
 const GCC = ["UAE", "KSA", "Qatar", "Kuwait", "Bahrain", "Oman"] as const;
 
@@ -95,10 +97,38 @@ const WHY = [
 ] as const;
 
 export function StaffingPage() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    registerGsap();
+    const root = rootRef.current;
+    if (!root) return;
+
+    const ctx = gsap.context(() => {
+      const blocks = root.querySelectorAll<HTMLElement>("[data-reveal]");
+      gsap.set(blocks, { y: 18, opacity: 0 });
+
+      ScrollTrigger.batch(blocks, {
+        start: "top 88%",
+        onEnter: (els) =>
+          gsap.to(els, {
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            stagger: 0.08,
+            ease: "expo.out",
+            overwrite: true,
+          }),
+      });
+    }, root);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <MarketingPageShell>
       <main className="relative pt-28 pb-16 md:pt-36">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div ref={rootRef} className="mx-auto max-w-7xl px-6 lg:px-8">
           <PageHeader
             eyebrow="Staffing"
             title={
@@ -119,7 +149,10 @@ export function StaffingPage() {
             </div>
           </PageHeader>
 
-          <section className="mt-16 grid gap-6 rounded-2xl border border-[var(--fog)]/60 bg-white/[0.02] p-6 md:grid-cols-3 md:p-8">
+          <section
+            data-reveal
+            className="mt-16 grid gap-6 rounded-2xl border border-[var(--fog)]/60 bg-white/[0.02] p-6 md:grid-cols-3 md:p-8"
+          >
             <div>
               <Eyebrow>Coverage</Eyebrow>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
@@ -155,6 +188,7 @@ export function StaffingPage() {
               {CAPABILITIES.map((c) => (
                 <article
                   key={c.title}
+                  data-reveal
                   className="rounded-2xl border border-[var(--fog)]/60 bg-[rgba(255,255,255,0.02)] p-6"
                 >
                   <p className="text-sm font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
@@ -180,6 +214,7 @@ export function StaffingPage() {
               {TECH_EXPERTISE.map((area) => (
                 <article
                   key={area.title}
+                  data-reveal
                   className="rounded-2xl border border-[var(--fog)]/60 bg-[rgba(255,255,255,0.02)] p-6"
                 >
                   <p className="text-sm font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
@@ -205,6 +240,7 @@ export function StaffingPage() {
               {WHY.map((w) => (
                 <article
                   key={w.title}
+                  data-reveal
                   className="rounded-2xl border border-[var(--fog)]/60 bg-[rgba(255,255,255,0.02)] p-6"
                 >
                   <p className="text-sm font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
@@ -218,7 +254,10 @@ export function StaffingPage() {
             </div>
           </section>
 
-          <section className="mt-20 overflow-hidden rounded-2xl border border-[var(--gold)]/30 bg-gradient-to-br from-[var(--mist)] to-[var(--ink)] p-8">
+          <section
+            data-reveal
+            className="mt-20 overflow-hidden rounded-2xl border border-[var(--gold)]/30 bg-gradient-to-br from-[var(--mist)] to-[var(--ink)] p-8"
+          >
             <div className="max-w-3xl">
               <Eyebrow>Get started</Eyebrow>
               <h2 className="display mt-6" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--text-primary)" }}>
