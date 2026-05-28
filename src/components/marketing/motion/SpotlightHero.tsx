@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { TeamPortraitImage } from "@/components/marketing/TeamPortraitImage";
 import {
   defaultTransition,
   lineGrow,
@@ -103,7 +103,7 @@ export function SpotlightHero({
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Image
+          <TeamPortraitImage
             src={portrait}
             alt={name}
             fill

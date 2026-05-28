@@ -83,6 +83,15 @@ const nextConfig: NextConfig = {
                     },
                 ],
             },
+            {
+                source: "/team/:path*",
+                headers: [
+                    {
+                        key: "Cache-Control",
+                        value: "public, max-age=0, must-revalidate",
+                    },
+                ],
+            },
         ];
     },
     async redirects() {
