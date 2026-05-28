@@ -65,7 +65,7 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     ],
   },
   {
-    name: "Vijay Sarathi",
+    name: "Vijay Saradhi",
     role: "India Business Head",
     portrait: teamPortrait("vijay-sarathi.png"),
     portraitZoom: 1.45,

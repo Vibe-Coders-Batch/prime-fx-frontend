@@ -11,7 +11,7 @@ export const COMMUNICATION_CONTACTS: CommunicationContact[] = [
   {
     division: "Prime Learning",
     email: "learning@primelearning.ae",
-    contactName: "Vijay Sarathi",
+    contactName: "Vijay Saradhi",
     phone: "+91 95505 33955",
     phoneHref: "tel:+919550533955",
   },
