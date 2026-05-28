@@ -53,8 +53,8 @@ export function Footer() {
             src="/logo-dark.svg"
             alt="Prime Learning"
             width={520}
-            height={200}
-            className="h-12 w-auto max-w-[220px] object-contain object-left sm:h-14 lg:h-16 lg:max-w-[260px]"
+            height={304}
+            className="h-28 w-auto max-w-[520px] object-contain object-left sm:h-32 sm:max-w-[640px] lg:h-40 lg:max-w-[760px]"
             priority
           />
           <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
