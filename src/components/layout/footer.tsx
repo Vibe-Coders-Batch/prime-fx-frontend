@@ -103,7 +103,7 @@ export function Footer() {
       <div className="mt-12 pt-8 border-t border-white/5 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-sm text-center md:text-left">
-            © 2025 Prime Learning. All rights reserved.
+            © 2026 Prime Learning. All rights reserved.
           </p>
           <nav aria-label="Social media links">
             <ul className="flex items-center gap-6">

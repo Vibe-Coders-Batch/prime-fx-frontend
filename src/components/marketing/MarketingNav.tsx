@@ -34,10 +34,8 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
   const isPaper = navTheme === "paper";
 
   useEffect(() => {
-    if (!isLanding) {
-      setVisible(true);
-      return;
-    }
+    // Landing page uses Lenis + scroll store. Other pages use native scroll.
+    if (!isLanding) return;
 
     const heroThreshold = window.innerHeight * 0.6;
     const pastHero = scrollY > heroThreshold;
@@ -65,6 +63,47 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
       setLogoKey((k) => k + 1);
     }
   }, [scrollY, isLanding]);
+
+  useEffect(() => {
+    if (isLanding) return;
+
+    const DEADZONE = 8;
+    const TOP_STICKY = 96;
+    let raf = 0;
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        const y = window.scrollY || 0;
+        const lastY = lastYRef.current;
+        const delta = y - lastY;
+        lastYRef.current = y;
+
+        if (y < TOP_STICKY) {
+          setVisible(true);
+        } else if (delta > DEADZONE) {
+          setVisible(false);
+        } else if (delta < -DEADZONE) {
+          setVisible(true);
+        }
+
+        if (!hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
+          setLogoKey((k) => k + 1);
+        }
+      });
+    };
+
+    // Initialize.
+    lastYRef.current = typeof window !== "undefined" ? window.scrollY || 0 : 0;
+    setVisible(true);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [isLanding]);
 
   useEffect(() => {
     setMenuOpen(false);

@@ -56,7 +56,7 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     role: "Vice President",
     portrait: teamPortrait("rajesh-chandra-roy.png"),
     summary:
-      "Transition & transformation leader with 30+ years building learning ecosystems that enable enterprise change — aligning capability, talent, and execution across India and the MEA region.",
+      "Transition & transformation leader with 30+ years building learning ecosystems that enable enterprise change aligning capability, talent, and execution across India and the MEA region.",
     highlights: [
       "Large-scale transformation experience across Energy & Utilities, Financial Services, and Telecommunications",
       "Capability building: enterprise learning ecosystems, LMS strategy, and workforce AI readiness",
@@ -70,7 +70,7 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     portrait: teamPortrait("vijay-sarathi.png"),
     portraitZoom: 1.45,
     summary:
-      "Leads university partnerships and business development for outcome-driven AI & tech training — bringing hands-on, industry-ready programmes to campuses across India.",
+      "Leads university partnerships and business development for outcome-driven AI & tech training bringing hands-on, industry-ready programmes to campuses across India.",
     highlights: [
       "Partners with universities and colleges to bridge academia ↔ industry skills gaps",
       "MoU-based collaborations aligned to academic calendars and student learning levels",

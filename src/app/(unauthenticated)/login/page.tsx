@@ -87,7 +87,7 @@ function LoginPageInner() {
           </div>
 
           <div className="flex items-center justify-end">
-            <Link href="/forgot-password" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/forgot-password" tabIndex={-1} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Forgot password?
             </Link>
           </div>

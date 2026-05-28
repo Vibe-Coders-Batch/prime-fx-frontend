@@ -7,7 +7,7 @@ export {
 } from "@/config/contact";
 
 export const OFFICE_LOCATION = {
-  name: "Trendz Trinity",
+  name: "MIYO Global Office (Trendz Trinity)",
   streetAddress: "Plot No. 21, Madhapur, Gafoornagar",
   addressLocality: "Hyderabad",
   addressRegion: "Telangana",
@@ -18,7 +18,7 @@ export const OFFICE_LOCATION = {
 export const OFFICE_MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=" +
   encodeURIComponent(
-    "Trendz Trinity, Plot No. 21, Madhapur, Gafoornagar, Hyderabad, Telangana 500081"
+    "MIYO Global Office, Trendz Trinity, Plot No. 21, Madhapur, Gafoornagar, Hyderabad, Telangana 500081"
   );
 
 export type PriceKey =

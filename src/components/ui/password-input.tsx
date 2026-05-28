@@ -11,7 +11,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
     const inputType = isVisible ? "text" : "password";
     return (<div className="relative">
         <Input ref={ref} type={inputType} disabled={disabled} className={cn(showToggle && "pr-10", className)} {...props}/>
-        {showToggle && (<button type="button" className={cn("absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors", disabled && "pointer-events-none opacity-50")} onClick={() => setIsVisible((v) => !v)} aria-label={isVisible ? "Hide password" : "Show password"} aria-pressed={isVisible}>
+        {showToggle && (<button type="button" tabIndex={-1} className={cn("absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors", disabled && "pointer-events-none opacity-50")} onClick={() => setIsVisible((v) => !v)} aria-label={isVisible ? "Hide password" : "Show password"} aria-pressed={isVisible}>
             {isVisible ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
           </button>)}
       </div>);
