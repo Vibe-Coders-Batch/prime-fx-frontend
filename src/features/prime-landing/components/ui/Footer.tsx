@@ -61,26 +61,6 @@ export function Footer() {
             Learn Smarter. Grow Faster. Lead With Purpose.
           </p>
           <CommunicationContacts className="mt-8" />
-          <address className="mt-8 not-italic text-sm leading-relaxed sm:text-base">
-            <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--gold-bright)" }}>
-              Office
-            </p>
-            <p className="mt-5 font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
-              {OFFICE_LOCATION.name}
-            </p>
-            <a
-              href={OFFICE_MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 block transition-colors hover:text-[var(--gold-bright)]"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              {OFFICE_LOCATION.streetAddress}
-              <br />
-              {OFFICE_LOCATION.addressLocality}, {OFFICE_LOCATION.addressRegion}{" "}
-              {OFFICE_LOCATION.postalCode}
-            </a>
-          </address>
         </div>
 
         <div className="grid grid-cols-3 gap-8">
@@ -122,6 +102,27 @@ export function Footer() {
               Join
             </Button>
           </form>
+
+          <address className="mt-10 not-italic text-sm leading-relaxed sm:text-base">
+            <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--gold-bright)" }}>
+              Office
+            </p>
+            <p className="mt-5 font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
+              {OFFICE_LOCATION.name}
+            </p>
+            <a
+              href={OFFICE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 block transition-colors hover:text-[var(--gold-bright)]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              {OFFICE_LOCATION.streetAddress}
+              <br />
+              {OFFICE_LOCATION.addressLocality}, {OFFICE_LOCATION.addressRegion}{" "}
+              {OFFICE_LOCATION.postalCode}
+            </a>
+          </address>
         </div>
       </div>
 
