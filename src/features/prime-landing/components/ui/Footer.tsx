@@ -60,14 +60,20 @@ export function Footer() {
           <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
             Learn Smarter. Grow Faster. Lead With Purpose.
           </p>
-          <CommunicationContacts className="mt-6" />
-          <address className="mt-8 not-italic text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
-            <p className="font-medium text-[var(--text-primary)]">{OFFICE_LOCATION.name}</p>
+          <CommunicationContacts className="mt-8" />
+          <address className="mt-8 not-italic text-sm leading-relaxed sm:text-base">
+            <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--gold-bright)" }}>
+              Office
+            </p>
+            <p className="mt-5 font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
+              {OFFICE_LOCATION.name}
+            </p>
             <a
               href={OFFICE_MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1 block transition-colors hover:text-[var(--gold-bright)]"
+              className="mt-2 block transition-colors hover:text-[var(--gold-bright)]"
+              style={{ color: "var(--text-secondary)" }}
             >
               {OFFICE_LOCATION.streetAddress}
               <br />

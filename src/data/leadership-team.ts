@@ -56,11 +56,12 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     role: "Vice President",
     portrait: teamPortrait("rajesh-chandra-roy.png"),
     summary:
-      "Drives commercial growth, client relationships, and programme expansion for corporate and institutional partners.",
+      "Transition & transformation leader with 30+ years building learning ecosystems that enable enterprise change — aligning capability, talent, and execution across India and the MEA region.",
     highlights: [
-      "Enterprise sales and account leadership",
-      "Market development across key sectors",
-      "Revenue and partnership execution",
+      "Large-scale transformation experience across Energy & Utilities, Financial Services, and Telecommunications",
+      "Capability building: enterprise learning ecosystems, LMS strategy, and workforce AI readiness",
+      "Business continuity and disaster recovery leadership for mission-critical programmes",
+      "Fortune 100 and government programme engagements; multi-geo delivery and turnaround execution",
     ],
   },
   {
@@ -69,11 +70,13 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     portrait: teamPortrait("vijay-sarathi.png"),
     portraitZoom: 1.45,
     summary:
-      "Heads India market development for Prime Learning — learner acquisition, institutional ties, and regional growth.",
+      "Leads university partnerships and business development for outcome-driven AI & tech training — bringing hands-on, industry-ready programmes to campuses across India.",
     highlights: [
-      "India go-to-market and business development",
-      "Corporate and learner engagement",
-      "Primary contact for Prime Learning programmes",
+      "Partners with universities and colleges to bridge academia ↔ industry skills gaps",
+      "MoU-based collaborations aligned to academic calendars and student learning levels",
+      "Programme focus: Agentic AI, Data Analytics, Prompt Engineering, LLMs, and applied tech tracks",
+      "Helps institutions future-proof students with structured, hands-on training delivered on campus",
+      "Primary contact for Prime Learning (learning@primelearning.ae)",
     ],
   },
   {
@@ -82,16 +85,18 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     portrait: teamPortrait("biswajit-sircar.png"),
     portraitZoom: 1.22,
     summary:
-      "Leads people operations and staffing programmes — workforce planning, compliance, and talent delivery at scale.",
+      "Global talent acquisition leader (21+ years) building scalable hiring engines across cloud, AI, BFSI, and next‑gen telecom — turning recruiting into measurable business impact.",
     highlights: [
-      "HR leadership and workforce strategy",
-      "Staffing and MSP/VMS programme management",
+      "$29M+ cost savings via vendor optimization, contractor rate strategy, and internal mobility",
+      "2,400+ hires across EMEA, APAC, and China in AI, cloud-native engineering, and telecom product teams",
+      "Built and led large ecosystems: 50-member TA team + 200+ supplier network; 5,000+ offers closed in a year",
+      "Workforce planning & analytics, contingent workforce (GCC/MSP), and TA process automation (Workday/ATS)",
       "Primary contact for Prime Learning — Staffing",
     ],
   },
   {
-    name: "Shiv Srivastav",
-    role: "Director — Staffing & Growth",
+    name: "Shivji Srivastav",
+    role: "Operation Head - Staff Augmentation",
     portrait: teamPortrait("shiv-srivastav.png"),
     portraitZoom: 1.12,
     summary:

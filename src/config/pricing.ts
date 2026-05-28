@@ -2,8 +2,6 @@ import { useRegion, type Region } from "@/context/RegionContext";
 
 export {
   COMMUNICATION_CONTACTS,
-  STAFFING_PHONE,
-  STAFFING_PHONE_HREF,
   SUPPORT_PHONE,
   SUPPORT_PHONE_HREF,
 } from "@/config/contact";
