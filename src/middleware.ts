@@ -31,7 +31,7 @@ const roleBasedRoutes: Record<string, string[]> = {
     PLATFORM_ADMIN: ["/admin", "/instructor"],
     CONTENT_ADMIN: ["/admin/blogs"],
 };
-const publicPrefixes = ["/blogs", "/leadership", "/events", "/spotlight"];
+const publicPrefixes = ["/blogs", "/leadership", "/events", "/spotlight", "/staffing"];
 function decodeJwtPayload(token: string): {
     role?: string;
 } | null {
@@ -81,6 +81,7 @@ export function middleware(request: NextRequest) {
         "/leadership",
         "/events",
         "/spotlight",
+        "/staffing",
         "/privacy-policy",
     ];
     if (!token) {

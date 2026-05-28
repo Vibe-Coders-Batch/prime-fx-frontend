@@ -104,12 +104,12 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
 
   return (
     <>
-      <a
+      <Link
         href="/#chapter-gate"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-[var(--gold)] focus:px-3 focus:py-2 focus:text-[var(--ink)]"
       >
         Skip to content
-      </a>
+      </Link>
 
       <nav
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-4 px-4 py-3 transition-all duration-500 sm:px-6 lg:px-10 lg:py-4 ${

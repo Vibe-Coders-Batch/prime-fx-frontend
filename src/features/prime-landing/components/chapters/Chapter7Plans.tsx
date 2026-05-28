@@ -62,11 +62,11 @@ export function Chapter7Plans() {
     if (!root) return;
 
     const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-    gsap.set(cards, { y: 30, opacity: 0 });
+    // Keep cards readable at all times; animate position only.
+    gsap.set(cards, { y: 18, opacity: 1 });
 
     const enter = gsap.to(cards, {
       y: 0,
-      opacity: 1,
       duration: 0.9,
       stagger: 0.1,
       ease: "expo.out",
@@ -85,8 +85,9 @@ export function Chapter7Plans() {
         scrub: 1,
       },
     });
-    tl.to(cards[0], { x: -20, opacity: 0.7, duration: 1, ease: "none" }, 0);
-    tl.to(cards[2], { x: 20, opacity: 0.7, duration: 1, ease: "none" }, 0);
+    // Keep side cards readable on light background.
+    tl.to(cards[0], { x: -20, duration: 1, ease: "none" }, 0);
+    tl.to(cards[2], { x: 20, duration: 1, ease: "none" }, 0);
     tl.to(cards[1], { scale: 1.03, duration: 1, ease: "none" }, 0);
 
     const chapterTrigger = ScrollTrigger.create({
@@ -146,7 +147,7 @@ export function Chapter7Plans() {
               className={`relative flex flex-col rounded-2xl border p-8 lg:p-10 ${
                 plan.recommended
                   ? "border-[var(--gold)] bg-[var(--ink)] text-[var(--text-primary)] shadow-[0_24px_60px_-20px_rgba(212,165,116,0.35)]"
-                  : "border-[rgba(10,10,15,0.1)] bg-white/60 text-[var(--text-primary-ink)]"
+                  : "border-[rgba(10,10,15,0.24)] bg-white/95 text-[var(--text-primary-ink)] shadow-[0_18px_50px_rgba(11,25,47,0.12)]"
               }`}
             >
               {plan.recommended && (

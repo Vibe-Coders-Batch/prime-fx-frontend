@@ -129,7 +129,7 @@ export function Footer() {
         className="mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-[var(--fog)] pt-6 text-sm sm:text-base md:flex-row"
         style={{ color: "var(--text-tertiary)" }}
       >
-        <span>© {new Date().getFullYear()} Prime Learning. All rights reserved.</span>
+        <span>© 2025 Prime Learning. All rights reserved.</span>
         <span>Built in India & the UAE</span>
         <button
           onClick={toggleWebgl}

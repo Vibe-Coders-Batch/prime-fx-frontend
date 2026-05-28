@@ -13,6 +13,7 @@ export function CommunicationContacts({
   variant = "landing",
 }: CommunicationContactsProps) {
   const isLegacy = variant === "legacy";
+  const isSingle = COMMUNICATION_CONTACTS.length <= 1;
 
   return (
     <div className={className}>
@@ -30,9 +31,13 @@ export function CommunicationContacts({
       ) : null}
       <ul
         className={
-          heading
-            ? "mt-5 grid grid-cols-1 gap-6 min-[520px]:grid-cols-2"
-            : "grid grid-cols-1 gap-6 min-[520px]:grid-cols-2"
+          isSingle
+            ? heading
+              ? "mt-5 space-y-4"
+              : "space-y-4"
+            : heading
+              ? "mt-5 grid grid-cols-1 gap-6 min-[520px]:grid-cols-2"
+              : "grid grid-cols-1 gap-6 min-[520px]:grid-cols-2"
         }
       >
         {COMMUNICATION_CONTACTS.map((channel) => (
@@ -50,7 +55,7 @@ export function CommunicationContacts({
             </p>
             <a
               href={`mailto:${channel.email}`}
-              className={`mt-2 block max-w-full truncate text-sm leading-snug transition-colors sm:text-base ${
+              className={`mt-2 block max-w-full break-words text-sm leading-snug transition-colors sm:text-base ${
                 isLegacy
                   ? "text-white/60 hover:text-primary-gold"
                   : "hover:text-[var(--gold-bright)]"

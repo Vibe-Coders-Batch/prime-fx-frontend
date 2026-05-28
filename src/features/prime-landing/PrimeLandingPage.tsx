@@ -2,6 +2,8 @@
 
 import "@/features/prime-landing/PrimeLandingStyles.module.css";
 
+import Image from "next/image";
+
 import { LenisProvider } from "@/features/prime-landing/components/providers/LenisProvider";
 import { DebugFlags } from "@/features/prime-landing/components/providers/DebugFlags";
 import { GrainOverlay } from "@/features/prime-landing/components/ui/GrainOverlay";
@@ -50,6 +52,34 @@ export function PrimeLandingPage() {
           <Chapter7Plans />
           <Chapter8Graduation />
         </main>
+        <section
+          aria-label="Company attribution"
+          className="border-t border-[var(--fog)]/60 bg-[var(--ink)] px-6 py-10 lg:px-16"
+        >
+          <div className="mx-auto flex max-w-7xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-4">
+              <Image
+                src="/brand/miyo.svg"
+                alt="MIYO Global"
+                width={44}
+                height={44}
+                className="h-11 w-11 rounded-md object-contain"
+                priority={false}
+              />
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--text-tertiary)" }}>
+                  An initiative of
+                </p>
+                <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+                  MIYO Global
+                </p>
+              </div>
+            </div>
+            <p className="max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+              Prime Learning is an initiative supported by MIYO Global — built to deliver outcomes-driven programmes across India, the UAE, and beyond.
+            </p>
+          </div>
+        </section>
         <Footer />
       </LenisProvider>
       <GrainOverlay />
