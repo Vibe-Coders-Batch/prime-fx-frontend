@@ -112,7 +112,7 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
       </Link>
 
       <nav
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-4 px-4 py-3 transition-all duration-500 sm:px-6 lg:px-10 lg:py-4 ${
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-center gap-4 px-4 py-3 transition-all duration-500 sm:px-6 lg:justify-between lg:px-10 lg:py-4 ${
           visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
         style={{
@@ -125,7 +125,7 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
         <Link
           key={logoKey}
           href="/"
-          className={`group inline-flex shrink-0 items-center transition-transform duration-500 ease-out hover:scale-[1.03] active:scale-[0.99]${logoKey > 0 && isLanding ? " logo-appear" : ""}`}
+          className={`group inline-flex shrink-0 items-center transition-transform duration-500 ease-out hover:scale-[1.03] active:scale-[0.99] lg:mx-0${logoKey > 0 && isLanding ? " logo-appear" : ""}`}
           aria-label="Prime Learning home"
         >
           <Image
@@ -201,7 +201,7 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
           })}
         </ul>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <div className="hidden shrink-0 items-center gap-2 sm:gap-3 lg:flex">
           <RegionToggle size="sm" />
           <Button
             type="button"

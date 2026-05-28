@@ -126,7 +126,7 @@ export function Chapter5Courses() {
           />
         </div>
 
-        <div className="mt-10 flex justify-center lg:justify-end">
+        <div className="mt-10 hidden justify-center sm:flex lg:justify-end">
           <RegionToggle size="md" />
         </div>
 

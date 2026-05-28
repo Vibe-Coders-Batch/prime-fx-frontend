@@ -133,7 +133,7 @@ export function Chapter7Plans() {
           </h2>
         </div>
 
-        <div className="mt-12 flex justify-center">
+        <div className="mt-12 hidden justify-center sm:flex">
           <RegionToggle size="md" />
         </div>
 
