@@ -13,6 +13,13 @@ const MOCK_ENV = process.env.NEXT_PUBLIC_BLOGS_MOCK;
 const MOCK_FORCED = MOCK_ENV === "1" || MOCK_ENV === "true";
 const MOCK_DISABLED = MOCK_ENV === "0" || MOCK_ENV === "false";
 
+const DEFAULT_ARTICLE_CATEGORIES = [
+  "artificial intelligence",
+  "data science",
+  "Career Development",
+  "machine-learning",
+] as const;
+
 function shouldUseMockByDefault(): boolean {
   if (MOCK_FORCED) return true;
   if (MOCK_DISABLED) return false;
@@ -41,7 +48,10 @@ function buildMockListResponse(filters: BlogFilters): BlogListResponse {
   const all = mockBlogStore.list();
 
   const availableCategories = Array.from(
-    new Set(all.filter((p) => p.category).map((p) => p.category as string)),
+    new Set([
+      ...DEFAULT_ARTICLE_CATEGORIES,
+      ...all.filter((p) => p.category).map((p) => p.category as string),
+    ]),
   ).sort();
   const availableTags = Array.from(new Set(all.flatMap((p) => p.tags))).sort();
 

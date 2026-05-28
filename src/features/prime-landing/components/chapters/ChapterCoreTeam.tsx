@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
+import { TeamPortraitImage } from "@/components/marketing/TeamPortraitImage";
 import {
   gsap,
   ScrollTrigger,
@@ -46,7 +46,7 @@ function TeamNode({
               : undefined
           }
         >
-          <Image
+          <TeamPortraitImage
             src={member.portrait}
             alt={`${member.name} — ${member.role}`}
             fill
@@ -84,9 +84,9 @@ export function ChapterCoreTeam() {
   const rootRef = useRef<HTMLElement>(null);
   const setChapter = useScrollStore((s) => s.setChapter);
 
-  // Top tier: first three. Bottom tier: remaining two, centered under the gaps.
+  // Top tier: first three. Bottom tier: remaining members.
   const topRow = LEADERSHIP_TEAM.slice(0, 3);
-  const bottomRow = LEADERSHIP_TEAM.slice(3, 5);
+  const bottomRow = LEADERSHIP_TEAM.slice(3);
 
   useEffect(() => {
     registerGsap();
@@ -167,9 +167,8 @@ export function ChapterCoreTeam() {
           </div>
         </div>
 
-        {/* ───────── 3 on top → 2 centered below ───────── */}
-        <div className="mx-auto mt-16 max-w-4xl">
-          {/* Tier 1 — three nodes (centers at 1/6 · 3/6 · 5/6) */}
+        {/* ───────── 3 on top → 3 below ───────── */}
+        <div className="mx-auto mt-16 max-w-5xl">
           <div className="flex items-start">
             {topRow.map((m) => (
               <div key={m.name} className="flex flex-1 flex-col items-center">
@@ -178,8 +177,7 @@ export function ChapterCoreTeam() {
             ))}
           </div>
 
-          {/* Tier 2 — two nodes centred in the middle (centers at 1/3 · 2/3) */}
-          <div className="mx-auto mt-12 flex w-2/3 items-start sm:mt-16">
+          <div className="mt-12 flex items-start sm:mt-16">
             {bottomRow.map((m) => (
               <div key={m.name} className="flex flex-1 flex-col items-center">
                 <TeamNode member={m} />

@@ -8,11 +8,17 @@ import { BlogFilters } from "@/features/blogs/components/BlogFilters";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Pagination } from "@/components/ui/pagination";
-import { BookOpen } from "lucide-react";
 
 export function BlogsIndexClient({ initialPage }: { initialPage?: number }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const DEFAULT_ARTICLE_CATEGORIES = [
+    "artificial intelligence",
+    "data science",
+    "Career Development",
+    "machine-learning",
+  ] as const;
 
   const tagParam = searchParams.get("tag") ?? undefined;
   const categoryParam = searchParams.get("category") ?? undefined;
@@ -58,6 +64,9 @@ export function BlogsIndexClient({ initialPage }: { initialPage?: number }) {
 
   const posts = data?.data ?? [];
   const showFeatured = page === 1 && !search && (category === "all" || !category) && !tagParam;
+  const categories = Array.from(
+    new Set([...(data?.availableCategories ?? []), ...DEFAULT_ARTICLE_CATEGORIES]),
+  );
 
   return (
     <div className="space-y-8">
@@ -69,7 +78,7 @@ export function BlogsIndexClient({ initialPage }: { initialPage?: number }) {
         }}
         category={category}
         onCategoryChange={setCategoryAndSync}
-        categories={data?.availableCategories ?? []}
+        categories={categories}
         activeTag={tagParam}
         tags={data?.availableTags ?? []}
         onTagSelect={setTag}
@@ -89,7 +98,7 @@ export function BlogsIndexClient({ initialPage }: { initialPage?: number }) {
               ? "Try adjusting your search or filters."
               : "The first Prime Learning articles are on their way."
           }
-          icon={<BookOpen className="h-10 w-10" />}
+          illustration="/illustrations/no_data.svg"
         />
       ) : (
         <>

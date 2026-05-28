@@ -3,7 +3,8 @@ import { Manrope, Inter, Poppins } from "next/font/google";
 import "../../globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Providers } from "@/components/providers";
-import { SUPPORT_PHONE } from "@/config/pricing";
+import { COMMUNICATION_CONTACTS } from "@/config/contact";
+import { OFFICE_LOCATION } from "@/config/pricing";
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({
@@ -125,11 +126,22 @@ export default function RootLayout({ children, }: Readonly<{
             "https://www.linkedin.com/company/prime-elearning",
             "https://www.facebook.com/primeelearning",
         ],
-        contactPoint: {
+        contactPoint: COMMUNICATION_CONTACTS.map((channel) => ({
             "@type": "ContactPoint",
-            contactType: "customer service",
-            telephone: SUPPORT_PHONE,
+            contactType: channel.division,
+            email: channel.email,
+            telephone: channel.phone,
+            name: channel.contactName,
             availableLanguage: ["English", "Arabic"],
+        })),
+        address: {
+            "@type": "PostalAddress",
+            name: OFFICE_LOCATION.name,
+            streetAddress: OFFICE_LOCATION.streetAddress,
+            addressLocality: OFFICE_LOCATION.addressLocality,
+            addressRegion: OFFICE_LOCATION.addressRegion,
+            postalCode: OFFICE_LOCATION.postalCode,
+            addressCountry: OFFICE_LOCATION.addressCountry,
         },
     };
     const websiteJsonLd = {

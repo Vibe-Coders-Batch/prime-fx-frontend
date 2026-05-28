@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRegion } from "@/context/RegionContext";
-import { REGION_CONTENT, SUPPORT_PHONE, SUPPORT_PHONE_HREF } from "@/config/pricing";
+import { CommunicationContacts } from "@/components/marketing/CommunicationContacts";
+import { OFFICE_LOCATION, OFFICE_MAPS_URL } from "@/config/pricing";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 
@@ -23,19 +23,17 @@ const LINKS: Record<string, FooterLink[]> = {
     { label: "Blog", href: "/blogs" },
     { label: "Guides", href: "/blogs" },
     { label: "Case Studies", href: "/blogs" },
-    { label: "Help Center", href: "mailto:hello@primelearning.ae" },
+    { label: "Help Center", href: "mailto:learning@primelearning.ae" },
   ],
   Legal: [
     { label: "Privacy", href: "/privacy-policy" },
     { label: "Terms", href: "/terms-of-service" },
     { label: "Code of Conduct", href: "/terms-of-service" },
-    { label: "Contact", href: "mailto:hello@primelearning.ae" },
+    { label: "Contact", href: "mailto:learning@primelearning.ae" },
   ],
 };
 
 export function Footer() {
-  const { region } = useRegion();
-  const regional = REGION_CONTENT[region];
   const [noWebgl, setNoWebgl] = useState(false);
 
   const toggleWebgl = () => {
@@ -55,25 +53,14 @@ export function Footer() {
             src="/logo-dark.svg"
             alt="Prime Learning"
             width={520}
-            height={200}
-            className="h-12 w-auto max-w-[220px] object-contain object-left sm:h-14 lg:h-16 lg:max-w-[260px]"
+            height={304}
+            className="h-28 w-auto max-w-[520px] object-contain object-left sm:h-32 sm:max-w-[640px] lg:h-40 lg:max-w-[760px]"
             priority
           />
           <p className="mt-5 max-w-sm text-lg leading-relaxed text-[var(--text-secondary)] sm:text-xl">
             Learn Smarter. Grow Faster. Lead With Purpose.
           </p>
-          <a
-            href={`mailto:${regional.email}`}
-            className="mt-6 inline-block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
-          >
-            {regional.contactLine}
-          </a>
-          <a
-            href={SUPPORT_PHONE_HREF}
-            className="mt-2 block text-base text-[var(--text-secondary)] transition-colors hover:text-[var(--gold-bright)] sm:text-lg"
-          >
-            Support · {SUPPORT_PHONE}
-          </a>
+          <CommunicationContacts className="mt-8" />
         </div>
 
         <div className="grid grid-cols-3 gap-8">
@@ -115,6 +102,27 @@ export function Footer() {
               Join
             </Button>
           </form>
+
+          <address className="mt-10 not-italic text-sm leading-relaxed sm:text-base">
+            <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--gold-bright)" }}>
+              Office
+            </p>
+            <p className="mt-5 font-semibold tracking-tight" style={{ color: "var(--text-primary)" }}>
+              {OFFICE_LOCATION.name}
+            </p>
+            <a
+              href={OFFICE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 block transition-colors hover:text-[var(--gold-bright)]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              {OFFICE_LOCATION.streetAddress}
+              <br />
+              {OFFICE_LOCATION.addressLocality}, {OFFICE_LOCATION.addressRegion}{" "}
+              {OFFICE_LOCATION.postalCode}
+            </a>
+          </address>
         </div>
       </div>
 
@@ -122,7 +130,7 @@ export function Footer() {
         className="mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-[var(--fog)] pt-6 text-sm sm:text-base md:flex-row"
         style={{ color: "var(--text-tertiary)" }}
       >
-        <span>© {new Date().getFullYear()} Prime Learning. All rights reserved.</span>
+        <span>© 2025 Prime Learning. All rights reserved.</span>
         <span>Built in India & the UAE</span>
         <button
           onClick={toggleWebgl}

@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { TeamPortraitImage } from "@/components/marketing/TeamPortraitImage";
 import { fadeUp, defaultTransition, springTransition } from "@/lib/marketing-motion";
 
 type PersonCardProps = {
@@ -38,7 +38,7 @@ export function PersonCard({
             whileHover={{ scale: 1.06 }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Image
+            <TeamPortraitImage
               src={portrait}
               alt={alt ?? name}
               fill

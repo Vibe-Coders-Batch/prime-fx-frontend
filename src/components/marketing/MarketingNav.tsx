@@ -104,12 +104,12 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
 
   return (
     <>
-      <a
+      <Link
         href="/#chapter-gate"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-[var(--gold)] focus:px-3 focus:py-2 focus:text-[var(--ink)]"
       >
         Skip to content
-      </a>
+      </Link>
 
       <nav
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-4 px-4 py-3 transition-all duration-500 sm:px-6 lg:px-10 lg:py-4 ${
@@ -129,19 +129,19 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
           aria-label="Prime Learning home"
         >
           <Image
-            src={isPaper ? "/logo-square.svg" : "/logo-square-dark.svg"}
+            src="/brand/mobile-icon.png"
             alt="Prime Learning"
-            width={80}
-            height={80}
-            className="h-14 w-14 object-contain drop-shadow-[0_2px_10px_rgba(212,175,55,0.3)] transition-[filter] duration-500 group-hover:drop-shadow-[0_4px_18px_rgba(212,175,55,0.6)] sm:h-16 sm:w-16 lg:hidden"
+            width={56}
+            height={56}
+            className="h-12 w-12 object-contain sm:h-14 sm:w-14 lg:hidden"
             priority
           />
           <Image
             src={isPaper ? "/logo.svg" : "/logo-dark.svg"}
             alt="Prime Learning"
-            width={620}
-            height={200}
-            className="hidden h-12 w-auto max-w-[min(280px,50vw)] object-contain object-left drop-shadow-[0_2px_12px_rgba(212,175,55,0.28)] transition-[filter] duration-500 group-hover:drop-shadow-[0_5px_22px_rgba(212,175,55,0.6)] lg:block xl:h-14 xl:max-w-[320px]"
+            width={520}
+            height={304}
+            className="hidden h-28 w-auto max-w-[min(720px,75vw)] object-contain object-left opacity-95 transition-[opacity,transform] duration-500 group-hover:opacity-100 lg:block xl:h-32 xl:max-w-[840px]"
             priority
           />
         </Link>
@@ -201,16 +201,8 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
           })}
         </ul>
 
+        {/* Mobile: hamburger only. Desktop: region + CTA */}
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <RegionToggle size="sm" />
-          <Button
-            type="button"
-            variant="gold"
-            className="hidden h-10 px-4 text-xs sm:inline-flex"
-            onClick={() => router.push("/signup")}
-          >
-            Enroll
-          </Button>
           <motion.button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--fog)] lg:hidden"
@@ -244,6 +236,18 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
               ))}
             </motion.span>
           </motion.button>
+
+          <div className="hidden items-center gap-2 sm:gap-3 lg:flex">
+            <RegionToggle size="sm" />
+            <Button
+              type="button"
+              variant="gold"
+              className="hidden h-10 px-4 text-xs sm:inline-flex"
+              onClick={() => router.push("/signup")}
+            >
+              Enroll
+            </Button>
+          </div>
         </div>
       </nav>
 

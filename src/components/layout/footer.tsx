@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { CommunicationContacts } from "@/components/marketing/CommunicationContacts";
+import { OFFICE_LOCATION, OFFICE_MAPS_URL } from "@/config/pricing";
+
 export function Footer() {
-    const currentYear = new Date().getFullYear();
     return (<footer className="bg-primary-dark border-t border-white/10 py-8 sm:py-12 px-4 sm:px-6" role="contentinfo" aria-label="Site footer">
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
         <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-2 md:col-span-1">
@@ -12,12 +14,20 @@ export function Footer() {
           <p className="text-white/60 text-xs sm:text-sm">
             Premium online courses for learners, professionals, and organisations.
           </p>
-          <address className="text-white/50 text-xs not-italic">
-            <p>
-              <a href="mailto:info@paet.ltd" className="hover:text-primary-gold transition-colors">
-                info@paet.ltd
-              </a>
-            </p>
+          <CommunicationContacts heading="Contact us" variant="legacy" />
+          <address className="mt-4 text-white/50 text-xs not-italic leading-relaxed">
+            <p className="font-medium text-white/70">{OFFICE_LOCATION.name}</p>
+            <a
+              href={OFFICE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 block hover:text-primary-gold transition-colors"
+            >
+              {OFFICE_LOCATION.streetAddress}
+              <br />
+              {OFFICE_LOCATION.addressLocality}, {OFFICE_LOCATION.addressRegion}{" "}
+              {OFFICE_LOCATION.postalCode}
+            </a>
           </address>
         </div>
 
@@ -93,7 +103,7 @@ export function Footer() {
       <div className="mt-12 pt-8 border-t border-white/5 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-sm text-center md:text-left">
-            © {currentYear} Prime Learning. All rights reserved.
+            © 2025 Prime Learning. All rights reserved.
           </p>
           <nav aria-label="Social media links">
             <ul className="flex items-center gap-6">

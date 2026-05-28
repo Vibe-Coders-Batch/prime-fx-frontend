@@ -1173,7 +1173,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Footer End Signature */}
         <footer className="mt-20 pt-8 border-t border-border/30 text-center text-xs text-muted-foreground space-y-2">
-          <p>© {new Date().getFullYear()} Prime Learning / Miyo Global Private Limited. All rights reserved.</p>
+          <p>© 2025 Prime Learning / Miyo Global Private Limited. All rights reserved.</p>
           <p className="text-muted-foreground/60 font-mono">
             CIN: U10202TS2026PTC212596 | Governed by the Digital Personal Data Protection Act, 2023 and the laws of India.
           </p>
