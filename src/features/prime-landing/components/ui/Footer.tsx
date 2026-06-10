@@ -12,6 +12,7 @@ type FooterLink = { label: string; href: string };
 
 const LINKS: Record<string, FooterLink[]> = {
   Academy: [
+    { label: "About", href: "/about" },
     { label: "Courses", href: "/#chapter-courses" },
     { label: "Categories", href: "/#chapter-categories" },
     { label: "Events", href: "/events" },
@@ -30,7 +31,7 @@ const LINKS: Record<string, FooterLink[]> = {
     { label: "Privacy", href: "/privacy-policy" },
     { label: "Terms", href: "/terms-of-service" },
     { label: "Code of Conduct", href: "/terms-of-service" },
-    { label: "Contact", href: "mailto:learning@primelearning.ae" },
+    { label: "Contact", href: "/contact" },
   ],
 };
 

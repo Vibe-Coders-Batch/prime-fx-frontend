@@ -3,6 +3,11 @@
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, registerGsap } from "@/features/prime-landing/lib/gsap";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
+import {
+  WEBINAR_REGISTRATION_LABEL,
+  WEBINAR_REGISTRATION_URL,
+} from "@/config/events-links";
+import { Button } from "@/features/prime-landing/components/ui/Button";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
 
 type Course = {
@@ -134,6 +139,24 @@ export function ChapterTrainerLedCourses() {
           AI product. Pick the depth-first build track or the broad fluency track —
           both end with shipped, production-grade work, not just a certificate.
         </p>
+
+        <div
+          data-course-reveal
+          className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center"
+        >
+          <Button
+            as="a"
+            href={WEBINAR_REGISTRATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="primary"
+          >
+            {WEBINAR_REGISTRATION_LABEL}
+          </Button>
+          <Button as="a" href="/events" variant="ghost">
+            View all events
+          </Button>
+        </div>
 
         {/* ───────── COURSE TRACKS ───────── */}
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">

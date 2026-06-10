@@ -6,7 +6,7 @@ import { Footer } from "@/features/prime-landing/components/ui/Footer";
 export default function BlogsLayout({ children }: { children: ReactNode }) {
   return (
     <div
-      className="primeLanding flex min-h-screen flex-col"
+      className="dark primeLanding flex min-h-screen flex-col"
       style={{ backgroundColor: "var(--ink)" }}
     >
       <MarketingNav variant="static" />

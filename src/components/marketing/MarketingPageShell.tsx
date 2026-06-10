@@ -10,7 +10,7 @@ import { pageEnter } from "@/lib/marketing-motion";
 
 export function MarketingPageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="primeLanding relative min-h-screen overflow-x-hidden" style={{ backgroundColor: "var(--ink)" }}>
+    <div className="dark primeLanding relative min-h-screen overflow-x-hidden" style={{ backgroundColor: "var(--ink)" }}>
       <MarketingAmbient />
       <MarketingNav variant="static" />
       <motion.div

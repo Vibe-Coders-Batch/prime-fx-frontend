@@ -24,6 +24,32 @@
   --paper-muted: #f5f0e6;
   --paper-border: #e6e1d6;
 
+  /*
+   * This surface is always the dark navy theme, regardless of the app's
+   * light/dark setting. Tailwind v4 resolves its `--color-*` theme aliases
+   * (e.g. `--color-foreground: var(--foreground)`) once at `:root`, so a
+   * nested `.dark` class cannot re-point them. Override the aliases here so
+   * shadcn UI utilities (text-foreground, bg-background, border-input, …)
+   * render against the navy surface for every visitor, light theme included.
+   */
+  --color-background: var(--ink);
+  --color-foreground: var(--text-primary);
+  --color-card: var(--mist);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--mist-alt);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--gold);
+  --color-primary-foreground: var(--ink);
+  --color-secondary: var(--electric);
+  --color-secondary-foreground: #ffffff;
+  --color-muted: var(--mist);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent: var(--mist);
+  --color-accent-foreground: var(--text-primary);
+  --color-border: var(--fog);
+  --color-input: var(--fog);
+  --color-ring: var(--gold);
+
   color: var(--text-primary);
 }
 

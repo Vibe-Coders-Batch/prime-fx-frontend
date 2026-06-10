@@ -3,6 +3,10 @@
 import { motion } from "framer-motion";
 import { useRegion } from "@/context/RegionContext";
 import { FLAGSHIP_EVENTS, UPCOMING_SESSIONS } from "@/data/events";
+import {
+  WEBINAR_REGISTRATION_LABEL,
+  WEBINAR_REGISTRATION_URL,
+} from "@/config/events-links";
 import { REGION_CONTENT } from "@/config/pricing";
 import { MarketingPageShell } from "@/components/marketing/MarketingPageShell";
 import { PageHeader } from "@/components/marketing/motion/PageHeader";
@@ -33,7 +37,7 @@ export function EventsPage() {
 
   return (
     <MarketingPageShell>
-      <main className="relative pt-28 pb-16 md:pt-36">
+      <main className="relative pt-28 pb-16 md:pt-36 lg:pt-44">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <PageHeader
             eyebrow="Events"
@@ -43,8 +47,38 @@ export function EventsPage() {
                 <em className="italic text-[var(--gold)]">cohorts</em>
               </>
             }
-            description="Closed-door executive briefings and production AI programmes — hosted across India, the UAE, and online."
+            description="Closed-door executive briefings and production AI programmes hosted across India, the UAE, and online."
           />
+
+          <Reveal
+            as="section"
+            className="mt-12 overflow-hidden rounded-2xl border border-[var(--gold)]/30 bg-gradient-to-br from-[var(--mist)]/80 to-[var(--ink)] p-8 sm:p-10"
+            aria-label="Webinar registration"
+          >
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <Eyebrow>Live webinar</Eyebrow>
+                <p
+                  className="mt-4 max-w-xl text-sm leading-relaxed sm:text-base"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  Reserve your seat for the upcoming Prime Learning webinar programme overview,
+                  cohort paths, and Q&amp;A with the team.
+                </p>
+              </div>
+              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  as="a"
+                  href={WEBINAR_REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="primary"
+                >
+                  {WEBINAR_REGISTRATION_LABEL}
+                </Button>
+              </motion.div>
+            </div>
+          </Reveal>
 
           <Reveal as="section" className="mt-16" aria-label="Upcoming sessions">
             <motion.div
@@ -139,7 +173,18 @@ export function EventsPage() {
                 transition={{ ...defaultTransition, delay: 0.1 }}
               >
                 <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
-                  <Button as="a" href="/#chapter-cohort" variant="primary">
+                  <Button
+                    as="a"
+                    href={WEBINAR_REGISTRATION_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="primary"
+                  >
+                    {WEBINAR_REGISTRATION_LABEL}
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
+                  <Button as="a" href="/#chapter-cohort" variant="ghost">
                     View on homepage
                   </Button>
                 </motion.div>

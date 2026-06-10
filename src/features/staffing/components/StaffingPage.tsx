@@ -224,7 +224,7 @@ export function StaffingPage() {
 
   return (
     <MarketingPageShell>
-      <main className="relative pt-28 pb-16 md:pt-36">
+      <main className="relative pt-28 pb-16 md:pt-36 lg:pt-44">
         <div ref={rootRef} className="mx-auto max-w-7xl px-6 lg:px-8">
           <PageHeader
             eyebrow="Staffing"

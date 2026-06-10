@@ -8,7 +8,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { defaultTransition, fadeUp, staggerContainer } from "@/lib/marketing-motion";
 import { PRIMARY_NAV } from "@/config/site-nav";
 import { parseNavHref, scrollToHash } from "@/lib/site-navigation";
-import { RegionToggle } from "@/components/RegionToggle";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { useScrollStore } from "@/features/prime-landing/components/providers/ScrollStore";
 
@@ -277,7 +276,6 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
           </motion.button>
 
           <div className="hidden items-center gap-2 sm:gap-3 lg:flex">
-            <RegionToggle size="sm" />
             <Button
               type="button"
               variant="gold"
