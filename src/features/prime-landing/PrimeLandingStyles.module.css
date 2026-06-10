@@ -50,6 +50,14 @@
   --color-input: var(--fog);
   --color-ring: var(--gold);
 
+  /*
+   * Native form controls (the <select> dropdown popup, scrollbars, date
+   * pickers) are painted by the browser using `color-scheme`. On a light app
+   * theme that popup renders white, so options inheriting the surface's white
+   * text become invisible. Force dark so native controls match the navy surface.
+   */
+  color-scheme: dark;
+
   color: var(--text-primary);
 }
 
