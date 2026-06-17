@@ -6,11 +6,7 @@ import { PageHeader } from "@/components/marketing/motion/PageHeader";
 import { Reveal } from "@/components/marketing/motion/Reveal";
 import { AnimatedCtaRow } from "@/components/marketing/motion/AnimatedCtaRow";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
-import {
-  ContactDetails,
-  SectionHeading,
-  cardClass,
-} from "@/features/contact/components/ContactDetails";
+import { SectionHeading, cardClass } from "@/features/contact/components/ContactDetails";
 import { COMPANY, REGIONS } from "@/config/company";
 
 const PILLARS = [
@@ -154,19 +150,10 @@ export function AboutPage() {
             </div>
           </Reveal>
 
-          {/* Contact us — full directory inline */}
-          <Reveal as="section" className="mt-24">
-            <SectionHeading eyebrow="Contact" title="Contact us" />
-            <p className="mt-3 max-w-2xl text-sm" style={{ color: "var(--text-secondary)" }}>
-              Every team, email, office, and line, listed in full below.
-            </p>
-          </Reveal>
-
-          <ContactDetails />
-
           <AnimatedCtaRow
             ctas={[
-              { label: "Start learning", href: "/signup", variant: "gold" },
+              { label: "Contact us", href: "/contact", variant: "gold" },
+              { label: "Start learning", href: "/signup", variant: "ghost" },
               { label: "Explore courses", href: "/#chapter-courses", variant: "ghost" },
             ]}
           />

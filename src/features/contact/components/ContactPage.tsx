@@ -57,6 +57,7 @@ export function ContactPage() {
 
           <AnimatedCtaRow
             ctas={[
+              { label: "About us", href: "/about", variant: "ghost" },
               { label: "Start learning", href: "/signup", variant: "gold" },
               { label: "Explore courses", href: "/#chapter-courses", variant: "ghost" },
             ]}

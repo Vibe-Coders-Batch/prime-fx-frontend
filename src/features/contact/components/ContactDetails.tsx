@@ -2,7 +2,6 @@
 
 import {
   Mail,
-  Phone,
   MapPin,
   ArrowUpRight,
   Building2,
@@ -43,7 +42,7 @@ export function SectionHeading({
 
 /**
  * Full contact directory: every email channel, the direct line, both offices,
- * social handles, and company identifiers. Shared by the Contact and About pages.
+ * social handles, and company identifiers. Used on the dedicated Contact page.
  */
 export function ContactDetails() {
   return (
@@ -91,31 +90,10 @@ export function ContactDetails() {
         </div>
       </Reveal>
 
-      {/* Direct line */}
+      {/* Primary contact */}
       <Reveal as="section" className="mt-16">
-        <SectionHeading eyebrow="Call us" title="Speak with us directly" />
-        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
-          <div className={cardClass}>
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--gold)]/10 text-[var(--gold-bright)]">
-              <Phone className="h-5 w-5" />
-            </span>
-            <p
-              className="mt-5 text-xs font-medium uppercase tracking-[0.2em]"
-              style={{ color: "var(--gold-bright)" }}
-            >
-              {PRIMARY_CONTACT.division}
-            </p>
-            <a
-              href={PRIMARY_CONTACT.phoneHref}
-              className="mt-2 block text-xl font-semibold tracking-tight transition-colors hover:text-[var(--gold-bright)]"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {PRIMARY_CONTACT.phone}
-            </a>
-            <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-              {PRIMARY_CONTACT.name}
-            </p>
-          </div>
+        <SectionHeading eyebrow="Get in touch" title="Speak with us directly" />
+        <div className="mt-8 max-w-xl">
           <div className={cardClass}>
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--gold)]/10 text-[var(--gold-bright)]">
               <Mail className="h-5 w-5" />
@@ -124,7 +102,7 @@ export function ContactDetails() {
               className="mt-5 text-xs font-medium uppercase tracking-[0.2em]"
               style={{ color: "var(--gold-bright)" }}
             >
-              General enquiries
+              {PRIMARY_CONTACT.division}
             </p>
             <a
               href={`mailto:${PRIMARY_CONTACT.email}`}
@@ -134,7 +112,7 @@ export function ContactDetails() {
               {PRIMARY_CONTACT.email}
             </a>
             <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-              We reply within one business day.
+              {PRIMARY_CONTACT.name} · We reply within one business day.
             </p>
           </div>
         </div>

@@ -1,10 +1,6 @@
 import { useRegion, type Region } from "@/context/RegionContext";
 
-export {
-  COMMUNICATION_CONTACTS,
-  SUPPORT_PHONE,
-  SUPPORT_PHONE_HREF,
-} from "@/config/contact";
+export { COMMUNICATION_CONTACTS } from "@/config/contact";
 
 export const OFFICE_LOCATION = {
   name: "MIYO Global Office (Trendz Trinity)",
@@ -56,8 +52,8 @@ export const REGION_CONTENT: Record<
     currencyLabel: "₹ INR",
   },
   AE: {
-    contactLine: "UAE · hello@primelearning.ae",
-    email: "hello@primelearning.ae",
+    contactLine: "UAE · learning@primelearning.ae",
+    email: "learning@primelearning.ae",
     applyCta: "Reserve Your Seat",
     paymentNote: "All prices in AED. Payments via Stripe and cards.",
     currencyLabel: "AED",

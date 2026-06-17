@@ -498,10 +498,10 @@ export function ChapterAgenticAICohort() {
               >
                 India enquiries ·{" "}
                 <a
-                  href="mailto:prime@primelearning.ae"
+                  href="mailto:learning@primelearning.ae"
                   className="hover:text-[var(--gold-bright)] transition-colors"
                 >
-                  prime@primelearning.ae
+                  learning@primelearning.ae
                 </a>
               </p>
             </div>

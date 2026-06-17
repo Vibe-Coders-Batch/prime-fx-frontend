@@ -15,6 +15,36 @@ import {
   REFERRAL_SCRIPT_URL,
   type ReferralJob,
 } from "@/config/referral";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+
+/** Explicit marketing-surface colors — portaled dropdowns sit on <body>, outside .primeLanding tokens. */
+const REFERRAL_SELECT_MENU = {
+  background: "#0e1726",
+  text: "#f8fafc",
+  muted: "#94a3b8",
+  highlight: "#112240",
+  border: "#1e293b",
+} as const;
+
+const referralSelectTriggerClass =
+  "h-auto min-h-[2.75rem] justify-between py-3 font-normal shadow-none " +
+  "[&>svg]:shrink-0 [&>svg]:text-[#f8fafc] " +
+  // Beat shadcn `text-muted-foreground` / light-theme accent defaults on Windows.
+  "text-[#f8fafc] placeholder:text-[#94a3b8] focus:text-[#f8fafc] data-[state=open]:text-[#f8fafc] " +
+  "[&>span]:text-[#f8fafc] [&_[data-placeholder]]:text-[#94a3b8]";
+
+const referralSelectItemClass =
+  "cursor-pointer text-[#f8fafc] outline-none " +
+  "focus:!bg-[#112240] focus:!text-[#f8fafc] " +
+  "data-[highlighted]:!bg-[#112240] data-[highlighted]:!text-[#f8fafc] " +
+  "data-[state=checked]:!text-[#f8fafc] [&_svg]:text-[#e0b458]";
 
 type JobsStatus = {
   tone: "loading" | "error" | "success";
@@ -395,26 +425,49 @@ export function ReferralPage() {
               </p>
               <div className="mt-6">
                 <label className={labelClass} htmlFor="jobSelect">Select position</label>
-                <select
-                  id="jobSelect"
-                  className={inputClass}
-                  value={selectedJobId}
-                  disabled={!jobsReady}
-                  onChange={(e) => setSelectedJobId(e.target.value)}
-                >
-                  {jobsReady ? (
-                    <option value="">— Select a position —</option>
-                  ) : (
-                    <option value="">
-                      {jobsStatus.tone === "loading" ? "Loading positions…" : "Could not load positions"}
-                    </option>
-                  )}
-                  {jobs.map((job) => (
-                    <option key={job.jobId} value={job.jobId}>
-                      {job.role} — {job.location}
-                    </option>
-                  ))}
-                </select>
+                {jobsReady ? (
+                  <Select
+                    value={selectedJobId || undefined}
+                    onValueChange={setSelectedJobId}
+                  >
+                    <SelectTrigger
+                      id="jobSelect"
+                      className={cn(inputClass, referralSelectTriggerClass)}
+                    >
+                      <SelectValue placeholder="— Select a position —" />
+                    </SelectTrigger>
+                    <SelectContent
+                      position="popper"
+                      sideOffset={6}
+                      collisionPadding={12}
+                      className="z-[1100] max-h-[min(24rem,calc(100vh-5rem))] rounded-lg border shadow-lg [&_svg]:text-[#f8fafc]"
+                      style={{
+                        backgroundColor: REFERRAL_SELECT_MENU.background,
+                        color: REFERRAL_SELECT_MENU.text,
+                        borderColor: REFERRAL_SELECT_MENU.border,
+                      }}
+                    >
+                      {jobs.map((job) => (
+                        <SelectItem
+                          key={job.jobId}
+                          value={job.jobId}
+                          textValue={`${job.role} ${job.location}`}
+                          className={referralSelectItemClass}
+                        >
+                          {job.role} — {job.location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div
+                    id="jobSelect"
+                    className={cn(inputClass, "flex min-h-[2.75rem] items-center text-[var(--text-tertiary)]")}
+                    aria-disabled="true"
+                  >
+                    {jobsStatus.tone === "loading" ? "Loading positions…" : "Could not load positions"}
+                  </div>
+                )}
 
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   <p

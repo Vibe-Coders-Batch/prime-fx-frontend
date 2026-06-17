@@ -1,8 +1,6 @@
 import { OFFICE_LOCATION, OFFICE_MAPS_URL } from "@/config/pricing";
 import {
   COMMUNICATION_CONTACTS,
-  SUPPORT_PHONE,
-  SUPPORT_PHONE_HREF,
 } from "@/config/contact";
 
 /** Single source of truth for company identity, offices, and contact channels. */
@@ -81,31 +79,15 @@ export type ContactChannel = {
 /** Purpose driven email channels shown on the Contact page. */
 export const CONTACT_CHANNELS: ContactChannel[] = [
   {
-    label: "Learning Support",
-    description: "Course access, enrolments, certificates, and everyday help.",
+    label: "Learning & Programmes",
+    description:
+      "Course access, enrolments, certificates, UAE programmes, and general enquiries.",
     email: "learning@primelearning.ae",
-    region: "India",
-  },
-  {
-    label: "UAE Enquiries",
-    description: "Seat reservations and programmes across the UAE.",
-    email: "hello@primelearning.ae",
-    region: "UAE",
-  },
-  {
-    label: "Agentic AI Cohort",
-    description: "Applications and questions for the flagship cohort.",
-    email: "prime@primelearning.ae",
   },
   {
     label: "Staffing & Hiring",
     description: "Talent placement and corporate staffing partnerships.",
     email: "staffing@primelearning.ae",
-  },
-  {
-    label: "Editorial & Press",
-    description: "Guest articles, media, and editorial enquiries.",
-    email: "editorial@primelearning.ae",
   },
 ];
 
@@ -114,8 +96,6 @@ export const PRIMARY_CONTACT = {
   name: COMMUNICATION_CONTACTS[0].contactName,
   division: COMMUNICATION_CONTACTS[0].division,
   email: COMMUNICATION_CONTACTS[0].email,
-  phone: SUPPORT_PHONE,
-  phoneHref: SUPPORT_PHONE_HREF,
 } as const;
 
 export type SocialLink = {

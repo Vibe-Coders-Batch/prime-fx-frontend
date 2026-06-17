@@ -154,8 +154,10 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
           visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
         style={{
-          background: isPaper ? "rgba(255,252,245,0.92)" : "rgba(11,25,47,0.92)",
-          backdropFilter: "blur(10px)",
+          // Solid ink on static pages avoids logo/header seams on Windows (blur + opacity).
+          background: isPaper ? "rgba(255,252,245,0.92)" : isLanding ? "rgba(11,25,47,0.92)" : "#0b192f",
+          backdropFilter: isLanding ? "blur(10px)" : undefined,
+          WebkitBackdropFilter: isLanding ? "blur(10px)" : undefined,
           color: isPaper ? "var(--ink)" : "white",
         }}
         aria-label="Primary"
@@ -163,7 +165,7 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
         <Link
           key={logoKey}
           href="/"
-          className={`group inline-flex shrink-0 items-center transition-transform duration-500 ease-out hover:scale-[1.03] active:scale-[0.99]${logoKey > 0 && isLanding ? " logo-appear" : ""}`}
+          className={`group inline-flex shrink-0 items-center bg-transparent transition-transform duration-500 ease-out hover:scale-[1.03] active:scale-[0.99]${logoKey > 0 && isLanding ? " logo-appear" : ""}`}
           aria-label="Prime Learning home"
         >
           <Image
@@ -171,16 +173,18 @@ export function MarketingNav({ variant = "static" }: MarketingNavProps) {
             alt="Prime Learning"
             width={56}
             height={56}
-            className="h-12 w-12 object-contain sm:h-14 sm:w-14 lg:hidden"
+            className="h-12 w-12 bg-transparent object-contain sm:h-14 sm:w-14 lg:hidden"
             priority
+            unoptimized
           />
           <Image
             src={isPaper ? "/logo.svg" : "/logo-dark.svg"}
             alt="Prime Learning"
             width={520}
             height={304}
-            className="hidden h-28 w-auto max-w-[min(720px,75vw)] object-contain object-left opacity-95 transition-[opacity,transform] duration-500 group-hover:opacity-100 lg:block xl:h-32 xl:max-w-[840px]"
+            className="hidden h-28 w-auto max-w-[min(720px,75vw)] bg-transparent object-contain object-left opacity-95 transition-[opacity,transform] duration-500 group-hover:opacity-100 lg:block xl:h-32 xl:max-w-[840px]"
             priority
+            unoptimized
           />
         </Link>
 

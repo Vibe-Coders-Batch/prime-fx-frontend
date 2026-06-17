@@ -130,7 +130,6 @@ export default function RootLayout({ children, }: Readonly<{
             "@type": "ContactPoint",
             contactType: channel.division,
             email: channel.email,
-            telephone: channel.phone,
             name: channel.contactName,
             availableLanguage: ["English", "Arabic"],
         })),

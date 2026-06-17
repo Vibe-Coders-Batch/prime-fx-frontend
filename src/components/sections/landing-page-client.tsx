@@ -398,7 +398,7 @@ export function LandingPageClient() {
                 title: "Enterprise Plan",
                 subtitle: "More than 20 people — For your organisation",
                 cta: "Request a demo",
-                href: "mailto:info@paet.ltd?subject=Prime%20Learning%20Enterprise%20Demo%20Request",
+                href: "mailto:learning@primelearning.ae?subject=Prime%20Learning%20Enterprise%20Demo%20Request",
                 price: "Contact sales for pricing",
                 bullets: [
                     "Access to course library",
@@ -417,7 +417,7 @@ export function LandingPageClient() {
                 title: "AI Fluency",
                 subtitle: "From AI foundations to transformation",
                 cta: "Contact Us",
-                href: "mailto:info@paet.ltd?subject=Prime%20Learning%20AI%20Fluency%20Inquiry",
+                href: "mailto:learning@primelearning.ae?subject=Prime%20Learning%20AI%20Fluency%20Inquiry",
                 blocks: [
                     {
                         title: "AI Readiness Collection",

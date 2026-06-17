@@ -20,7 +20,7 @@ const AUTHORS: Record<string, BlogAuthor> = {
   "mock-content-admin": {
     id: "mock-content-admin",
     name: "Prime Editorial",
-    email: "editorial@primelearning.ae",
+    email: "learning@primelearning.ae",
     bio: "The Prime Learning editorial desk — programme notes, market briefs, and study guides.",
     role: "CONTENT_ADMIN",
   },

@@ -70,17 +70,6 @@ export function CommunicationContacts({
             >
               {channel.contactName}
             </p>
-            <a
-              href={channel.phoneHref}
-              className={`mt-1 block max-w-full break-words text-sm leading-snug transition-colors sm:text-base ${
-                isLegacy
-                  ? "text-white/60 hover:text-primary-gold"
-                  : "hover:text-[var(--gold-bright)]"
-              }`}
-              style={isLegacy ? undefined : { color: "var(--text-secondary)" }}
-            >
-              {channel.phone}
-            </a>
           </li>
         ))}
       </ul>
