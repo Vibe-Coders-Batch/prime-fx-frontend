@@ -254,7 +254,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
           <div className="mt-6 pt-6 border-t border-border/30 text-xs text-muted-foreground leading-relaxed">
-            <strong>Registered Office Address:</strong> K.Y.R. Heights, 1st Floor, Plot No. 4338A & 433/B, Vivekananda Nagar, Allapur, Hitech City Road, Kondapur, Serilingampally, Hyderabad – 500084, Telangana, India
+            <strong>Office Address:</strong> MIYO Global Office (Trendz Trinity), Plot No. 21, Madhapur, Gafoornagar, Hyderabad, 500081, Telangana, India
           </div>
         </section>
 
@@ -355,7 +355,7 @@ export default function PrivacyPolicyPage() {
 
               <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed space-y-4">
                 <p>
-                  Prime Learning is the education and training platform operated by <strong>Miyo Global Private Limited</strong> (&apos;we&apos;, &apos;us&apos;, &apos;our&apos;, &apos;Prime Learning&apos;), a company incorporated under the Companies Act, 2013 (CIN: U10202TS2026PTC212596), having its registered office at K.Y.R. Heights, 1st Floor, Plot No. 4338A & 433/B, Vivekananda Nagar, Allapur, Hitech City Road, Kondapur, Serilingampally, Hyderabad - 500084, Telangana, India.
+                  Prime Learning is the education and training platform operated by <strong>Miyo Global Private Limited</strong> (&apos;we&apos;, &apos;us&apos;, &apos;our&apos;, &apos;Prime Learning&apos;), a company incorporated under the Companies Act, 2013 (CIN: U10202TS2026PTC212596), with its principal office at MIYO Global Office (Trendz Trinity), Plot No. 21, Madhapur, Gafoornagar, Hyderabad - 500081, Telangana, India.
                 </p>
                 <p>
                   This Privacy Policy (&apos;Policy&apos;) explains how Prime Learning collects, uses, stores, discloses, and protects personal data of all individuals who interact with our platform, website, mobile application, courses, and services (collectively, the &apos;Platform&apos;). It also explains your rights regarding your personal data and how to exercise them under the DPDPA, 2023.
@@ -478,7 +478,7 @@ export default function PrivacyPolicyPage() {
                     <h4 className="text-sm font-bold text-foreground text-primary">3.3 Payment and Financial Data</h4>
                     <ul className="list-disc pl-5 text-xs text-muted-foreground space-y-1">
                       <li>Transaction records, invoice history, and payment confirmations</li>
-                      <li>For Learning Partners and Course Aggregators: bank account details, GST number, PAN number, and TDS information — collected solely for revenue share payments and statutory compliance</li>
+                      <li>For Learning Partners and Course Aggregators: bank account details, GST number, PAN number, and TDS information, collected solely for revenue share payments and statutory compliance</li>
                     </ul>
                     <div className="mt-2 text-xs border-t border-border/20 pt-2 text-primary font-medium">
                       ⚠️ We do NOT store credit/debit card numbers, CVV codes, or UPI PINs. All payment transactions are processed by PCI-DSS compliant third-party payment gateway partners operating under their own security standards.
@@ -637,7 +637,7 @@ export default function PrivacyPolicyPage() {
                       <span className="h-2 w-2 rounded-full bg-primary" /> Consent
                     </h4>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Where you have given clear, informed, and specific consent — for example, for optional marketing, recording Guest Mentor sessions, or non-essential cookie tracking. Consent can be withdrawn easily.
+                      Where you have given clear, informed, and specific consent, for example, for optional marketing, recording Guest Mentor sessions, or non-essential cookie tracking. Consent can be withdrawn easily.
                     </p>
                   </div>
 
@@ -646,7 +646,7 @@ export default function PrivacyPolicyPage() {
                       <span className="h-2 w-2 rounded-full bg-primary" /> Contract Performance
                     </h4>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Where processing is necessary to deliver our educational services — for example, completing enrolments, rendering video courses, and paying revenue shares to Learning Partners.
+                      Where processing is necessary to deliver our educational services, for example, completing enrolments, rendering video courses, and paying revenue shares to Learning Partners.
                     </p>
                   </div>
 
@@ -655,7 +655,7 @@ export default function PrivacyPolicyPage() {
                       <span className="h-2 w-2 rounded-full bg-primary" /> Legal Obligation
                     </h4>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Where processing is required to comply with applicable statutory law — for example, TDS deduction and filing, DPDPA disclosures, and responding to valid law enforcement warrants.
+                      Where processing is required to comply with applicable statutory law, for example, TDS deduction and filing, DPDPA disclosures, and responding to valid law enforcement warrants.
                     </p>
                   </div>
 
@@ -704,23 +704,23 @@ export default function PrivacyPolicyPage() {
                     <tbody className="divide-y divide-border/30">
                       <tr>
                         <td className="px-6 py-4 font-semibold text-primary">Essential Cookies</td>
-                        <td className="px-6 py-4 text-muted-foreground text-xs">Necessary for the Platform to function — login sessions, csrf tokens, secure authorization. Cannot be disabled.</td>
+                        <td className="px-6 py-4 text-muted-foreground text-xs">Necessary for the Platform to function: login sessions, csrf tokens, secure authorization. Cannot be disabled.</td>
                         <td className="px-6 py-4 text-xs font-bold text-muted-foreground">No (Strictly necessary)</td>
                       </tr>
                       <tr className="bg-card/5">
                         <td className="px-6 py-4 font-semibold text-primary">Functional Cookies</td>
                         <td className="px-6 py-4 text-muted-foreground text-xs">Remember UI preferences, selected playback speeds, theme parameters, and locale variables.</td>
-                        <td className="px-6 py-4 text-xs text-primary font-semibold">Yes — via browser controls</td>
+                        <td className="px-6 py-4 text-xs text-primary font-semibold">Yes, via browser controls</td>
                       </tr>
                       <tr>
                         <td className="px-6 py-4 font-semibold text-primary">Analytics Cookies</td>
                         <td className="px-6 py-4 text-muted-foreground text-xs">Help us audit Platform usage patterns (e.g. Google Analytics). Data is anonymized or aggregated.</td>
-                        <td className="px-6 py-4 text-xs text-primary font-semibold">Yes — via browser controls</td>
+                        <td className="px-6 py-4 text-xs text-primary font-semibold">Yes, via browser controls</td>
                       </tr>
                       <tr className="bg-card/5">
                         <td className="px-6 py-4 font-semibold text-primary">Marketing Cookies</td>
                         <td className="px-6 py-4 text-muted-foreground text-xs">Track campaigns to deliver relevant educational recommendations. Active only with your prior consent.</td>
-                        <td className="px-6 py-4 text-xs text-primary font-semibold">Yes — opt out anytime</td>
+                        <td className="px-6 py-4 text-xs text-primary font-semibold">Yes, opt out anytime</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1143,8 +1143,8 @@ export default function PrivacyPolicyPage() {
                         <td className="px-6 py-4 font-semibold text-primary">Postal HQ Address</td>
                         <td className="px-6 py-4 text-muted-foreground leading-relaxed">
                           Prime Learning / Miyo Global Private Limited,<br />
-                          K.Y.R. Heights, 1st Floor, Plot No. 4338A & 433/B, Vivekananda Nagar, Allapur,<br />
-                          Hitech City Road, Kondapur, Serilingampally, Hyderabad – 500084, Telangana, India
+                          MIYO Global Office (Trendz Trinity), Plot No. 21, Madhapur, Gafoornagar,<br />
+                          Hyderabad, 500081, Telangana, India
                         </td>
                       </tr>
                       <tr>

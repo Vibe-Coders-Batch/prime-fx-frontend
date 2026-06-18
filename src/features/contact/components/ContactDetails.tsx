@@ -13,7 +13,6 @@ import {
   COMPANY,
   OFFICES,
   CONTACT_CHANNELS,
-  PRIMARY_CONTACT,
   SOCIAL_LINKS,
 } from "@/config/company";
 
@@ -41,8 +40,7 @@ export function SectionHeading({
 }
 
 /**
- * Full contact directory: every email channel, the direct line, both offices,
- * social handles, and company identifiers. Used on the dedicated Contact page.
+ * Full contact directory: email channels, offices, social handles, and company identifiers.
  */
 export function ContactDetails() {
   return (
@@ -90,38 +88,10 @@ export function ContactDetails() {
         </div>
       </Reveal>
 
-      {/* Primary contact */}
-      <Reveal as="section" className="mt-16">
-        <SectionHeading eyebrow="Get in touch" title="Speak with us directly" />
-        <div className="mt-8 max-w-xl">
-          <div className={cardClass}>
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--gold)]/10 text-[var(--gold-bright)]">
-              <Mail className="h-5 w-5" />
-            </span>
-            <p
-              className="mt-5 text-xs font-medium uppercase tracking-[0.2em]"
-              style={{ color: "var(--gold-bright)" }}
-            >
-              {PRIMARY_CONTACT.division}
-            </p>
-            <a
-              href={`mailto:${PRIMARY_CONTACT.email}`}
-              className="mt-2 block break-all text-xl font-semibold tracking-tight transition-colors hover:text-[var(--gold-bright)]"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {PRIMARY_CONTACT.email}
-            </a>
-            <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-              {PRIMARY_CONTACT.name} · We reply within one business day.
-            </p>
-          </div>
-        </div>
-      </Reveal>
-
       {/* Offices */}
       <Reveal as="section" className="mt-16">
         <SectionHeading eyebrow="Visit us" title="Our offices" />
-        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
           {OFFICES.map((office) => (
             <div key={office.label} className={cardClass}>
               <div className="flex items-start justify-between gap-3">

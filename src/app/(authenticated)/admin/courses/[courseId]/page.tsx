@@ -275,7 +275,7 @@ export default function AdminCourseReviewPage({ params, }: {
           <DialogHeader>
             <DialogTitle>{previewVideo?.title}</DialogTitle>
             <DialogDescription>
-              {previewVideo?.sectionTitle} - Admin Preview Only
+              {previewVideo?.sectionTitle} (admin preview only)
             </DialogDescription>
           </DialogHeader>
           <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">

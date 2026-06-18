@@ -4,7 +4,7 @@ import { IndiaStaffingPage } from "@/features/staffing/components/IndiaStaffingP
 const siteUrl = "https://primelearning.ae";
 
 export const metadata: Metadata = {
-  title: "IT Staffing Agency India — Scale Tech & GCC Talent | Prime Learning",
+  title: "IT Staffing Agency India | Scale Tech & GCC Talent | Prime Learning",
   description:
     "Scaling India’s finest talent for enterprises, startups, and GCC captive centres. GCC setup, digital transformation hiring, high-volume staffing, and executive search with full Indian statutory compliance.",
   alternates: {

@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-/** Explicit marketing-surface colors — portaled dropdowns sit on <body>, outside .primeLanding tokens. */
+/** Explicit marketing-surface colors - portaled dropdowns sit on <body>, outside .primeLanding tokens. */
 const REFERRAL_SELECT_MENU = {
   background: "#0e1726",
   text: "#f8fafc",
@@ -106,7 +106,7 @@ export function ReferralPage() {
     );
   }, []);
 
-  // ── Jobs loading — from Apps Script only ──────────────────────────────
+  // ── Jobs loading - from Apps Script only ──────────────────────────────
   const loadJobs = useCallback(() => {
     setJobsStatus({ tone: "loading", text: "Fetching open positions from the jobs sheet…" });
     setSelectedJobId("");
@@ -189,7 +189,7 @@ export function ReferralPage() {
     if (resumeRef.current) resumeRef.current.value = "";
   };
 
-  // ── Submit — real POST to Apps Script ─────────────────────────────────
+  // ── Submit - real POST to Apps Script ─────────────────────────────────
   const submitForm = () => {
     const error = validate();
     if (error) {
@@ -205,12 +205,12 @@ export function ReferralPage() {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      // e.target.result is "data:application/pdf;base64,XXXX…" — strip the prefix.
+      // e.target.result is "data:application/pdf;base64,XXXX…" - strip the prefix.
       const base64String = String(e.target?.result ?? "").split(",")[1] ?? "";
       const job = selectedJob;
 
       const payload = {
-        // Referrer info — Apps Script expects referrerName / referrerContact.
+        // Referrer info - Apps Script expects referrerName / referrerContact.
         referrerName: form.refereeName.trim(),
         referrerContact: form.refereeEmail.trim(),
         referrerPhone: form.refereePhone.replace(/\D/g, ""),
@@ -220,13 +220,13 @@ export function ReferralPage() {
         candidateEmail: form.candidateEmail.trim(),
         candidatePhone: form.candidatePhone.replace(/\D/g, ""),
 
-        // Job info — pulled from the live jobs data, not the form.
+        // Job info - pulled from the live jobs data, not the form.
         jobApplied: job?.role ?? "",
         jobId: job?.jobId ?? "",
         jobDescription: job?.description ?? "",
         hmEmail: job?.hmEmail ?? "",
 
-        // Resume — base64 encoded.
+        // Resume - base64 encoded.
         resumeBase64: base64String,
         resumeMimeType: resumeFile.type,
         resumeFileName: resumeFile.name,
@@ -434,7 +434,7 @@ export function ReferralPage() {
                       id="jobSelect"
                       className={cn(inputClass, referralSelectTriggerClass)}
                     >
-                      <SelectValue placeholder="— Select a position —" />
+                      <SelectValue placeholder="Select a position" />
                     </SelectTrigger>
                     <SelectContent
                       position="popper"
@@ -454,7 +454,7 @@ export function ReferralPage() {
                           textValue={`${job.role} ${job.location}`}
                           className={referralSelectItemClass}
                         >
-                          {job.role} — {job.location}
+                          {job.role}, {job.location}
                         </SelectItem>
                       ))}
                     </SelectContent>

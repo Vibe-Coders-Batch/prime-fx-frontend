@@ -4,7 +4,7 @@ import { ContactPage } from "@/features/contact/components/ContactPage";
 const siteUrl = "https://primelearning.ae";
 
 export const metadata: Metadata = {
-  title: "Contact Prime Learning — Offices, Emails & Support",
+  title: "Contact Prime Learning | Offices, Emails & Support",
   description:
     "Get in touch with Prime Learning. Email channels for learning, staffing, and partnerships, our Hyderabad offices, phone line, and presence across India and the UAE.",
   alternates: {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact Prime Learning",
     description:
-      "Reach the right team at Prime Learning — support, staffing, partnerships, offices, and direct lines across India and the UAE.",
+      "Reach the right team at Prime Learning: support, staffing, partnerships, offices, and direct lines across India and the UAE.",
     type: "website",
     url: `${siteUrl}/contact`,
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact Prime Learning",
     description:
-      "Reach the right team at Prime Learning — support, staffing, partnerships, and our offices across India and the UAE.",
+      "Reach the right team at Prime Learning: support, staffing, partnerships, and our offices across India and the UAE.",
   },
 };
 

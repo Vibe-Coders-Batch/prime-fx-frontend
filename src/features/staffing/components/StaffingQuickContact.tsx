@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { isAxiosError } from "axios";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { STAFFING_EMAIL } from "@/config/staffing-regions";
+import { axiosPost } from "@/lib/api/client";
 
 type StaffingQuickContactProps = {
   regionLabel: string;
 };
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 const fieldClass =
   "w-full rounded-lg border border-[var(--fog)] bg-white/[0.04] px-4 py-3 text-sm text-[var(--text-primary)] " +
@@ -25,14 +25,33 @@ function buildMailtoUrl(payload: {
     `Region: ${payload.regionLabel}`,
     `Name: ${payload.name}`,
     `Email: ${payload.email}`,
-    `Company: ${payload.company || "—"}`,
+    `Company: ${payload.company || "-"}`,
     "",
     payload.message,
   ].join("\n");
 
   return `mailto:${STAFFING_EMAIL}?subject=${encodeURIComponent(
-    `${payload.regionLabel} — Staffing enquiry`
+    `${payload.regionLabel} staffing enquiry`
   )}&body=${encodeURIComponent(body)}`;
+}
+
+function formatApiError(error: unknown): string {
+  if (!isAxiosError(error)) {
+    return "Something went wrong. Please try again.";
+  }
+
+  const message = error.response?.data?.message;
+  if (Array.isArray(message)) return message.join(", ");
+  if (typeof message === "string" && message.trim()) return message;
+  if (error.message) return error.message;
+
+  return "Something went wrong. Please try again.";
+}
+
+function shouldUseMailtoFallback(error: unknown): boolean {
+  if (!isAxiosError(error)) return true;
+  if (!error.response) return true;
+  return error.response.status >= 500;
 }
 
 export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps) {
@@ -64,31 +83,26 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
     };
 
     try {
-      const response = await fetch(`${API_URL}/contact/staffing-enquiry`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as { message?: string | string[] } | null;
-        const apiMessage = Array.isArray(data?.message)
-          ? data.message.join(", ")
-          : data?.message;
-        throw new Error(apiMessage || `Request failed (${response.status})`);
-      }
+      await axiosPost("/contact/staffing-enquiry", payload);
 
       resetForm();
       setStatus({
         tone: "success",
-        text: `Thank you — your enquiry was sent to ${STAFFING_EMAIL}. We will respond shortly.`,
+        text: `Thank you. Your enquiry was sent to ${STAFFING_EMAIL}. We will respond shortly.`,
       });
-    } catch {
-      // Fallback when the API or email provider is unavailable (common in local dev).
-      window.location.href = buildMailtoUrl(payload);
+    } catch (error) {
+      if (shouldUseMailtoFallback(error)) {
+        window.location.href = buildMailtoUrl(payload);
+        setStatus({
+          tone: "error",
+          text: `We could not reach our server, so we opened your email app. If nothing opened, email us at ${STAFFING_EMAIL}.`,
+        });
+        return;
+      }
+
       setStatus({
         tone: "error",
-        text: `We opened your email app as a fallback. If nothing opened, email us directly at ${STAFFING_EMAIL}.`,
+        text: formatApiError(error),
       });
     } finally {
       setSubmitting(false);
@@ -99,12 +113,13 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
     <form
       onSubmit={onSubmit}
       className="rounded-2xl border border-[var(--fog)]/60 bg-[var(--mist)]/40 p-6 shadow-xl backdrop-blur-sm md:p-8"
+      noValidate
     >
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gold-bright)]">
         Quick enquiry
       </p>
       <p className="mt-2 text-sm text-[var(--text-secondary)]">
-        Share your mandate — we respond with a staffing plan and mobilisation timeline. Enquiries
+        Share your mandate and we respond with a staffing plan and mobilisation timeline. Enquiries
         go to{" "}
         <a
           href={`mailto:${STAFFING_EMAIL}`}
@@ -117,7 +132,9 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
       <div className="mt-5 grid gap-4">
         <input
           type="text"
+          name="name"
           required
+          autoComplete="name"
           placeholder="Your name"
           className={fieldClass}
           value={name}
@@ -126,7 +143,9 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
         />
         <input
           type="email"
+          name="email"
           required
+          autoComplete="email"
           placeholder="Work email"
           className={fieldClass}
           value={email}
@@ -135,6 +154,8 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
         />
         <input
           type="text"
+          name="company"
+          autoComplete="organization"
           placeholder="Company / organisation"
           className={fieldClass}
           value={company}
@@ -142,6 +163,7 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
           disabled={submitting}
         />
         <textarea
+          name="message"
           required
           rows={3}
           placeholder="Roles, locations, timelines, and headcount"
@@ -161,6 +183,7 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
               : "border-[var(--color-live-red,#ff6b6b)]/40 bg-[var(--color-live-red,#ff6b6b)]/10 text-[var(--color-live-red,#ff6b6b)]")
           }
           role="status"
+          aria-live="polite"
         >
           {status.text}
         </p>

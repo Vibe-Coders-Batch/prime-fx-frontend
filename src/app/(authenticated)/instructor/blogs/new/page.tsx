@@ -26,7 +26,7 @@ export default function NewBlogPostPage() {
   return (
     <PageLayout
       header="Write a new post"
-      description="Drafts are private until you publish. Posts use Markdown — switch to Preview to see how it will render."
+      description="Drafts are private until you publish. Posts use Markdown; switch to Preview to see how it will render."
     >
       <BlogEditor mode="create" />
     </PageLayout>

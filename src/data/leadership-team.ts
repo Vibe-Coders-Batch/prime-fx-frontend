@@ -11,7 +11,7 @@ export type LeadershipMember = {
   portraitZoom?: number;
 };
 
-/** Bump when replacing files under `public/team/` — used as React `key` to remount portraits. */
+/** Bump when replacing files under `public/team/` - used as React `key` to remount portraits. */
 export const TEAM_PORTRAIT_CACHE_VERSION = "20260528-shiv";
 
 function teamPortrait(filename: string): string {
@@ -23,7 +23,7 @@ export const FEATURED_LEADER = {
   role: "Chief Executive Officer",
   portrait: teamPortrait("sudheer-reddy.png"),
   quote:
-    "Prime Learning exists for professionals who need to ship real outcomes — not collect certificates. That standard holds across India, the UAE, and every market we serve.",
+    "Prime Learning exists for professionals who need to ship real outcomes, not collect certificates. That standard holds across India, the UAE, and every market we serve.",
 };
 
 export const LEADERSHIP_TEAM: LeadershipMember[] = [
@@ -44,7 +44,7 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
     role: "Chief Executive Officer",
     portrait: teamPortrait("sudheer-reddy.png"),
     summary:
-      "Sets the vision for outcomes-driven learning — programmes built to ship real skills, not shelf credentials.",
+      "Sets the vision for outcomes-driven learning, programmes built to ship real skills, not shelf credentials.",
     highlights: [
       "Executive leadership across India, UAE, and global markets",
       "Premium cohort and enterprise learning strategy",
@@ -81,30 +81,30 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
   },
   {
     name: "Biswajit Sircar",
-    role: "Senior Director — HR",
+    role: "Senior Director, HR",
     portrait: teamPortrait("biswajit-sircar.png"),
     portraitZoom: 1.22,
     summary:
-      "Global talent acquisition leader (21+ years) building scalable hiring engines across cloud, AI, BFSI, and next‑gen telecom — turning recruiting into measurable business impact.",
+      "Global talent acquisition leader (21+ years) building scalable hiring engines across cloud, AI, BFSI, and next‑gen telecom, turning recruiting into measurable business impact.",
     highlights: [
       "$29M+ cost savings via vendor optimization, contractor rate strategy, and internal mobility",
       "2,400+ hires across EMEA, APAC, and China in AI, cloud-native engineering, and telecom product teams",
       "Built and led large ecosystems: 50-member TA team + 200+ supplier network; 5,000+ offers closed in a year",
       "Workforce planning & analytics, contingent workforce (GCC/MSP), and TA process automation (Workday/ATS)",
-      "Primary contact for Prime Learning — Staffing",
+      "Primary contact for Prime Learning Staffing",
     ],
   },
   {
     name: "Shivji Srivastav",
-    role: "Operation Head - Staff Augmentation",
+    role: "Operation Head, Staff Augmentation",
     portrait: teamPortrait("shiv-srivastav.png"),
     portraitZoom: 1.12,
     summary:
       "17+ years in business management, growth, and staffing solutions across India and the MEA region.",
     highlights: [
-      "P&L and business ownership — operations, workforce transitions, and IT rebadging",
+      "P&L and business ownership across operations, workforce transitions, and IT rebadging",
       "End-to-end delivery for SI and product clients across India and MEA",
-      "MEA expansion — channel partners for payroll and compliance",
+      "MEA expansion through channel partners for payroll and compliance",
       "Brand enhancement for manpower services in Dubai, KSA, Qatar, Oman, and Egypt",
       "Leads 100+ member recruitment and sales teams; enterprise MSP/VMS programmes",
     ],

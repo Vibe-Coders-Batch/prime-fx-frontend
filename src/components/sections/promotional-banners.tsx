@@ -21,10 +21,10 @@ const BANNERS: Banner[] = [
   {
     id: "agentic-playbook",
     badge: "Closed-Door Executive Invite",
-    titlePrefix: "Agentic AI Playbook — ",
+    titlePrefix: "Agentic AI Playbook: ",
     titleHighlight: "From Experimentation to Production Capability",
     subtitle:
-      "Close the most expensive gap in the $250B IT Services industry — knowing AI exists vs. knowing how to direct it. A practitioner-led blueprint for teams that actually ship production AI.",
+      "Close the most expensive gap in the $250B IT Services industry: knowing AI exists vs. knowing how to direct it. A practitioner-led blueprint for teams that actually ship production AI.",
     pillars: [
       "Live Multi-Agent Build",
       "RAG Systems Deep Dive",
@@ -39,14 +39,14 @@ const BANNERS: Banner[] = [
     titlePrefix: "Redefining the ",
     titleHighlight: "Execution Layer of IT Services",
     subtitle:
-      "Move from Workforce Provider to Innovation Partner. The playbook to direct AI system architecture — not just manage headcount — as clients stop asking for low-cost resources and start asking why humans are in the loop at all.",
+      "Move from Workforce Provider to Innovation Partner. The playbook to direct AI system architecture, not just manage headcount, as clients stop asking for low-cost resources and start asking why humans are in the loop at all.",
     pillars: [
       "3 Specialists · 1 Output",
       "7-Phase Execution Roadmap",
       "9 Real-World AI Projects",
     ],
     tagline:
-      "From managing people to directing systems — the next decade of IT leadership.",
+      "From managing people to directing systems, the next decade of IT leadership.",
     ctaLabel: "Register Now",
   },
   {
@@ -55,7 +55,7 @@ const BANNERS: Banner[] = [
     titlePrefix: "Build What the Industry ",
     titleHighlight: "Actually Hires For",
     subtitle:
-      "73% of roles now demand Agentic AI capability and 61% require RAG systems. Go beyond tools — ship live, verifiable AI products mentored by technocrats who’ve architected platforms handling 1.3M+ daily transactions.",
+      "73% of roles now demand Agentic AI capability and 61% require RAG systems. Go beyond tools and ship live, verifiable AI products mentored by technocrats who’ve architected platforms handling 1.3M+ daily transactions.",
     pillars: [
       "Zero → Deployed AI Product",
       "Portfolio of Live URLs",
@@ -87,7 +87,7 @@ function BannerCard({ banner }: { banner: Banner }) {
         className="pointer-events-none absolute bottom-0 left-1/2 h-[18rem] w-[36rem] -translate-x-1/2 translate-y-1/3 rounded-full bg-blue-600/10 blur-3xl"
       />
 
-      {/* Centered content wrapper — generous top padding to clear the fixed navbar (up to ~112px tall) */}
+      {/* Centered content wrapper - generous top padding to clear the fixed navbar (up to ~112px tall) */}
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 px-5 pb-24 pt-28 text-center sm:gap-7 sm:px-8 sm:pb-28 sm:pt-32 md:pt-36 lg:pt-40">
         {/* Badge */}
         <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-200 backdrop-blur-sm sm:text-xs">
@@ -117,13 +117,13 @@ function BannerCard({ banner }: { banner: Banner }) {
           {banner.tagline}
         </p>
 
-        {/* CTA — centered, high-contrast */}
+        {/* CTA - centered, high-contrast */}
         <div className="pt-2">
           <a
             href={REGISTER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`${banner.ctaLabel} — opens paet.ltd in a new tab`}
+            aria-label={`${banner.ctaLabel}, opens paet.ltd in a new tab`}
             className="group inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_32px_-10px_rgba(245,158,11,0.55)] ring-1 ring-white/20 transition-all hover:-translate-y-0.5 hover:from-[#fbbf24] hover:to-[#f59e0b] hover:shadow-[0_16px_40px_-10px_rgba(251,191,36,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a192f] sm:text-base"
           >
             <span>{banner.ctaLabel}</span>
@@ -172,7 +172,7 @@ export function PromotionalBanners() {
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
     >
-      {/* Grid-stacked slides — all share one cell so the container sizes to the tallest slide,
+      {/* Grid-stacked slides - all share one cell so the container sizes to the tallest slide,
           preventing any content (including the CTA) from being clipped at small heights. */}
       <div className="relative grid">
         {BANNERS.map((banner, index) => (

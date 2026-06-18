@@ -75,7 +75,7 @@ export default function InstructorBlogsPage() {
       ) : !data || data.data.length === 0 ? (
         <EmptyState
           title="No posts yet"
-          description="Start your first post — drafts are private until you publish."
+          description="Start your first post. Drafts are private until you publish."
           icon={<Pen className="h-10 w-10" />}
           action={{
             label: "Write the first post",

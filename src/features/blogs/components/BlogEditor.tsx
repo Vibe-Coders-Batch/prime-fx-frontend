@@ -308,7 +308,7 @@ export function BlogEditor({
                   <MarkdownRenderer content={contentValue} />
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Nothing to preview yet — start writing in the editor.
+                    Nothing to preview yet. Start writing in the editor.
                   </p>
                 )}
               </div>

@@ -64,13 +64,13 @@ export const UPCOMING_SESSIONS = [
     date: "By invitation",
   },
   {
-    title: "Builders — Hyderabad Cohort",
+    title: "Builders, Hyderabad Cohort",
     location: "Hyderabad, India",
     region: "IN" as const,
     date: "Enrollment open",
   },
   {
-    title: "AI Generalist — Live Online",
+    title: "AI Generalist, Live Online",
     location: "India & UAE",
     region: "GLOBAL" as const,
     date: "Rolling intake",

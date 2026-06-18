@@ -189,8 +189,8 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
                             }
                             catch (e) {
                                 void e;
-                                setError("Network error - please check your connection");
-                                onError?.("Network error - please check your connection");
+                                setError("Network error. Please check your connection.");
+                                onError?.("Network error. Please check your connection.");
                                 setIsLoading(false);
                             }
                             break;
@@ -200,8 +200,8 @@ export const EnhancedVideoPlayer = forwardRef<EnhancedVideoPlayerRef, EnhancedVi
                             }
                             catch (e) {
                                 void e;
-                                setError("Media error - failed to decode video");
-                                onError?.("Media error - failed to decode video");
+                                setError("Media error. Failed to decode video.");
+                                onError?.("Media error. Failed to decode video.");
                                 setIsLoading(false);
                             }
                             break;

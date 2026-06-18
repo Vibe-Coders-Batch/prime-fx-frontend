@@ -120,21 +120,21 @@ export function StepReview() {
                             <CheckCircle2 className={course?.sections?.length ? "text-green-500" : "text-gray-300"} size={16}/>
                             <span className={!course?.sections?.length ? "text-destructive" : ""}>
                               Sections added ({course?.sections?.length || 0})
-                              {!course?.sections?.length && " - Required"}
+                              {!course?.sections?.length && ", Required"}
                             </span>
                         </li>
                         <li className="flex items-center gap-2">
                             <CheckCircle2 className={course?.sections?.some(s => s.lessons?.length > 0) ? "text-green-500" : "text-gray-300"} size={16}/>
                             <span className={!course?.sections?.some(s => s.lessons?.length > 0) ? "text-destructive" : ""}>
                               Lessons added
-                              {!course?.sections?.some(s => s.lessons?.length > 0) && " - Required"}
+                              {!course?.sections?.some(s => s.lessons?.length > 0) && ", Required"}
                             </span>
                         </li>
                          <li className="flex items-center gap-2">
                             <CheckCircle2 className={course?.thumbnail ? "text-green-500" : "text-gray-300"} size={16}/>
                             <span className={!course?.thumbnail ? "text-muted-foreground" : ""}>
                               Thumbnail uploaded
-                              {!course?.thumbnail && " - Recommended"}
+                              {!course?.thumbnail && ", Recommended"}
                             </span>
                         </li>
                         <li className="flex items-center gap-2">

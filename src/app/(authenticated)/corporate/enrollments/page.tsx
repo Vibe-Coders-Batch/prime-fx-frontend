@@ -110,7 +110,7 @@ export default function BulkEnrollmentPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="outline" size="sm" onClick={() => {
-                    toast.info(`Enrollment management for ${enrollment.enrollmentId} - Feature coming soon`);
+                    toast.info(`Enrollment management for ${enrollment.enrollmentId}: feature coming soon`);
                 }}>
                             Manage
                           </Button>

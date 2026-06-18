@@ -107,7 +107,7 @@ export default function PaymentManagementPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="outline" size="sm" onClick={() => {
-                    toast.info(`Payment details for ${payment.paymentId} - Feature coming soon`);
+                    toast.info(`Payment details for ${payment.paymentId}: feature coming soon`);
                 }}>
                             <span className="hidden sm:inline">View Details</span>
                             <span className="sm:hidden">View</span>

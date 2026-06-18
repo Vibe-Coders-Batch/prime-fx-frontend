@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 export function Hero() {
     const headlineWords = "Unlock Skills That Drive Your Future".split(" ");
-    return (<section className="relative h-[100dvh] min-h-[560px] overflow-hidden bg-background" aria-label="Hero section - Prime Learning">
+    return (<section className="relative h-[100dvh] min-h-[560px] overflow-hidden bg-background" aria-label="Hero section, Prime Learning">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black" aria-hidden="true"/>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.35 }} transition={{ duration: 1.2, ease: "easeOut" }} className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2664&auto=format&fit=crop')] bg-cover bg-center grayscale" role="img" aria-label="Online learning background"/>
       <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" aria-hidden="true"/>

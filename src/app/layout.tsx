@@ -71,7 +71,7 @@ export const metadata: Metadata = {
                 url: `${siteUrl}/og-image.png`,
                 width: 1200,
                 height: 630,
-                alt: `${siteName} - Premium online learning platform`,
+                alt: `${siteName} | Premium online learning platform`,
                 type: "image/png",
             },
         ],
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
         title: `${siteName} | Unlock Skills That Drive Your Future`,
         description: siteDescription,
         images: [`${siteUrl}/og-image.png`],
-        creator: "@primetraining",
+        creator: "@learning13190",
     },
     robots: {
         index: true,
@@ -122,9 +122,9 @@ export default function RootLayout({ children, }: Readonly<{
         logo: `${siteUrl}/logo.png`,
         description: siteDescription,
         sameAs: [
-            "https://twitter.com/primetraining",
-            "https://www.linkedin.com/company/prime-elearning",
-            "https://www.facebook.com/primeelearning",
+            "https://x.com/learning13190",
+            "https://www.linkedin.com/company/prime-learning-ae/",
+            "https://www.instagram.com/primelearningofficial/",
         ],
         contactPoint: COMMUNICATION_CONTACTS.map((channel) => ({
             "@type": "ContactPoint",

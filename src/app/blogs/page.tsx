@@ -4,7 +4,7 @@ import { BlogsIndexClient } from "./BlogsIndexClient";
 const siteUrl = "https://paet.ltd";
 
 export const metadata: Metadata = {
-  title: "Blog — Notes from Prime Learning",
+  title: "Blog | Notes from Prime Learning",
   description:
     "Programme notes, study guides, instructor essays, and inside-Prime dispatches. Long-form thinking from the Prime Learning faculty and editorial desk.",
   alternates: {

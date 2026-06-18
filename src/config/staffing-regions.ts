@@ -8,7 +8,7 @@ export type StaffingRegionConfig = {
   eyebrow: string;
   /** Visible hero headline (also used in metadata). */
   headline: string;
-  /** SEO keyword phrase — must appear inside the page <h1>. */
+  /** SEO keyword phrase - must appear inside the page <h1>. */
   seoKeyword: string;
   subheadline: string;
   primaryCta: { label: string; href: string };
@@ -19,7 +19,7 @@ export type StaffingRegionConfig = {
   sibling: { label: string; href: string; blurb: string };
 };
 
-/** Staffing inbox — mailto links and quick-enquiry forms. */
+/** Staffing inbox - mailto links and quick-enquiry forms. */
 export const STAFFING_EMAIL = "staffing@primelearning.ae";
 
 export const INDIA_STAFFING: StaffingRegionConfig = {
@@ -103,22 +103,3 @@ export const MIDDLE_EAST_STAFFING: StaffingRegionConfig = {
     blurb: "High-velocity tech hiring, GCC captive setup, and compliant scaling across India’s major hubs.",
   },
 };
-
-export const STAFFING_HUBS = [
-  {
-    slug: "india-staffing" as const,
-    title: "India Staffing",
-    headline: INDIA_STAFFING.headline,
-    blurb: "Tech-heavy, high-velocity hiring for enterprises, startups, and GCC captive centres.",
-    href: "/india-staffing",
-    accent: "electric" as const,
-  },
-  {
-    slug: "middle-east-staffing" as const,
-    title: "Middle East Staffing",
-    headline: MIDDLE_EAST_STAFFING.headline,
-    blurb: "Global mobilization, nationalization, and infrastructure mega-project workforce delivery.",
-    href: "/middle-east-staffing",
-    accent: "gold" as const,
-  },
-];

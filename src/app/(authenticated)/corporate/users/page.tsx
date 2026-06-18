@@ -87,7 +87,7 @@ export default function CorporateUserManagementPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => {
-                    toast.info(`User management for ${user.email} - Feature coming soon`);
+                    toast.info(`User management for ${user.email}: feature coming soon`);
                 }}>
                             Manage
                           </Button>

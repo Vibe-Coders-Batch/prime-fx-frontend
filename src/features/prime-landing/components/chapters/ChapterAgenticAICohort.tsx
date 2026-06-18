@@ -94,7 +94,7 @@ const FLOW = [
 ];
 
 /**
- * Chapter — Agentic AI Cohort.
+ * Chapter - Agentic AI Cohort.
  *
  * Flagship-event spotlight (closed-door executive session). Pure ink theme,
  * composed of: hero block, dual-region session badges, three pillars, three
@@ -116,7 +116,7 @@ export function ChapterAgenticAICohort() {
 
     const ctx = gsap.context(() => {
       // Reveal-on-enter. NOTE: we deliberately do NOT pre-hide elements with
-      // gsap.set() — if ScrollTrigger.batch fails to fire for any reason
+      // gsap.set() - if ScrollTrigger.batch fails to fire for any reason
       // (stale build, scroll position at mount, Lenis race, etc.) the
       // section would render invisibly. Using fromTo inside onEnter means
       // content is visible by default and the animation is purely additive.
@@ -155,7 +155,7 @@ export function ChapterAgenticAICohort() {
       id="chapter-cohort"
       className="relative w-full overflow-hidden px-4 py-24 sm:px-6 lg:px-16 lg:py-32"
       style={{ backgroundColor: "var(--ink)" }}
-      aria-label="Agentic AI Playbook — Closed-Door Cohort"
+      aria-label="Agentic AI Playbook, Closed-Door Cohort"
     >
       {/* Subtle ambient gold glow + grid texture */}
       <div
@@ -210,7 +210,7 @@ export function ChapterAgenticAICohort() {
           The $250 billion IT Services industry is facing a structural reset.
           The gap between knowing AI exists and knowing how to direct it is the
           most expensive gap in the industry today. This cohort is the blueprint
-          for moving beyond AI tools — to building and deploying production AI
+          for moving beyond AI tools to building and deploying production AI
           systems that ship outcomes.
         </p>
 
@@ -365,7 +365,7 @@ export function ChapterAgenticAICohort() {
             style={{ color: "var(--text-tertiary)" }}
           >
             {[
-              "Teams use AI tools — but cannot build systems",
+              "Teams use AI tools but cannot build systems",
               "AI initiatives stall at the PoC stage",
               "Hiring AI talent is expensive and slow",
             ].map((line) => (
@@ -392,7 +392,7 @@ export function ChapterAgenticAICohort() {
               color: "var(--text-primary)",
             }}
           >
-            Watch a multi-agent system get built — live, in real time.
+            Watch a multi-agent system get built live, in real time.
           </h3>
           <p
             data-cohort-reveal

@@ -22,7 +22,7 @@ export function SpotlightPage() {
                 <em className="italic text-[var(--gold)]">ship</em> with you
               </>
             }
-            description="Practitioners from top product and engineering teams — teaching what they build in production, not theory from a slide deck."
+            description="Practitioners from top product and engineering teams, teaching what they build in production, not theory from a slide deck."
           />
 
           <SpotlightHero

@@ -76,7 +76,7 @@ export function PrimeLandingPage() {
               </div>
             </div>
             <p className="max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Prime Learning is an initiative supported by MIYO Global — built to deliver outcomes-driven programmes across India, the UAE, and beyond.
+              Prime Learning is an initiative supported by MIYO Global, built to deliver outcomes-driven programmes across India, the UAE, and beyond.
             </p>
           </div>
         </section>

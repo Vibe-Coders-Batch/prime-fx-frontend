@@ -45,7 +45,7 @@ export const metadata: Metadata = {
                 url: `${siteUrl}/og-image.png`,
                 width: 1200,
                 height: 630,
-                alt: "Prime Learning - Learn Smarter. Grow Faster. Lead With Purpose.",
+                alt: "Prime Learning | Learn Smarter. Grow Faster. Lead With Purpose.",
             },
         ],
     },
@@ -150,7 +150,7 @@ export default function HomePage() {
                 name: "What topics do you cover?",
                 acceptedAnswer: {
                     "@type": "Answer",
-                    text: "We offer courses across business and leadership, technology and data, finance and markets, creative and design, professional skills, and academic and test preparation—plus business school admissions and career pathways.",
+                    text: "We offer courses across business and leadership, technology and data, finance and markets, creative and design, professional skills, and academic and test preparation, plus business school admissions and career pathways.",
                 },
             },
             {

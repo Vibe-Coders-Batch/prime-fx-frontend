@@ -25,7 +25,7 @@ export function LeadershipPage() {
                 <em className="italic text-[var(--gold)]">set the bar</em>
               </>
             }
-            description="The mentors and executives behind Prime Learning — building premium programmes across India, the UAE, and a global learner community. Hover a profile to read their focus areas and experience."
+            description="The mentors and executives behind Prime Learning, building premium programmes across India, the UAE, and a global learner community. Hover a profile to read their focus areas and experience."
           />
 
           <SpotlightHero

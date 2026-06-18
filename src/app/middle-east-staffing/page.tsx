@@ -4,7 +4,7 @@ import { MiddleEastStaffingPage } from "@/features/staffing/components/MiddleEas
 const siteUrl = "https://primelearning.ae";
 
 export const metadata: Metadata = {
-  title: "Staffing Agency Middle East — GCC Talent & Compliance | Prime Learning",
+  title: "Staffing Agency Middle East | GCC Talent & Compliance | Prime Learning",
   description:
     "Empowering Middle East enterprises with world-class talent. Global mobilization, Saudization and Emiratisation, mega-project staffing, and executive search with Qiwa, GOSI, and MOHRE-aligned compliance.",
   alternates: {

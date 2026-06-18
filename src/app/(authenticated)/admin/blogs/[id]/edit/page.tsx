@@ -61,7 +61,7 @@ export default function AdminEditBlogPostPage({ params }: PageProps) {
   return (
     <PageLayout
       header={data.status === "PUBLISHED" ? "Edit published post" : "Edit draft"}
-      description="Changes are saved manually — use Save draft or Publish."
+      description="Changes are saved manually. Use Save draft or Publish."
       actions={
         data.status === "PUBLISHED" ? (
           <Link href={`/blogs/${data.slug}`} target="_blank">

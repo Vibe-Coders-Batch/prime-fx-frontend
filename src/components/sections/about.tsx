@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const VALUES = [
     {
         title: "Accessibility",
-        description: "We design learning with no prerequisites—so anyone can begin anytime.",
+        description: "We design learning with no prerequisites-so anyone can begin anytime.",
     },
     {
         title: "Empowerment",
@@ -45,8 +45,8 @@ export function About() {
               EdTech platform built to democratize access to high-quality
               learning. We believe that education should not be restricted by
               formal qualifications, expensive institutions, or rigid systems.
-              Our mission is to empower individuals from all backgrounds—including
-              those who may have missed opportunities earlier in life—to build
+              Our mission is to empower individuals from all backgrounds-including
+              those who may have missed opportunities earlier in life-to build
               meaningful skills, explore new career paths, and transform their
               future.
             </p>
@@ -66,8 +66,8 @@ export function About() {
           <motion.article initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="bg-card border border-border/50 rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 hover:border-primary/50 transition-colors duration-300">
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-foreground">Mission</h3>
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-              To make high-quality education accessible to everyone—regardless of
-              background, academic history, or financial limitations—by providing
+              To make high-quality education accessible to everyone-regardless of
+              background, academic history, or financial limitations-by providing
               practical, outcome-driven online learning that empowers real career
               transformation.
             </p>

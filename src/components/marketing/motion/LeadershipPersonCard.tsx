@@ -65,7 +65,7 @@ export function LeadershipPersonCard({ member, priority = false }: LeadershipPer
           >
             <TeamPortraitImage
               src={portrait}
-              alt={`${name} — ${role}`}
+              alt={`${name}, ${role}`}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
               className="object-cover grayscale transition-[transform,filter] duration-700 ease-out group-hover:scale-[1.03] group-focus-within:scale-[1.03] group-hover:grayscale-0 group-focus-within:grayscale-0"
@@ -156,7 +156,7 @@ export function LeadershipPersonCard({ member, priority = false }: LeadershipPer
               >
                 <TeamPortraitImage
                   src={portrait}
-                  alt={`${name} — ${role}`}
+                  alt={`${name}, ${role}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 320px"
                   className="object-cover"

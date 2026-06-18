@@ -26,7 +26,7 @@ export default function AdminNewBlogPostPage() {
   return (
     <PageLayout
       header="Write a new post"
-      description="Drafts are private until you publish. Posts use Markdown — switch to Preview to see how they will render on the website."
+      description="Drafts are private until you publish. Posts use Markdown; switch to Preview to see how they will render on the website."
     >
       <BlogEditor mode="create" redirectBase="/admin/blogs" />
     </PageLayout>

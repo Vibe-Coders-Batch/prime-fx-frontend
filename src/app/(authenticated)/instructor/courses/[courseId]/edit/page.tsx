@@ -195,7 +195,7 @@ export default function CourseEditPage({ params, }: {
                         {watch("thumbnail") ? (
                           <SecureImage src={watch("thumbnail")!} alt="Course thumbnail" className="w-full h-full object-cover"/>
                         ) : (
-                          <span className="text-muted-foreground text-sm">No thumbnail — upload one below</span>
+                          <span className="text-muted-foreground text-sm">No thumbnail. Upload one below.</span>
                         )}
                       </div>
                       <div className="flex flex-wrap items-center gap-3">

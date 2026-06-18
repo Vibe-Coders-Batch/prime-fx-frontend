@@ -71,7 +71,7 @@ export function ChapterTrainerLedCourses() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      // Additive reveal — content is visible by default; the animation only
+      // Additive reveal - content is visible by default; the animation only
       // enhances it (see ChapterAgenticAICohort for the rationale).
       const reveals = root.querySelectorAll<HTMLElement>("[data-course-reveal]");
       ScrollTrigger.batch(reveals, {
@@ -136,7 +136,7 @@ export function ChapterTrainerLedCourses() {
           style={{ color: "var(--text-secondary)" }}
         >
           Live, trainer-led programmes that move you from foundations to a deployed
-          AI product. Pick the depth-first build track or the broad fluency track —
+          AI product. Pick the depth-first build track or the broad fluency track;
           both end with shipped, production-grade work, not just a certificate.
         </p>
 

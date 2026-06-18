@@ -24,23 +24,6 @@ export type Office = {
 
 export const OFFICES: Office[] = [
   {
-    label: "Registered Office",
-    name: COMPANY.legalName,
-    lines: [
-      "K.Y.R. Heights, 1st Floor",
-      "Plot No. 4338A & 433/B, Vivekananda Nagar",
-      "Allapur, Hitech City Road, Kondapur",
-      "Serilingampally, Hyderabad 500084",
-      "Telangana, India",
-    ],
-    region: "India",
-    mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=" +
-      encodeURIComponent(
-        "K.Y.R. Heights, Vivekananda Nagar, Allapur, Hitech City Road, Kondapur, Serilingampally, Hyderabad 500084, Telangana, India"
-      ),
-  },
-  {
     label: "Operations Office",
     name: OFFICE_LOCATION.name,
     lines: [
@@ -107,18 +90,18 @@ export type SocialLink = {
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: "LinkedIn",
-    handle: "prime-elearning",
-    href: "https://www.linkedin.com/company/prime-elearning",
+    handle: "prime-learning-ae",
+    href: "https://www.linkedin.com/company/prime-learning-ae/",
   },
   {
     label: "Instagram",
-    handle: "@primeelearning",
-    href: "https://www.instagram.com/primeelearning",
+    handle: "@primelearningofficial",
+    href: "https://www.instagram.com/primelearningofficial/",
   },
   {
-    label: "X (Twitter)",
-    handle: "@primetraining",
-    href: "https://twitter.com/primetraining",
+    label: "X",
+    handle: "@learning13190",
+    href: "https://x.com/learning13190",
   },
 ];
 

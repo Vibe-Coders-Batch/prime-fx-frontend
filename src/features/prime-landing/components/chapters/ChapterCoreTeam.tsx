@@ -48,7 +48,7 @@ function TeamNode({
         >
           <TeamPortraitImage
             src={member.portrait}
-            alt={`${member.name} — ${member.role}`}
+            alt={`${member.name}, ${member.role}`}
             fill
             sizes="(max-width: 640px) 6rem, 11rem"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
