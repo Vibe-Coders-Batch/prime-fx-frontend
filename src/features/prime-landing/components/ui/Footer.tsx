@@ -3,63 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { OFFICES, SOCIAL_LINKS } from "@/config/company";
+import { SOCIAL_LINKS } from "@/config/company";
 import { Button } from "@/features/prime-landing/components/ui/Button";
 import { Eyebrow } from "@/features/prime-landing/components/ui/Eyebrow";
-import { cn } from "@/features/prime-landing/lib/cn";
 
 type FooterLink = { label: string; href: string };
-
-const indiaOffice = OFFICES.find((office) => office.region === "India");
-const uaeOffice = OFFICES.find((office) => office.region === "UAE");
-
-function FooterOfficeBlock({
-  regionLabel,
-  office,
-}: {
-  regionLabel: string;
-  office: (typeof OFFICES)[number];
-}) {
-  const lastLineIndex = office.lines.length - 1;
-
-  return (
-    <article className="flex flex-col rounded-lg border border-[var(--fog)]/70 bg-white/[0.03] p-3 transition-colors duration-300 hover:border-[var(--gold)]/35 sm:p-3.5">
-      <p
-        className="text-[10px] font-medium uppercase tracking-[0.18em]"
-        style={{ color: "var(--gold-bright)" }}
-      >
-        {regionLabel}
-      </p>
-      <p
-        className="mt-1.5 text-xs font-semibold leading-tight tracking-tight sm:text-[13px]"
-        style={{ color: "var(--text-primary)" }}
-      >
-        {office.name}
-      </p>
-      <address className="mt-2 not-italic">
-        <a
-          href={office.mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group block space-y-0.5 text-[11px] leading-snug transition-colors hover:text-[var(--gold-bright)] sm:text-xs"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          {office.lines.map((line, index) => (
-            <span
-              key={line}
-              className={cn(
-                "block",
-                index === lastLineIndex && "text-[var(--text-tertiary)] group-hover:text-[var(--gold-bright)]/80"
-              )}
-            >
-              {line}
-            </span>
-          ))}
-        </a>
-      </address>
-    </article>
-  );
-}
 
 const LINKS: Record<string, FooterLink[]> = {
   Academy: [
@@ -146,16 +94,6 @@ export function Footer() {
               Join
             </Button>
           </form>
-
-          {(indiaOffice || uaeOffice) && (
-            <div className="mt-8 border-t border-[var(--fog)]/60 pt-6">
-              <Eyebrow className="!text-[10px] !tracking-[0.18em]">Offices</Eyebrow>
-              <div className="mt-3 grid max-w-sm grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
-                {indiaOffice && <FooterOfficeBlock regionLabel="MIYO Global" office={indiaOffice} />}
-                {uaeOffice && <FooterOfficeBlock regionLabel="UAE" office={uaeOffice} />}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
