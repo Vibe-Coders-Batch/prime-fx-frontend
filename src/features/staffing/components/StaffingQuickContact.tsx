@@ -31,7 +31,7 @@ function buildMailtoUrl(payload: {
   ].join("\n");
 
   return `mailto:${STAFFING_EMAIL}?subject=${encodeURIComponent(
-    `${payload.regionLabel} staffing enquiry`
+    `${payload.regionLabel} staff augmentation enquiry`
   )}&body=${encodeURIComponent(body)}`;
 }
 
@@ -119,7 +119,7 @@ export function StaffingQuickContact({ regionLabel }: StaffingQuickContactProps)
         Quick enquiry
       </p>
       <p className="mt-2 text-sm text-[var(--text-secondary)]">
-        Share your mandate and we respond with a staffing plan and mobilisation timeline. Enquiries
+        Share your mandate and we respond with a staff augmentation plan and mobilisation timeline. Enquiries
         go to{" "}
         <a
           href={`mailto:${STAFFING_EMAIL}`}

@@ -17,7 +17,7 @@ export function StaffingRegionToggle({ value, onChange }: StaffingRegionTogglePr
     <div
       className="inline-flex rounded-full border border-[var(--fog)]/60 bg-white/[0.04] p-1"
       role="tablist"
-      aria-label="Staffing region"
+      aria-label="Staff augmentation region"
     >
       {OPTIONS.map((option) => {
         const active = value === option.value;

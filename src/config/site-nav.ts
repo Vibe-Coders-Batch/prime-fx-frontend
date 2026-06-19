@@ -8,7 +8,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "About", href: "/about" },
   { label: "Events", href: "/events" },
   { label: "Spotlight", href: "/spotlight" },
-  { label: "Staffing", href: "/staffing" },
+  { label: "Staff Augmentation", href: "/staffing" },
   { label: "Referral", href: "/referral" },
   { label: "Leadership", href: "/leadership" },
   { label: "Blog", href: "/blogs" },

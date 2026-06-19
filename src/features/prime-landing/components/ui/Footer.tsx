@@ -15,7 +15,7 @@ const LINKS: Record<string, FooterLink[]> = {
     { label: "Events", href: "/events" },
     { label: "Spotlight", href: "/spotlight" },
     { label: "Leadership", href: "/leadership" },
-    { label: "Staffing", href: "/staffing" },
+    { label: "Staff Augmentation", href: "/staffing" },
   ],
   Resources: [{ label: "Blog", href: "/blogs" }],
   Legal: [

@@ -91,7 +91,7 @@ export const LEADERSHIP_TEAM: LeadershipMember[] = [
       "2,400+ hires across EMEA, APAC, and China in AI, cloud-native engineering, and telecom product teams",
       "Built and led large ecosystems: 50-member TA team + 200+ supplier network; 5,000+ offers closed in a year",
       "Workforce planning & analytics, contingent workforce (GCC/MSP), and TA process automation (Workday/ATS)",
-      "Primary contact for Prime Learning Staffing",
+      "Primary contact for Prime Learning Staff Augmentation",
     ],
   },
   {

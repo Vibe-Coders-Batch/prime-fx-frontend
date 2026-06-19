@@ -8,11 +8,12 @@
 export const REFERRAL_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwicD4imd-odXbCAF1Wtyw802_pSx9GHumZfslYjdu3js1OEghIBEBmkk3pvX79fSu1/exec";
 
-/** Google Drive preview + export links for the referral policy PDF. */
-export const REFERRAL_POLICY_PDF_PREVIEW_URL =
-  "https://drive.google.com/file/d/1fHrvCIN6mS63UvmdiOvW7LJdNLHm9kGq/preview";
-export const REFERRAL_POLICY_PDF_DOWNLOAD_URL =
-  "https://drive.google.com/file/d/1fHrvCIN6mS63UvmdiOvW7LJdNLHm9kGq/export?format=pdf";
+/** Referral policy PDF served from the site (public/documents). */
+export const REFERRAL_POLICY_PDF_PATH = "/documents/Prime_Learning_Referral_Policy_2026.pdf";
+export const REFERRAL_POLICY_PDF_FILENAME = "Prime_Learning_Referral_Policy_2026.pdf";
+/** Hide browser PDF sidebar/toolbar in embedded preview (Chrome, Edge, Safari). */
+export const REFERRAL_POLICY_PDF_PREVIEW_URL = `${REFERRAL_POLICY_PDF_PATH}#navpanes=0&toolbar=0&view=FitH`;
+export const REFERRAL_POLICY_PDF_DOWNLOAD_URL = REFERRAL_POLICY_PDF_PATH;
 
 /** Headline reward for a successful referral. */
 export const REFERRAL_REWARD = "₹15,000";

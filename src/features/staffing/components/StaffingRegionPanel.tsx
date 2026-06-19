@@ -45,7 +45,7 @@ export function StaffingRegionPanel({ region, showSiblingLink = true }: Staffing
           </header>
 
           <div data-reveal className="lg:pt-4">
-            <StaffingQuickContact regionLabel="India Staffing" />
+            <StaffingQuickContact regionLabel="India Staff Augmentation" />
           </div>
         </section>
 
@@ -161,7 +161,7 @@ export function StaffingRegionPanel({ region, showSiblingLink = true }: Staffing
           </header>
 
           <div data-reveal>
-            <StaffingQuickContact regionLabel="UAE Staffing" />
+            <StaffingQuickContact regionLabel="UAE Staff Augmentation" />
           </div>
         </div>
       </section>

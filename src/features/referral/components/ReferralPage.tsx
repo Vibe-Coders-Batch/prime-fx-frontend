@@ -8,6 +8,8 @@ import { Button } from "@/features/prime-landing/components/ui/Button";
 import {
   REFERRAL_MAX_RESUME_BYTES,
   REFERRAL_POLICY_PDF_DOWNLOAD_URL,
+  REFERRAL_POLICY_PDF_FILENAME,
+  REFERRAL_POLICY_PDF_PATH,
   REFERRAL_POLICY_PDF_PREVIEW_URL,
   REFERRAL_POLICY_SUMMARY,
   REFERRAL_RESUME_ACCEPT,
@@ -586,14 +588,21 @@ export function ReferralPage() {
       {/* ── PDF policy modal ── */}
       {pdfOpen && (
         <div
-          className="fixed inset-0 z-[1000] flex items-start justify-center overflow-y-auto bg-black/60 p-4 pt-10 backdrop-blur-sm"
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
           onClick={(e) => {
             if (e.target === e.currentTarget) setPdfOpen(false);
           }}
         >
-          <div className="w-full max-w-3xl rounded-2xl border border-[var(--gold)]/30 bg-[var(--ink)] p-6 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between border-b border-[var(--fog)]/60 pb-4">
-              <h2 className="text-lg font-semibold text-[var(--gold-bright)]">Referral Policy 2026</h2>
+          <div
+            className="flex h-[min(92vh,900px)] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-[var(--gold)]/30 bg-[var(--ink)] shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="referral-policy-title"
+          >
+            <div className="flex shrink-0 items-center justify-between border-b border-[var(--fog)]/60 px-5 py-4 sm:px-6">
+              <h2 id="referral-policy-title" className="text-lg font-semibold text-[var(--gold-bright)]">
+                Referral Policy 2026
+              </h2>
               <button
                 type="button"
                 onClick={() => setPdfOpen(false)}
@@ -603,19 +612,33 @@ export function ReferralPage() {
                 ×
               </button>
             </div>
-            <iframe
-              title="Referral Policy 2026"
-              src={REFERRAL_POLICY_PDF_PREVIEW_URL}
-              className="h-[60vh] w-full rounded-lg border border-[var(--fog)]/60 bg-white"
-            />
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <a
-                href={REFERRAL_POLICY_PDF_DOWNLOAD_URL}
-                download="MIYO_Global_Referral_Policy_2026.pdf"
-                className="text-sm font-medium text-[var(--gold-bright)] underline-offset-2 hover:underline"
-              >
-                Download the PDF
-              </a>
+
+            <div className="min-h-0 flex-1 bg-white">
+              <iframe
+                title="Referral Policy 2026"
+                src={REFERRAL_POLICY_PDF_PREVIEW_URL}
+                className="h-full w-full border-0"
+              />
+            </div>
+
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-[var(--fog)]/60 px-5 py-4 sm:px-6">
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href={REFERRAL_POLICY_PDF_DOWNLOAD_URL}
+                  download={REFERRAL_POLICY_PDF_FILENAME}
+                  className="text-sm font-medium text-[var(--gold-bright)] underline-offset-2 hover:underline"
+                >
+                  Download the PDF
+                </a>
+                <a
+                  href={REFERRAL_POLICY_PDF_PATH}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[var(--text-secondary)] underline-offset-2 transition hover:text-[var(--gold-bright)] hover:underline"
+                >
+                  Open in new tab
+                </a>
+              </div>
               <Button type="button" variant="primary" className="h-10 px-5 text-xs" onClick={() => setPdfOpen(false)}>
                 Close
               </Button>

@@ -12,7 +12,7 @@ export const COMMUNICATION_CONTACTS: CommunicationContact[] = [
     contactName: "Vijaya Saradhi",
   },
   {
-    division: "Staffing & Hiring",
+    division: "Staff Augmentation & Hiring",
     email: "staffing@primelearning.ae",
     contactName: "Vijaya Saradhi",
   },

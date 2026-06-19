@@ -68,8 +68,8 @@ export const CONTACT_CHANNELS: ContactChannel[] = [
     email: "learning@primelearning.ae",
   },
   {
-    label: "Staffing & Hiring",
-    description: "Talent placement and corporate staffing partnerships.",
+    label: "Staff Augmentation & Hiring",
+    description: "Talent placement and corporate staff augmentation partnerships.",
     email: "staffing@primelearning.ae",
   },
 ];

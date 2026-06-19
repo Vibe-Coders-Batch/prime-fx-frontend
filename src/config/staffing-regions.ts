@@ -24,12 +24,12 @@ export const STAFFING_EMAIL = "staffing@primelearning.ae";
 
 export const INDIA_STAFFING: StaffingRegionConfig = {
   slug: "india-staffing",
-  eyebrow: "India · Staffing",
+  eyebrow: "India · Staff Augmentation",
   headline: "Scaling India’s Finest Talent. Fueling Global Innovation.",
   seoKeyword: "IT staffing agency India",
   subheadline:
     "We connect leading enterprises, high-growth startups, and Global Capability Centres (GCCs) with India’s top-tier tech, engineering, and leadership talent.",
-  primaryCta: { label: "Partner With Us", href: `mailto:${STAFFING_EMAIL}?subject=India%20Staffing%20Partnership` },
+  primaryCta: { label: "Partner With Us", href: `mailto:${STAFFING_EMAIL}?subject=India%20Staff%20Augmentation%20Partnership` },
   secondaryCta: { label: "Build Your Team", href: "/contact" },
   specializations: [
     {
@@ -57,7 +57,7 @@ export const INDIA_STAFFING: StaffingRegionConfig = {
   complianceCopy:
     "100% compliant with Indian labor laws, including the Contract Labour (Regulation & Abolition) Act, EPF/ESI statutory mandates, and regional shop & establishment regulations. We mitigate your risk entirely.",
   sibling: {
-    label: "Middle East Staffing",
+    label: "Middle East Staff Augmentation",
     href: "/middle-east-staffing",
     blurb: "Cross-border mobilization, nationalization, and mega-project staffing across the GCC.",
   },
@@ -65,12 +65,12 @@ export const INDIA_STAFFING: StaffingRegionConfig = {
 
 export const MIDDLE_EAST_STAFFING: StaffingRegionConfig = {
   slug: "middle-east-staffing",
-  eyebrow: "Middle East · Staffing",
+  eyebrow: "Middle East · Staff Augmentation",
   headline: "Empowering Middle East Enterprises with World-Class Talent.",
   seoKeyword: "staffing agency Middle East",
   subheadline:
     "Cross-border recruitment, executive search, and nationalization solutions tailored for mega-projects, enterprise transformations, and localized growth.",
-  primaryCta: { label: "Request a Consultation", href: `mailto:${STAFFING_EMAIL}?subject=Middle%20East%20Staffing%20Consultation` },
+  primaryCta: { label: "Request a Consultation", href: `mailto:${STAFFING_EMAIL}?subject=Middle%20East%20Staff%20Augmentation%20Consultation` },
   secondaryCta: { label: "Source Global Talent", href: "/contact" },
   specializations: [
     {
@@ -98,7 +98,7 @@ export const MIDDLE_EAST_STAFFING: StaffingRegionConfig = {
   complianceCopy:
     "Fully integrated with local labor portals (including Qiwa, GOSI, and MOHRE guidelines). We ensure every placement respects local cultural frameworks, labor laws, and compliance standards from day one.",
   sibling: {
-    label: "India Staffing",
+    label: "India Staff Augmentation",
     href: "/india-staffing",
     blurb: "High-velocity tech hiring, GCC captive setup, and compliant scaling across India’s major hubs.",
   },
