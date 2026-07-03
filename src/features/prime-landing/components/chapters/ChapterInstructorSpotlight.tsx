@@ -23,13 +23,6 @@ const INSTRUCTORS: Instructor[] = [
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=70",
   },
   {
-    name: "Vinay Kumar",
-    credential: "AI and Healthcare Consultant",
-    courses: 4,
-    portrait: "/team/VinayKumar.png",
-    portraitPosition: "center 25%",
-  },
-  {
     name: "Priya Sharma",
     credential: "Founding ML Engineer, ex-Anthropic",
     courses: 3,

@@ -12,9 +12,9 @@ type FooterLink = { label: string; href: string };
 const LINKS: Record<string, FooterLink[]> = {
   Academy: [
     { label: "About", href: "/about" },
+    { label: "Leadership", href: "/leadership" },
     { label: "Events", href: "/events" },
     { label: "Spotlight", href: "/spotlight" },
-    { label: "Leadership", href: "/leadership" },
     { label: "Staff Augmentation", href: "/staffing" },
   ],
   Resources: [{ label: "Blog", href: "/blogs" }],
