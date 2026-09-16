@@ -157,13 +157,6 @@ export function ChapterCoreTeam() {
               Leadership
               <span aria-hidden="true">→</span>
             </Link>
-            <Link
-              href="/spotlight"
-              className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-[var(--gold-bright)] transition-opacity hover:opacity-80"
-            >
-              Spotlight
-              <span aria-hidden="true">→</span>
-            </Link>
           </div>
         </div>
 

@@ -42,12 +42,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.85,
     },
     {
-      url: `${siteUrl}/spotlight`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
-    {
       url: `${siteUrl}/forgot-password`,
       lastModified: currentDate,
       changeFrequency: "yearly",

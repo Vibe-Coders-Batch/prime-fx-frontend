@@ -4,6 +4,9 @@ import { SpotlightPage } from "@/features/spotlight/components/SpotlightPage";
 const siteUrl = "https://primelearning.ae";
 
 export const metadata: Metadata = {
+  // Page is hidden for now: unlinked from the nav, footer and sitemap. Remove
+  // this robots block and restore those links to bring it back.
+  robots: { index: false, follow: false },
   title: "Spotlight | Instructor Faculty",
   description:
     "Meet the Prime Learning instructor faculty, practitioners from leading product and engineering teams.",
