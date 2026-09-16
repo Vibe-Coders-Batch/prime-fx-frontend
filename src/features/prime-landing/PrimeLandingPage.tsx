@@ -15,7 +15,7 @@ import { TopNav } from "@/features/prime-landing/components/ui/TopNav";
 import { HashScrollHandler } from "@/features/prime-landing/components/ui/HashScrollHandler";
 import { Footer } from "@/features/prime-landing/components/ui/Footer";
 
-import { ChapterBookHero } from "@/features/prime-landing/components/chapters/ChapterBookHero";
+import { Chapter1Gate } from "@/features/prime-landing/components/chapters/Chapter1Gate";
 import { Chapter2Manifesto } from "@/features/prime-landing/components/chapters/Chapter2Manifesto";
 import { Chapter3Stats } from "@/features/prime-landing/components/chapters/Chapter3Stats";
 import { Chapter4Categories } from "@/features/prime-landing/components/chapters/Chapter4Categories";
@@ -38,7 +38,7 @@ export function PrimeLandingPage() {
         <HashScrollHandler />
         <TopNav />
         <main id="main" className="relative">
-          <ChapterBookHero />
+          <Chapter1Gate />
           <Chapter2Manifesto />
           <Chapter3Stats />
           <Chapter4Categories />
