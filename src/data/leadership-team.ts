@@ -12,7 +12,7 @@ export type LeadershipMember = {
 };
 
 /** Bump when replacing files under `public/team/` - used as React `key` to remount portraits. */
-export const TEAM_PORTRAIT_CACHE_VERSION = "20260528-shiv";
+export const TEAM_PORTRAIT_CACHE_VERSION = "20260916-trainers";
 
 function teamPortrait(filename: string): string {
   return `/team/${filename}`;
