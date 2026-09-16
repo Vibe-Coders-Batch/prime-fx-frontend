@@ -25,16 +25,18 @@ export function SpotlightPage() {
             description="Practitioners from top product and engineering teams, teaching what they build in production, not theory from a slide deck."
           />
 
-          <SpotlightHero
-            quote={FEATURED_INSTRUCTOR.quote}
-            name={FEATURED_INSTRUCTOR.name}
-            subtitle={FEATURED_INSTRUCTOR.credential}
-            portrait={FEATURED_INSTRUCTOR.portrait}
-            badge={`${FEATURED_INSTRUCTOR.courses} courses`}
-          />
+          {FEATURED_INSTRUCTOR && (
+            <SpotlightHero
+              quote={FEATURED_INSTRUCTOR.quote}
+              name={FEATURED_INSTRUCTOR.name}
+              subtitle={FEATURED_INSTRUCTOR.credential}
+              portrait={FEATURED_INSTRUCTOR.portrait}
+              badge={FEATURED_INSTRUCTOR.credential}
+            />
+          )}
 
           <motion.div
-            className="mt-20 grid grid-cols-2 gap-5 md:grid-cols-4"
+            className="mt-20 grid grid-cols-2 gap-5 md:grid-cols-3"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -47,7 +49,7 @@ export function SpotlightPage() {
                 subtitle={instructor.credential}
                 portrait={instructor.portrait}
                 objectPosition={instructor.portraitPosition}
-                meta={`${instructor.courses} courses`}
+                meta={instructor.meta}
                 priority={i < 2}
               />
             ))}

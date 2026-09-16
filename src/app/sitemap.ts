@@ -1,5 +1,4 @@
 import { MetadataRoute } from "next";
-import { blogsApi } from "@/features/blogs/api/blogs.api";
 
 const siteUrl = "https://paet.ltd";
 
@@ -31,12 +30,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${siteUrl}/blogs`,
-      lastModified: currentDate,
-      changeFrequency: "daily",
-      priority: 0.85,
-    },
-    {
       url: `${siteUrl}/leadership`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -62,18 +55,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  let blogPages: MetadataRoute.Sitemap = [];
-  try {
-    const response = await blogsApi.list({ status: "PUBLISHED", limit: 50 });
-    blogPages = response.data.map((post) => ({
-      url: `${siteUrl}/blogs/${post.slug}`,
-      lastModified: new Date(post.updatedAt ?? post.publishedAt ?? currentDate),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    }));
-  } catch {
-    blogPages = [];
-  }
-
-  return [...staticPages, ...blogPages];
+  return staticPages;
 }

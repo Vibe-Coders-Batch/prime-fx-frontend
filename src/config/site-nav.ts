@@ -9,8 +9,5 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "Leadership", href: "/leadership" },
   { label: "Events", href: "/events" },
   { label: "Spotlight", href: "/spotlight" },
-  { label: "Staff Augmentation", href: "/staffing" },
-  { label: "Blog", href: "/blogs" },
-  { label: "Referral", href: "/referral" },
   { label: "Contact", href: "/contact" },
 ];

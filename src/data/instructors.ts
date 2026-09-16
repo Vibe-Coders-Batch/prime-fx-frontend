@@ -1,41 +1,42 @@
 export type Instructor = {
   name: string;
   credential: string;
-  courses: number;
   portrait: string;
   portraitPosition?: string;
+  /** Optional gold line under the credential. Omit rather than invent one. */
+  meta?: string;
 };
 
-export const FEATURED_INSTRUCTOR = {
-  name: "Mei Lin",
-  credential: "Principal Engineer, ex-Stripe",
-  courses: 6,
-  portrait:
-    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80",
-  quote:
-    "The best craftspeople I've ever worked with were also the best teachers. Prime Learning finally gives them the stage they deserve.",
-};
+export type FeaturedInstructor = Instructor & { quote: string };
 
+/**
+ * Set once a trainer has a quote cleared for publication. Until then the
+ * Spotlight hero stays hidden and the page leads with the trainer grid.
+ */
+export const FEATURED_INSTRUCTOR: FeaturedInstructor | null = null;
+
+function trainerPortrait(filename: string): string {
+  return `/team/${filename}`;
+}
+
+/**
+ * Signed trainer faculty. Names, designations and portraits are taken from the
+ * approved partner deck (slide 7, "Our Trainers").
+ */
 export const INSTRUCTORS: Instructor[] = [
   {
-    name: "Mei Lin",
-    credential: "Principal Engineer, ex-Stripe",
-    courses: 6,
-    portrait:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=70",
+    name: "Dr. Anudeep Peddi",
+    credential: "Agentic AI",
+    portrait: trainerPortrait("anudeep-peddi.png"),
   },
   {
-    name: "Priya Sharma",
-    credential: "Founding ML Engineer, ex-Anthropic",
-    courses: 3,
-    portrait:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=70",
+    name: "Harleen Kaur",
+    credential: "Financial Wellness",
+    portrait: trainerPortrait("harleen-kaur.png"),
   },
   {
-    name: "Jonas Veldt",
-    credential: "Cinematographer, A24",
-    courses: 5,
-    portrait:
-      "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=70",
+    name: "Supriya Biswas",
+    credential: "Behavioural & Leadership, Soft Skills",
+    portrait: trainerPortrait("supriya-biswas.png"),
   },
 ];
