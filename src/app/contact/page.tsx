@@ -6,14 +6,14 @@ const siteUrl = "https://primelearning.ae";
 export const metadata: Metadata = {
   title: "Contact Prime Learning | Offices, Emails & Support",
   description:
-    "Get in touch with Prime Learning. Email channels for learning, staff augmentation, and partnerships, our Hyderabad offices, and presence across India and the UAE.",
+    "Get in touch with Prime Learning. Email channels for learning and partnerships, our Hyderabad offices, and presence across India and the UAE.",
   alternates: {
     canonical: `${siteUrl}/contact`,
   },
   openGraph: {
     title: "Contact Prime Learning",
     description:
-      "Reach the right team at Prime Learning: support, staff augmentation, partnerships, offices, and direct lines across India and the UAE.",
+      "Reach the right team at Prime Learning: support, partnerships, offices, and direct lines across India and the UAE.",
     type: "website",
     url: `${siteUrl}/contact`,
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact Prime Learning",
     description:
-      "Reach the right team at Prime Learning: support, staff augmentation, partnerships, and our offices across India and the UAE.",
+      "Reach the right team at Prime Learning: support, partnerships, and our offices across India and the UAE.",
   },
 };
 

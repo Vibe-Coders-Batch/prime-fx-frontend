@@ -67,11 +67,6 @@ export const CONTACT_CHANNELS: ContactChannel[] = [
       "Course access, enrolments, certificates, UAE programmes, and general enquiries.",
     email: "learning@primelearning.ae",
   },
-  {
-    label: "Staff Augmentation & Hiring",
-    description: "Talent placement and corporate staff augmentation partnerships.",
-    email: "staffing@primelearning.ae",
-  },
 ];
 
 /** Primary human contact, sourced from the shared communication config. */
