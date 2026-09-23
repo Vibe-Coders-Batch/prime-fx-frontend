@@ -2,7 +2,11 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { PageLayout } from "@/components/layout/page-layout";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
 import { BlogEditor } from "@/features/blogs/components/BlogEditor";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -24,45 +28,53 @@ export default function AdminEditBlogPostPage({ params }: PageProps) {
 
   if (isLoading || !isHydrated) {
     return (
-      <PageLayout header="Edit post">
+      <LearningSurface width="wide">
+        <LearningPageHeader title="Edit post" />
         <div className="space-y-4">
           <Skeleton className="h-10 w-1/2" />
           <Skeleton className="h-32 w-full" />
           <Skeleton className="h-64 w-full" />
         </div>
-      </PageLayout>
+      </LearningSurface>
     );
   }
 
   if (!data) {
     return (
-      <PageLayout header="Post not found">
+      <LearningSurface>
+        <LearningPageHeader title="Post not found" />
+        <Panel>
         <EmptyState
           title="Couldn’t load this post"
           description="The post may have been deleted or is no longer accessible."
           icon={<Pen className="h-10 w-10" />}
         />
-      </PageLayout>
+        </Panel>
+      </LearningSurface>
     );
   }
 
   if (!canEditBlog({ id: user?.id, role: user?.role }, data)) {
     return (
-      <PageLayout header="Not allowed">
+      <LearningSurface>
+        <LearningPageHeader title="Not allowed" />
+        <Panel>
         <EmptyState
           title="You don’t have permission to edit this post"
           description="Only the post’s author or a platform/content admin can edit."
           icon={<Pen className="h-10 w-10" />}
         />
-      </PageLayout>
+        </Panel>
+      </LearningSurface>
     );
   }
 
   return (
-    <PageLayout
-      header={data.status === "PUBLISHED" ? "Edit published post" : "Edit draft"}
-      description="Changes are saved manually. Use Save draft or Publish."
-      actions={
+    <LearningSurface width="wide">
+      <LearningPageHeader
+        title={data.status === "PUBLISHED" ? "Edit published post" : "Edit draft"}
+        description="Changes are saved manually. Use Save draft or Publish."
+        actions={
         data.status === "PUBLISHED" ? (
           <Link href={`/blogs/${data.slug}`} target="_blank">
             <Button size="sm" variant="outline">
@@ -71,9 +83,9 @@ export default function AdminEditBlogPostPage({ params }: PageProps) {
             </Button>
           </Link>
         ) : null
-      }
-    >
+        }
+      />
       <BlogEditor mode="edit" initial={data} redirectBase="/admin/blogs" />
-    </PageLayout>
+    </LearningSurface>
   );
 }

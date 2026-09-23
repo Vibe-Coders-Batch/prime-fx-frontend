@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { PageLayout } from "@/components/layout/page-layout";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,36 +51,41 @@ export default function AdminBlogsPage() {
 
   if (isHydrated && !allowed) {
     return (
-      <PageLayout
-        header="Blog moderation"
-        description="Restricted to platform or content administrators."
-      >
-        <EmptyState
-          title="Access required"
-          description="This area is restricted to PLATFORM_ADMIN and CONTENT_ADMIN accounts."
-          icon={<ShieldAlert className="h-10 w-10" />}
+      <LearningSurface>
+        <LearningPageHeader
+          title="Blog moderation"
+          description="Restricted to platform or content administrators."
         />
-      </PageLayout>
+        <Panel>
+          <EmptyState
+            title="Access required"
+            description="This area is restricted to PLATFORM_ADMIN and CONTENT_ADMIN accounts."
+            icon={<ShieldAlert className="h-10 w-10" />}
+          />
+        </Panel>
+      </LearningSurface>
     );
   }
 
   return (
-    <PageLayout
-      header="Blog"
-      description="Write new posts, then review, feature, archive, and publish posts from across the platform."
-      actions={
-        <Link href="/admin/blogs/new">
-          <Button>
-            <Plus className="h-4 w-4" />
-            New post
-          </Button>
-        </Link>
-      }
-    >
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+    <LearningSurface width="wide">
+      <LearningPageHeader
+        title="Blog"
+        description="Write new posts, then review, feature, archive, and publish posts from across the platform."
+        actions={
+          <Link href="/admin/blogs/new">
+            <Button>
+              <Plus aria-hidden="true" className="h-4 w-4" />
+              New post
+            </Button>
+          </Link>
+        }
+      />
+      <Panel className="mb-4 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--ls-ink-quiet)]" />
           <Input
+            aria-label="Search posts"
             placeholder="Search posts…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -84,7 +93,7 @@ export default function AdminBlogsPage() {
           />
         </div>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectTrigger aria-label="Filter posts by status" className="w-full sm:w-[180px]">
             <SelectValue placeholder="All statuses" />
           </SelectTrigger>
           <SelectContent>
@@ -95,7 +104,7 @@ export default function AdminBlogsPage() {
           </SelectContent>
         </Select>
         <Select value={featuredOnly} onValueChange={setFeaturedOnly}>
-          <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectTrigger aria-label="Filter featured posts" className="w-full sm:w-[180px]">
             <SelectValue placeholder="All posts" />
           </SelectTrigger>
           <SelectContent>
@@ -103,17 +112,19 @@ export default function AdminBlogsPage() {
             <SelectItem value="featured">Featured only</SelectItem>
           </SelectContent>
         </Select>
-      </div>
+      </Panel>
 
       {isLoading ? (
         <div className="space-y-3">
           {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-16 w-full rounded-xl" />
+            <Skeleton key={i} className="h-16 w-full rounded-lg" />
           ))}
         </div>
       ) : (
-        <BlogAdminTable posts={data?.data ?? []} />
+        <Panel className="overflow-hidden">
+          <BlogAdminTable posts={data?.data ?? []} />
+        </Panel>
       )}
-    </PageLayout>
+    </LearningSurface>
   );
 }

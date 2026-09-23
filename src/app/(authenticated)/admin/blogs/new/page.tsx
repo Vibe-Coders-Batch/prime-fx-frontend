@@ -1,6 +1,10 @@
 "use client";
 
-import { PageLayout } from "@/components/layout/page-layout";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
 import { BlogEditor } from "@/features/blogs/components/BlogEditor";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { canAuthorBlogs } from "@/features/blogs/types";
@@ -13,22 +17,26 @@ export default function AdminNewBlogPostPage() {
 
   if (isHydrated && !canAuthorBlogs(user?.role)) {
     return (
-      <PageLayout header="New blog post">
-        <EmptyState
-          title="Access required"
-          description="Only platform admins, content admins, and instructors can write posts."
-          icon={<ShieldAlert className="h-10 w-10" />}
-        />
-      </PageLayout>
+      <LearningSurface>
+        <LearningPageHeader title="New blog post" />
+        <Panel>
+          <EmptyState
+            title="Access required"
+            description="Only platform admins, content admins, and instructors can write posts."
+            icon={<ShieldAlert className="h-10 w-10" />}
+          />
+        </Panel>
+      </LearningSurface>
     );
   }
 
   return (
-    <PageLayout
-      header="Write a new post"
-      description="Drafts are private until you publish. Posts use Markdown; switch to Preview to see how they will render on the website."
-    >
+    <LearningSurface width="wide">
+      <LearningPageHeader
+        title="Write a new post"
+        description="Drafts are private until you publish. Posts use Markdown; switch to Preview to see how they will render on the website."
+      />
       <BlogEditor mode="create" redirectBase="/admin/blogs" />
-    </PageLayout>
+    </LearningSurface>
   );
 }
