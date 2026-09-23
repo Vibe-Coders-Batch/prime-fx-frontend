@@ -198,30 +198,15 @@ export default function CoursePlayerPage({ params, }: {
         <EmptyState title="Course not found" description="The course you're looking for doesn't exist." icon={<BookOpen className="h-12 w-12"/>}/>
       </div>);
     }
-    const FALLBACK_VIDEOS = [
-        "/videos/Forex_Trading_s_Puzzles.mp4",
-        "/videos/The_AI_That_Finally_Fixed_PDFs.mp4",
-        "/videos/The_Smol_Revolution.mp4",
-        "/videos/Zero_Trust_Security.mp4",
-    ];
-    const getFallbackVideo = (id: string) => {
-        const hash = id
-            .split("")
-            .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        return FALLBACK_VIDEOS[hash % FALLBACK_VIDEOS.length];
-    };
-    const getEmbedUrl = (url: string | undefined | null, lessonId: string) => {
-        return getFallbackVideo(lessonId);
-    };
-    return (<div className="flex h-[calc(100vh-4rem)] bg-background relative">
+    return (<div className="learning-surface relative flex h-[calc(100vh-4rem)] bg-[var(--ls-canvas)]">
       
-      {sidebarOpen && (<div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}/>)}
+      {sidebarOpen && (<button type="button" aria-label="Close lesson list" className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)}/>)}
 
       
-      <div className={cn("w-80 border-r border-border bg-muted/30 flex flex-col overflow-hidden transition-transform duration-300", "fixed lg:static inset-y-0 left-0 z-50 lg:z-auto", sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0")}>
-        <div className="p-4 border-b border-border bg-background">
+      <div className={cn("w-80 border-r border-[var(--ls-divider)] bg-[var(--ls-paper-quiet)] flex flex-col overflow-hidden transition-transform duration-300", "fixed lg:static inset-y-0 left-0 z-50 lg:z-auto", sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0")}>
+        <div className="p-4 border-b border-[var(--ls-divider)] bg-[var(--ls-paper)]">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-sm text-foreground line-clamp-2">
+            <h2 className="font-semibold text-sm text-[var(--ls-ink)] line-clamp-2">
               {course.title}
             </h2>
             <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0" onClick={() => router.push(`/learner/courses/${courseId}`)}>
@@ -229,10 +214,10 @@ export default function CoursePlayerPage({ params, }: {
             </Button>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-yellow-500 dark:bg-yellow-400 transition-all" style={{ width: `${progressPercentage}%` }}/>
+            <div className="flex-1 h-1.5 bg-[var(--ls-neutral-tint)] rounded-full overflow-hidden">
+              <div className="h-full bg-[var(--ls-accent)] transition-all" style={{ width: `${progressPercentage}%` }}/>
             </div>
-            <span className="text-xs font-medium whitespace-nowrap">
+            <span className="ls-nums text-xs font-medium whitespace-nowrap text-[var(--ls-ink)]">
               {progressPercentage}%
             </span>
           </div>
@@ -242,16 +227,16 @@ export default function CoursePlayerPage({ params, }: {
           {course.sections?.map((section, idx) => {
             const isExpanded = expandedModules.has(section.sectionId);
             const isSectionAccessible = accessibleSectionIds.includes(section.sectionId);
-            return (<div key={section.sectionId} className="border-b border-border">
-                <button onClick={() => toggleModule(section.sectionId)} className="w-full px-4 py-3 bg-background hover:bg-muted/50 transition-colors flex items-center justify-between text-left group">
-                  <span className="font-semibold text-sm text-foreground">
+            return (<div key={section.sectionId} className="border-b border-[var(--ls-divider)]">
+                <button onClick={() => toggleModule(section.sectionId)} className="w-full px-4 py-3 bg-[var(--ls-paper)] hover:bg-[var(--ls-paper-quiet)] transition-colors flex items-center justify-between text-left group">
+                  <span className="font-semibold text-sm text-[var(--ls-ink)]">
                     Module {idx + 1}
                   </span>
                   {isExpanded ? (<ChevronUp className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors"/>) : (<ChevronDown className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors"/>)}
                 </button>
 
-                {isExpanded && (<div className="bg-background">
-                    <div className="px-4 py-2.5 text-sm font-semibold text-foreground border-b border-border/50">
+                {isExpanded && (<div className="bg-[var(--ls-paper)]">
+                    <div className="px-4 py-2.5 text-sm font-semibold text-[var(--ls-ink)] border-b border-[var(--ls-divider)]">
                       {section.title}
                     </div>
                     {section.lessons?.map((lesson, lIdx) => {
@@ -259,13 +244,13 @@ export default function CoursePlayerPage({ params, }: {
                         const isActive = selectedLesson === lesson.lessonId;
                         const canAccess = isSectionAccessible;
                         return (<button key={lesson.lessonId} onClick={() => canAccess && setSelectedLesson(lesson.lessonId)} disabled={!canAccess} className={cn("w-full px-4 py-3 text-left flex items-start gap-3 transition-colors text-sm relative", isActive
-                                ? "bg-primary/10 border-l-4 border-primary pl-3"
-                                : "hover:bg-muted/50", !canAccess && "opacity-50 cursor-not-allowed")}>
+                                ? "bg-[var(--ls-accent-tint)] border-l-4 border-[var(--ls-accent)] pl-3"
+                                : "hover:bg-[var(--ls-paper-quiet)]", !canAccess && "opacity-50 cursor-not-allowed")}>
                           <div className="mt-0.5 shrink-0 relative flex items-center justify-center">
                             {isCompleted ? (<div className="relative flex items-center justify-center">
-                                <Circle className="h-5 w-5 text-green-600 fill-green-600" strokeWidth={0}/>
+                                <Circle className="h-5 w-5 text-[var(--ls-ok)] fill-[var(--ls-ok)]" strokeWidth={0}/>
                                 <Check className="h-3 w-3 text-white absolute" strokeWidth={3}/>
-                              </div>) : (<Circle className="h-5 w-5 text-muted-foreground stroke-2 fill-none"/>)}
+                              </div>) : (<Circle className="h-5 w-5 text-[var(--ls-ink-quiet)] stroke-2 fill-none"/>)}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className={cn("text-sm leading-snug", isActive && "font-semibold text-foreground", !isActive && "text-foreground")}>
@@ -300,8 +285,8 @@ export default function CoursePlayerPage({ params, }: {
       </div>
 
       
-      <div className="flex-1 flex flex-col overflow-hidden bg-background">
-        <div className="lg:hidden p-4 border-b border-border bg-background sticky top-0 z-30">
+      <div className="flex-1 flex flex-col overflow-hidden bg-[var(--ls-canvas)]">
+        <div className="lg:hidden p-4 border-b border-[var(--ls-divider)] bg-[var(--ls-paper)] sticky top-0 z-30">
           <div className="flex items-center justify-between">
             <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)}>
               <Menu className="h-5 w-5"/>
@@ -420,7 +405,7 @@ export default function CoursePlayerPage({ params, }: {
                 </div>
 
                 <div>
-                  <h1 className="text-2xl font-bold mb-4">
+                  <h1 className="text-2xl font-semibold mb-4 text-[var(--ls-ink)]">
                     {currentLesson.title}
                   </h1>
 
@@ -447,7 +432,7 @@ export default function CoursePlayerPage({ params, }: {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-6 border-t border-border">
+                  <div className="flex items-center justify-between pt-6 border-t border-[var(--ls-divider)]">
                     <Button variant="outline" onClick={handlePrev} disabled={!prevLesson} size="sm">
                       Previous
                     </Button>
