@@ -54,3 +54,8 @@ backend/package-lock.json
 # ruflo / local agent artifacts
 ruvector.db
 *.db
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/design-shots/
