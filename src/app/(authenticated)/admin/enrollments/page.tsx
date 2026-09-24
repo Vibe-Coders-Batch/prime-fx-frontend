@@ -1,21 +1,45 @@
 "use client";
-import { PageLayout } from "@/components/layout/page-layout";
+import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
-import { UserCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
+import { StatusPill } from "@/components/learning/status-pill";
+import { presentEnrolmentStatusOnly } from "@/components/learning/enrolment-status";
 import { useEnrollments } from "@/features/enrollments/hooks/use-enrollments";
 import type { Enrollment } from "@/features/enrollments/types";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { useState, useEffect } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { useDebounce } from "@/hooks/use-debounce";
 import { cn } from "@/lib/utils";
 import { EditEnrollmentDialog } from "@/features/enrollments/components/edit-enrollment-dialog";
+
+function learnerName(enrollment: Enrollment) {
+    if (!enrollment.user) return "N/A";
+    return (
+        `${enrollment.user.firstName || ""} ${enrollment.user.lastName || ""}`.trim() ||
+        enrollment.user.email
+    );
+}
+
+function enrolledOn(enrollment: Enrollment) {
+    return new Date(enrollment.enrolledAt).toLocaleDateString();
+}
+
 export default function EnrollmentManagementPage() {
     const [mounted, setMounted] = useState(false);
     const [search, setSearch] = useState("");
@@ -25,10 +49,16 @@ export default function EnrollmentManagementPage() {
     const limit = 20;
     const [editingEnrollment, setEditingEnrollment] = useState<Enrollment | null>(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
+
     useEffect(() => {
         setMounted(true);
     }, []);
-    const { data: enrollmentsData, isLoading, isFetching } = useEnrollments({
+
+    const {
+        data: enrollmentsData,
+        isLoading,
+        isFetching,
+    } = useEnrollments({
         enabled: true,
         filters: {
             status: statusFilter === "all" ? undefined : statusFilter,
@@ -37,6 +67,7 @@ export default function EnrollmentManagementPage() {
             limit,
         },
     });
+
     const handleEditClick = (enrollment: Enrollment) => {
         setEditingEnrollment(enrollment);
         setIsEditOpen(true);
@@ -45,100 +76,247 @@ export default function EnrollmentManagementPage() {
         setStatusFilter(value);
         setPage(1);
     };
+
     const totalPages = enrollmentsData?.pagination?.totalPages || 1;
     const currentPage = enrollmentsData?.pagination?.page || 1;
-    return (<PageLayout header="Enrollment Management" description="View and manage all course enrollments across the platform.">
-      <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Filters</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none"/>
-                <Input placeholder="Search enrollments..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9"/>
-              </div>
-              {mounted ? (<Select value={statusFilter} onValueChange={handleStatusChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Status"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="ACTIVE">Active</SelectItem>
-                    <SelectItem value="COMPLETED">Completed</SelectItem>
-                    <SelectItem value="REVOKED">Revoked</SelectItem>
-                  </SelectContent>
-                </Select>) : (<Skeleton className="w-full h-10"/>)}
+    const total = enrollmentsData?.pagination?.total;
+    const rows = enrollmentsData?.data ?? [];
+
+    return (
+        <LearningSurface width="wide">
+            <LearningPageHeader
+                title="Enrolment management"
+                description="View and manage all course enrollments across the platform."
+            />
+
+            <div className="space-y-4">
+                <Panel className="p-4">
+                    <div className="grid gap-3 md:grid-cols-2">
+                        <div className="relative">
+                            <Search
+                                aria-hidden="true"
+                                className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--ls-ink-quiet)]"
+                            />
+                            <Input
+                                aria-label="Search enrollments"
+                                placeholder="Search enrollments..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="pl-9"
+                            />
+                        </div>
+                        {mounted ? (
+                            <Select value={statusFilter} onValueChange={handleStatusChange}>
+                                <SelectTrigger aria-label="Filter enrollments by status">
+                                    <SelectValue placeholder="All status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All status</SelectItem>
+                                    <SelectItem value="ACTIVE">Active</SelectItem>
+                                    <SelectItem value="COMPLETED">Completed</SelectItem>
+                                    <SelectItem value="REVOKED">Revoked</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        ) : (
+                            <Skeleton className="h-10 w-full" />
+                        )}
+                    </div>
+                </Panel>
+
+                <p aria-live="polite" className="ls-nums text-sm text-[var(--ls-ink-quiet)]">
+                    {isLoading
+                        ? "Loading enrollments…"
+                        : total !== undefined
+                          ? `${total} enrolment${total === 1 ? "" : "s"}`
+                          : `${rows.length} shown`}
+                </p>
+
+                {isLoading && !isFetching ? (
+                    <div className="space-y-3">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton key={i} className="h-16" />
+                        ))}
+                    </div>
+                ) : rows.length === 0 ? (
+                    <Panel>
+                        <EmptyState
+                            title="No enrollments found"
+                            description="Enrollments will appear here once users enroll in courses."
+                            illustration="/illustrations/focused.svg"
+                        />
+                    </Panel>
+                ) : (
+                    <Panel className="overflow-hidden">
+                        <div className={cn(isFetching && "pointer-events-none opacity-50")}>
+                            {/* Desktop: dense semantic table. */}
+                            <div className="hidden md:block">
+                                <Table>
+                                    <TableCaption className="sr-only">
+                                        Course enrollments, page {currentPage} of {totalPages}
+                                    </TableCaption>
+                                    <TableHeader>
+                                        <TableRow className="border-[var(--ls-divider)]">
+                                            <TableHead className="min-w-[160px] text-[var(--ls-ink-quiet)]">
+                                                User
+                                            </TableHead>
+                                            <TableHead className="min-w-[180px] text-[var(--ls-ink-quiet)]">
+                                                Course
+                                            </TableHead>
+                                            <TableHead className="min-w-[120px] text-[var(--ls-ink-quiet)]">
+                                                Company
+                                            </TableHead>
+                                            <TableHead className="min-w-[100px] text-[var(--ls-ink-quiet)]">
+                                                Status
+                                            </TableHead>
+                                            <TableHead className="min-w-[110px] text-right text-[var(--ls-ink-quiet)]">
+                                                Enrolled
+                                            </TableHead>
+                                            <TableHead className="min-w-[90px] text-right text-[var(--ls-ink-quiet)]">
+                                                Actions
+                                            </TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {rows.map((enrollment: Enrollment) => {
+                                            const status = presentEnrolmentStatusOnly(
+                                                enrollment.status,
+                                            );
+                                            return (
+                                                <TableRow
+                                                    key={enrollment.enrollmentId}
+                                                    className="border-[var(--ls-divider)] hover:bg-[var(--ls-paper-quiet)]"
+                                                >
+                                                    <TableCell className="font-medium text-[var(--ls-ink)]">
+                                                        {learnerName(enrollment)}
+                                                    </TableCell>
+                                                    <TableCell className="max-w-[240px] truncate text-[var(--ls-ink)]">
+                                                        {enrollment.course?.title ||
+                                                            "Unknown Course"}
+                                                    </TableCell>
+                                                    <TableCell className="text-[var(--ls-ink-quiet)]">
+                                                        {enrollment.company?.name || "N/A"}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <StatusPill tone={status.tone}>
+                                                            {status.label}
+                                                        </StatusPill>
+                                                    </TableCell>
+                                                    <TableCell className="ls-nums text-right text-[var(--ls-ink-quiet)]">
+                                                        {enrolledOn(enrollment)}
+                                                    </TableCell>
+                                                    <TableCell className="text-right">
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() =>
+                                                                handleEditClick(enrollment)
+                                                            }
+                                                        >
+                                                            Manage
+                                                            <span className="sr-only">
+                                                                {" "}
+                                                                enrolment for{" "}
+                                                                {learnerName(enrollment)}
+                                                            </span>
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </div>
+
+                            {/* Narrow screens: labelled records, so the Manage action
+                                stays reachable without horizontal scrolling. */}
+                            <ul className="divide-y divide-[var(--ls-divider)] md:hidden">
+                                {rows.map((enrollment: Enrollment) => {
+                                    const status = presentEnrolmentStatusOnly(enrollment.status);
+                                    return (
+                                        <li
+                                            key={enrollment.enrollmentId}
+                                            className="space-y-3 p-4"
+                                        >
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="font-medium text-[var(--ls-ink)]">
+                                                        {learnerName(enrollment)}
+                                                    </p>
+                                                    <p className="truncate text-sm text-[var(--ls-ink-quiet)]">
+                                                        {enrollment.course?.title ||
+                                                            "Unknown Course"}
+                                                    </p>
+                                                </div>
+                                                <StatusPill tone={status.tone} className="shrink-0">
+                                                    {status.label}
+                                                </StatusPill>
+                                            </div>
+                                            <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                                                <dt className="text-[var(--ls-ink-quiet)]">
+                                                    Company
+                                                </dt>
+                                                <dd className="text-right text-[var(--ls-ink)]">
+                                                    {enrollment.company?.name || "N/A"}
+                                                </dd>
+                                                <dt className="text-[var(--ls-ink-quiet)]">
+                                                    Enrolled
+                                                </dt>
+                                                <dd className="ls-nums text-right text-[var(--ls-ink)]">
+                                                    {enrolledOn(enrollment)}
+                                                </dd>
+                                            </dl>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="w-full"
+                                                onClick={() => handleEditClick(enrollment)}
+                                            >
+                                                Manage
+                                                <span className="sr-only">
+                                                    {" "}
+                                                    enrolment for {learnerName(enrollment)}
+                                                </span>
+                                            </Button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+
+                        {totalPages > 1 ? (
+                            <div className="flex items-center justify-between border-t border-[var(--ls-divider)] px-4 py-3">
+                                <div className="ls-nums text-sm text-[var(--ls-ink-quiet)]">
+                                    Page {currentPage} of {totalPages}
+                                </div>
+                                <div className="flex gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1 || isFetching}
+                                    >
+                                        Previous
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                                        disabled={currentPage === totalPages || isFetching}
+                                    >
+                                        Next
+                                    </Button>
+                                </div>
+                            </div>
+                        ) : null}
+                    </Panel>
+                )}
+
+                <EditEnrollmentDialog
+                    open={isEditOpen}
+                    onOpenChange={setIsEditOpen}
+                    enrollment={editingEnrollment}
+                />
             </div>
-          </CardContent>
-        </Card>
-
-        {isLoading && !isFetching ? (<div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (<Skeleton key={i} className="h-16"/>))}
-          </div>) : !enrollmentsData?.data || enrollmentsData.data.length === 0 ? (<EmptyState title="No enrollments found" description="Enrollments will appear here once users enroll in courses." illustration="/illustrations/focused.svg"/>) : (<Card>
-            <CardContent className="p-0">
-              <div className={cn("overflow-x-auto", isFetching && "opacity-50 pointer-events-none")}>
-                <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="min-w-[120px]">User</TableHead>
-                    <TableHead className="min-w-[150px]">Course</TableHead>
-                    <TableHead className="min-w-[100px] hidden md:table-cell">Company</TableHead>
-                    <TableHead className="min-w-[80px]">Status</TableHead>
-                    <TableHead className="min-w-[100px] hidden sm:table-cell">Enrolled</TableHead>
-                    <TableHead className="text-right min-w-[80px]">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {enrollmentsData.data.map((enrollment: Enrollment) => (<TableRow key={enrollment.enrollmentId}>
-                      <TableCell className="font-medium">
-                        {enrollment.user
-                    ? `${enrollment.user.firstName || ""} ${enrollment.user.lastName || ""}`.trim() || enrollment.user.email
-                    : "N/A"}
-                      </TableCell>
-                      <TableCell className="max-w-[200px] truncate">
-                        {enrollment.course?.title || "Unknown Course"}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">{enrollment.company?.name || "N/A"}</TableCell>
-                      <TableCell>
-                        <span className={`px-2 py-1 text-xs rounded whitespace-nowrap ${enrollment.status === "ACTIVE"
-                    ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                    : enrollment.status === "COMPLETED"
-                        ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                        : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"}`}>
-                          {enrollment.status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell">
-                        {new Date(enrollment.enrolledAt).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button variant="outline" size="sm" onClick={() => handleEditClick(enrollment)}>
-                          Manage
-                        </Button>
-                      </TableCell>
-                    </TableRow>))}
-                </TableBody>
-              </Table>
-              </div>
-            </CardContent>
-            {totalPages > 1 && (<div className="flex items-center justify-between px-6 py-4 border-t">
-                <div className="text-sm text-muted-foreground">
-                  Page {currentPage} of {totalPages}
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={currentPage === 1 || isFetching}>
-                    Previous
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages || isFetching}>
-                    Next
-                  </Button>
-                </div>
-              </div>)}
-          </Card>)}
-
-        <EditEnrollmentDialog open={isEditOpen} onOpenChange={setIsEditOpen} enrollment={editingEnrollment}/>
-      </div>
-    </PageLayout>);
+        </LearningSurface>
+    );
 }

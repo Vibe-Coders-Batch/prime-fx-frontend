@@ -1,14 +1,16 @@
 "use client";
-import { PageLayout } from "@/components/layout/page-layout";
 import { useCourses } from "@/features/courses/hooks/use-courses";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Video, BookOpen, ExternalLink, Edit, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
+import { StatusPill, type StatusTone } from "@/components/learning/status-pill";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { SecureVideoPlayer } from "@/components/ui/secure-video-player";
@@ -70,32 +72,18 @@ export default function InstructorVideosPage() {
         });
     }, [coursesData]);
     const getStatusBadge = (status: string) => {
-        const statusConfig = {
-            READY: {
-                label: "Ready",
-                variant: "default" as const,
-                className: "bg-green-100 text-green-800 border-green-200",
-            },
-            PROCESSING: {
-                label: "Processing",
-                variant: "secondary" as const,
-                className: "bg-blue-100 text-blue-800 border-blue-200",
-            },
-            DRAFT: {
-                label: "Draft",
-                variant: "outline" as const,
-                className: "bg-gray-100 text-gray-800 border-gray-200",
-            },
-            PENDING_APPROVAL: {
-                label: "Pending",
-                variant: "secondary" as const,
-                className: "bg-yellow-100 text-yellow-800 border-yellow-200",
-            },
+        const statusConfig: Record<string, { label: string; tone: StatusTone }> = {
+            READY: { label: "Ready", tone: "ok" },
+            PROCESSING: { label: "Processing", tone: "accent" },
+            DRAFT: { label: "Draft", tone: "neutral" },
+            PENDING_APPROVAL: { label: "Pending", tone: "warn" },
         };
-        const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.DRAFT;
-        return (<Badge variant={config.variant} className={config.className}>
-        {config.label}
-      </Badge>);
+        const config = statusConfig[status] || statusConfig.DRAFT;
+        return (
+            <StatusPill tone={config.tone} className="bg-[var(--ls-paper)]/95">
+                {config.label}
+            </StatusPill>
+        );
     };
     const formatDuration = (seconds?: number) => {
         if (!seconds)
@@ -104,33 +92,18 @@ export default function InstructorVideosPage() {
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
     };
-    return (<PageLayout header="My Videos" subtitle="Video Management" description="View and manage all your uploaded video lessons.">
-      {isLoading ? (<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (<motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1, duration: 0.4 }}>
-              <Card className="overflow-hidden">
-                <Skeleton className="aspect-video w-full"/>
-                <CardHeader>
-                  <Skeleton className="h-5 w-3/4 mb-2"/>
-                  <Skeleton className="h-4 w-full mb-1"/>
-                  <Skeleton className="h-4 w-5/6"/>
-                  <Skeleton className="h-5 w-20 mt-3 rounded-full"/>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex gap-2">
-                    <Skeleton className="h-9 flex-1 rounded-md"/>
-                    <Skeleton className="h-9 flex-1 rounded-md"/>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>))}
-        </motion.div>) : videoLessons.length === 0 ? (<EmptyState title="No videos yet" description="Upload your first video lesson to get started." icon={<Video className="h-12 w-12"/>} action={{
+    return (<LearningSurface width="wide">
+      <LearningPageHeader eyebrow="Video management" title="My videos" description="View and manage all your uploaded video lessons."/>
+      {isLoading ? (<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (<Skeleton key={i} className="h-80 rounded-lg"/>))}
+        </div>) : videoLessons.length === 0 ? (<Panel><EmptyState title="No videos yet" description="Upload your first video lesson to get started." icon={<Video className="h-12 w-12"/>} action={{
                 label: "Create Course",
                 onClick: () => (window.location.href = "/instructor/courses/new"),
-            }}/>) : (<div className="space-y-4 sm:space-y-6">
+            }}/></Panel>) : (<div className="space-y-4 sm:space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold">All Videos</h2>
-              <p className="text-muted-foreground mt-1 text-sm sm:text-base">
+              <h2 className="text-base font-semibold text-[var(--ls-ink)]">All videos</h2>
+              <p className="ls-nums mt-1 text-sm text-[var(--ls-ink-quiet)]">
                 {videoLessons.length} video
                 {videoLessons.length !== 1 ? "s" : ""} across{" "}
                 {new Set(videoLessons.map((v) => v.courseId)).size} course
@@ -148,13 +121,13 @@ export default function InstructorVideosPage() {
             </Link>
           </div>
 
-          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {videoLessons.map((video, index) => (<motion.div key={video.lessonId} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05, duration: 0.4 }}>
-                <Card className="hover:shadow-lg transition-shadow flex flex-col h-full">
-                  <div className="aspect-video w-full overflow-hidden rounded-t-lg relative bg-black">
+          <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {videoLessons.map((video) => (<li key={video.lessonId}>
+                <Panel className="flex flex-col h-full overflow-hidden">
+                  <div className="aspect-video w-full overflow-hidden border-b border-[var(--ls-divider)] relative bg-black">
                     {video.status === "READY" ? (<SecureVideoPlayer lessonId={video.lessonId} className="w-full h-full" autoPlay={false} showStatus={true}/>) : (<div className="w-full h-full flex flex-col items-center justify-center text-white">
-                        <Video className="h-12 w-12 mb-2 text-muted-foreground"/>
-                        <p className="text-sm text-muted-foreground">
+                        <Video aria-hidden="true" className="h-12 w-12 mb-2 text-zinc-400"/>
+                        <p className="text-sm text-zinc-400">
                           {video.status === "PROCESSING"
                         ? "Processing..."
                         : "Not Ready"}
@@ -165,27 +138,27 @@ export default function InstructorVideosPage() {
                     </div>
                   </div>
 
-                  <CardHeader>
-                    <CardTitle className="line-clamp-2 leading-tight">
+                  <div className="p-4 space-y-2">
+                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[var(--ls-ink)]">
                       {video.title}
-                    </CardTitle>
-                    <CardDescription className="line-clamp-2 mt-1">
+                    </h3>
+                    <p className="line-clamp-2 text-sm text-[var(--ls-ink-quiet)]">
                       {video.description || "No description provided."}
-                    </CardDescription>
-                    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+                    </p>
+                    <div className="flex items-center gap-2 text-xs text-[var(--ls-ink-quiet)]">
                       <BookOpen className="h-3 w-3"/>
                       <span className="line-clamp-1">{video.courseTitle}</span>
                     </div>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                    <div className="ls-nums flex items-center gap-4 text-xs text-[var(--ls-ink-quiet)]">
                       <span>Section: {video.sectionTitle}</span>
                       {video.duration && (<>
                           <span>•</span>
                           <span>{formatDuration(video.duration)}</span>
                         </>)}
                     </div>
-                  </CardHeader>
+                  </div>
 
-                  <CardContent className="mt-auto pt-0">
+                  <div className="mt-auto p-4 pt-0">
                     <div className="flex gap-2 flex-wrap sm:flex-nowrap">
                       <Button variant="outline" className="flex-1 min-w-[80px]" size="sm" onClick={() => {
                     setPreviewLessonId(video.lessonId);
@@ -208,10 +181,10 @@ export default function InstructorVideosPage() {
                         </Button>
                       </Link>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>))}
-          </div>
+                  </div>
+                </Panel>
+              </li>))}
+          </ul>
         </div>)}
 
       
@@ -236,5 +209,5 @@ export default function InstructorVideosPage() {
             </div>)}
         </DialogContent>
       </Dialog>
-    </PageLayout>);
+    </LearningSurface>);
 }

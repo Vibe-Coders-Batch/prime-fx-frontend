@@ -1,6 +1,9 @@
 "use client";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -99,14 +102,18 @@ function CheckoutContent() {
         ? parseFloat(String(effectiveCoupon.finalAmount))
         : baseAmount;
     if (isLoading) {
-        return (<PageLayout header="Loading...">
-        <Skeleton className="h-64 w-full"/>
-      </PageLayout>);
+        return (<LearningSurface width="wide">
+        <LearningPageHeader title="Loading..."/>
+        <Skeleton className="h-64 w-full rounded-lg"/>
+      </LearningSurface>);
     }
     if (!course) {
-        return (<PageLayout header="Course Not Found">
-        <EmptyState title="Course not found" description="The course you're looking for doesn't exist." icon={<ShoppingCart className="h-12 w-12"/>}/>
-      </PageLayout>);
+        return (<LearningSurface width="wide">
+        <LearningPageHeader title="Course not found"/>
+        <Panel>
+          <EmptyState title="Course not found" description="The course you're looking for doesn't exist." icon={<ShoppingCart className="h-12 w-12"/>}/>
+        </Panel>
+      </LearningSurface>);
     }
     const handlePayment = async () => {
         try {
@@ -130,14 +137,13 @@ function CheckoutContent() {
             void error;
         }
     };
-    return (<PageLayout header="Checkout" subtitle="Complete Your Purchase" description="Review your order and complete payment">
+    return (<LearningSurface width="wide">
+      <LearningPageHeader eyebrow="Complete your purchase" title="Checkout" description="Review your order and complete payment"/>
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Billing Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Panel className="p-5">
+            <h2 className="mb-4 text-base font-semibold text-[var(--ls-ink)]">Billing information</h2>
+            <div className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
@@ -165,14 +171,12 @@ function CheckoutContent() {
         })}/>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </Panel>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Payment Method</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Panel className="p-5">
+            <h2 className="mb-4 text-base font-semibold text-[var(--ls-ink)]">Payment method</h2>
+            <div>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>Select Payment Gateway</Label>
@@ -187,27 +191,25 @@ function CheckoutContent() {
                       </SelectContent>
                     </Select>) : (<div className="h-10 w-full bg-muted animate-pulse rounded-md"/>)}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-[var(--ls-ink-quiet)]">
                   <CreditCard className="h-4 w-4"/>
                   <span>Secure payment processing</span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </Panel>
         </div>
 
         <div>
-          <Card className="sticky top-4">
-            <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Panel className="sticky top-6 p-5">
+            <h2 className="mb-4 text-base font-semibold text-[var(--ls-ink)]">Order summary</h2>
+            <div className="space-y-4">
               <div>
                 <h3 className="font-semibold mb-2">{course.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">
+                <p className="line-clamp-2 text-sm text-[var(--ls-ink-quiet)]">
                   {course.description}
                 </p>
-                {itemType === "SECTION" && targetSection && (<p className="text-xs text-muted-foreground mt-2">
+                {itemType === "SECTION" && targetSection && (<p className="mt-2 text-xs text-[var(--ls-ink-quiet)]">
                     Purchasing section: {targetSection.title}
                   </p>)}
               </div>
@@ -227,7 +229,7 @@ function CheckoutContent() {
                   {effectiveCoupon ? (<div className="mt-2 flex items-center justify-between rounded-md border p-2">
                       <div className="text-sm">
                         <span className="font-medium">{effectiveCoupon.couponCode}</span>
-                        <span className="text-muted-foreground"> applied</span>
+                        <span className="text-[var(--ls-ink-quiet)]"> applied</span>
                       </div>
                       <Button size="sm" variant="ghost" onClick={() => {
                 setAppliedCoupon(null);
@@ -253,17 +255,17 @@ function CheckoutContent() {
                           Apply
                         </Button>
                       </div>
-                      {couponPreview && (<div className={`text-xs ${couponPreview.valid ? "text-green-600" : "text-destructive"}`}>
+                      {couponPreview && (<div className={`text-xs ${couponPreview.valid ? "text-[var(--ls-ok)]" : "text-[var(--ls-risk)]"}`}>
                           {couponPreview.message}
                         </div>)}
                     </div>)}
                 </div>
 
                 {effectiveCoupon && (<div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-[var(--ls-ink-quiet)]">
                       Discount ({effectiveCoupon.couponCode})
                     </span>
-                    <span className="text-green-600 font-medium">
+                    <span className="ls-nums font-medium text-[var(--ls-ok)]">
                       -{currency}{" "}
                       {parseFloat(String(effectiveCoupon.discountAmount)).toFixed(2)}
                     </span>
@@ -279,16 +281,17 @@ function CheckoutContent() {
               <Button className="w-full" onClick={handlePayment} disabled={createPayment.isPending}>
                 {createPayment.isPending ? "Processing..." : "Complete Payment"}
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </Panel>
         </div>
       </div>
-    </PageLayout>);
+    </LearningSurface>);
 }
 export default function CheckoutPage() {
-    return (<Suspense fallback={<PageLayout header="Loading...">
-          <Skeleton className="h-64 w-full"/>
-        </PageLayout>}>
+    return (<Suspense fallback={<LearningSurface width="wide">
+          <LearningPageHeader title="Loading..."/>
+          <Skeleton className="h-64 w-full rounded-lg"/>
+        </LearningSurface>}>
       <CheckoutContent />
     </Suspense>);
 }

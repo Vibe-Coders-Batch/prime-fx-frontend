@@ -1,22 +1,34 @@
 "use client";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Users } from "lucide-react";
+import { useState } from "react";
+import { Search, UserPlus, Users } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { UserPlus as UserPlusIcon } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Input } from "@/components/ui/input";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
+import { OpsList, ResultCount, type OpsColumn } from "@/components/learning/ops-list";
+import { StatusPill } from "@/components/learning/status-pill";
+import { sentenceCaseEnum } from "@/components/learning/format";
 import { useUsers } from "@/features/users/hooks/use-users";
 import { useAuthStore } from "@/lib/store/auth-store";
-import { Skeleton } from "@/components/ui/skeleton";
-import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
+
+/** The row shape this list actually receives, taken from the hook. */
+type UserRow = NonNullable<ReturnType<typeof useUsers>["data"]>["data"][number];
+
+function displayName(user: UserRow) {
+    if (!user.firstName && !user.lastName) return "N/A";
+    return `${user.firstName || ""} ${user.lastName || ""}`.trim();
+}
+
 export default function CorporateUserManagementPage() {
     const { user } = useAuthStore();
     const [search, setSearch] = useState("");
+
     const { data: usersData, isLoading } = useUsers({
         enabled: true,
         filters: {
@@ -26,78 +38,110 @@ export default function CorporateUserManagementPage() {
             limit: 100,
         },
     });
-    return (<PageLayout header="User Management" subtitle="Corporate" description="Manage your company's users and their course access." actions={<Button onClick={() => {
-                toast.info("Add users feature coming soon. You'll be able to add users via CSV upload or manual entry.");
-            }}>
-          <UserPlusIcon className="h-4 w-4 mr-2"/>
-          Add Users
-        </Button>}>
-      <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Search Users</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-              <Input placeholder="Search by email..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9"/>
-            </div>
-          </CardContent>
-        </Card>
 
-        {isLoading ? (<DataTableSkeleton columnCount={5} rowCount={10}/>) : usersData?.data.length === 0 ? (<EmptyState title="No users found" description="Add users to your company account to get started." icon={<Users className="h-12 w-12"/>} action={{
-                label: "Add Users",
-                onClick: () => { },
-            }}/>) : (<Card>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="min-w-[120px]">Name</TableHead>
-                      <TableHead className="min-w-[200px]">Email</TableHead>
-                      <TableHead className="min-w-[100px] hidden sm:table-cell">
-                        Role
-                      </TableHead>
-                      <TableHead className="min-w-[100px]">Status</TableHead>
-                      <TableHead className="text-right min-w-[100px]">
-                        Actions
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {usersData?.data?.map((user) => (<TableRow key={user.id}>
-                        <TableCell className="font-medium">
-                          {user.firstName || user.lastName
-                    ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
-                    : "N/A"}
-                        </TableCell>
-                        <TableCell className="truncate max-w-[200px]">
-                          {user.email}
-                        </TableCell>
-                        <TableCell className="hidden sm:table-cell">
-                          <span className="px-2 py-1 text-xs rounded bg-muted">
-                            {user.role}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          {user.emailVerified ? (<span className="text-green-600">Active</span>) : (<span className="text-muted-foreground">
-                              Pending
-                            </span>)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => {
-                    toast.info(`User management for ${user.email}: feature coming soon`);
-                }}>
-                            Manage
-                          </Button>
-                        </TableCell>
-                      </TableRow>))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>)}
-      </div>
-    </PageLayout>);
+    const rows = usersData?.data ?? [];
+
+    const columns: OpsColumn<UserRow>[] = [
+        { key: "name", header: "Name", primary: true, cell: displayName },
+        { key: "email", header: "Email", secondary: true, cell: (u) => u.email },
+        {
+            key: "role",
+            header: "Role",
+            badge: true,
+            cell: (u) => <StatusPill tone="neutral">{sentenceCaseEnum(u.role)}</StatusPill>,
+        },
+        {
+            key: "status",
+            header: "Status",
+            badge: true,
+            cell: (u) =>
+                u.emailVerified ? (
+                    <StatusPill tone="ok">Active</StatusPill>
+                ) : (
+                    <StatusPill tone="neutral">Pending</StatusPill>
+                ),
+        },
+    ];
+
+    return (
+        <LearningSurface width="wide">
+            <LearningPageHeader
+                eyebrow="Corporate"
+                title="User management"
+                description="Manage your company's users and their course access."
+                actions={
+                    <Button
+                        onClick={() => {
+                            toast.info(
+                                "Add users feature coming soon. You'll be able to add users via CSV upload or manual entry.",
+                            );
+                        }}
+                    >
+                        <UserPlus aria-hidden="true" className="mr-2 h-4 w-4" />
+                        Add Users
+                    </Button>
+                }
+            />
+
+            <div className="space-y-4">
+                <Panel className="p-4">
+                    <div className="relative">
+                        <Search
+                            aria-hidden="true"
+                            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--ls-ink-quiet)]"
+                        />
+                        <Input
+                            aria-label="Search users by email"
+                            placeholder="Search by email..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="pl-9"
+                        />
+                    </div>
+                </Panel>
+
+                <ResultCount
+                    isLoading={isLoading}
+                    total={rows.length}
+                    shown={rows.length}
+                    noun="user"
+                />
+
+                {isLoading ? (
+                    <DataTableSkeleton columnCount={5} rowCount={10} />
+                ) : rows.length === 0 ? (
+                    <Panel>
+                        <EmptyState
+                            title="No users found"
+                            description="Add users to your company account to get started."
+                            icon={<Users className="h-12 w-12" />}
+                            action={{ label: "Add Users", onClick: () => {} }}
+                        />
+                    </Panel>
+                ) : (
+                    <OpsList
+                        caption="Company users"
+                        columns={columns}
+                        rows={rows}
+                        getRowKey={(u) => u.id}
+                        renderActions={(u) => (
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="w-full sm:w-auto"
+                                onClick={() => {
+                                    toast.info(
+                                        `User management for ${u.email}: feature coming soon`,
+                                    );
+                                }}
+                            >
+                                Manage
+                                <span className="sr-only"> {displayName(u)}</span>
+                            </Button>
+                        )}
+                    />
+                )}
+            </div>
+        </LearningSurface>
+    );
 }

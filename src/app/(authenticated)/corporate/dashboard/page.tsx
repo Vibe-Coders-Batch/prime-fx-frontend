@@ -1,94 +1,102 @@
 "use client";
-import { PageLayout } from "@/components/layout/page-layout";
-import { StatCard } from "@/components/ui/stat-card";
+import { StatsCardSkeleton } from "@/components/cards/stats-card-skeleton";
 import { SimpleBarChart } from "@/components/ui/simple-chart";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+    SectionHeading,
+} from "@/components/learning/learning-surface";
+import { MetricTile } from "@/components/learning/metric-tile";
 import { useUsers } from "@/features/users/hooks/use-users";
 import { useEnrollments } from "@/features/enrollments/hooks/use-enrollments";
 import type { Enrollment } from "@/features/enrollments/types";
 import { useAuthStore } from "@/lib/store/auth-store";
-import { Skeleton } from "@/components/ui/skeleton";
-import { StatsCardSkeleton } from "@/components/cards/stats-card-skeleton";
-import { Users, BookOpen, CheckCircle, Clock } from "lucide-react";
-import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-const container = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1,
-        },
-    },
-};
-const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-};
+
 export default function CorporateDashboardPage() {
     const { user } = useAuthStore();
     const { data: usersData, isLoading: usersLoading } = useUsers({
         enabled: true,
-        filters: {
-            companyId: user?.companyId ?? undefined,
-            limit: 1000,
-        },
+        filters: { companyId: user?.companyId ?? undefined, limit: 1000 },
     });
     const { data: enrollmentsData, isLoading: enrollmentsLoading } = useEnrollments({
         enabled: true,
-        filters: {
-            companyId: user?.companyId ?? undefined,
-            limit: 1000,
-        },
+        filters: { companyId: user?.companyId ?? undefined, limit: 1000 },
     });
-    const usersArray = Array.isArray(usersData)
-        ? usersData
-        : (usersData as any)?.data || [];
+
+    const usersArray = Array.isArray(usersData) ? usersData : (usersData as any)?.data || [];
     const enrollmentsArray = Array.isArray(enrollmentsData)
         ? enrollmentsData
         : (enrollmentsData as any)?.data || [];
-    const totalUsers = usersArray.length;
-    const activeEnrollments = enrollmentsArray.filter((e: Enrollment) => e.status === "ACTIVE").length;
-    const completedEnrollments = enrollmentsArray.filter((e: Enrollment) => e.status === "COMPLETED").length;
-    const totalCourses = new Set(enrollmentsArray.map((e: Enrollment) => e.courseId)).size;
-    const enrollmentBreakdown = [
-        {
-            label: "Active",
-            value: activeEnrollments,
-            color: "bg-blue-500",
-        },
-        {
-            label: "Completed",
-            value: completedEnrollments,
-            color: "bg-green-500",
-        },
-    ];
-    return (<PageLayout header="Corporate Dashboard" subtitle="Company Overview & Analytics" description="Manage your team's learning, track enrollment progress, and monitor analytics.">
-      <div className="space-y-6">
-        <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {usersLoading || enrollmentsLoading ? (<>
-              <StatsCardSkeleton />
-              <StatsCardSkeleton />
-              <StatsCardSkeleton />
-              <StatsCardSkeleton />
-            </>) : (<>
-              <motion.div variants={item}>
-                <StatCard title="Total Users" description="Employees in your company" value={totalUsers} icon={Users} gradient="from-blue-500 to-cyan-500"/>
-              </motion.div>
-              <motion.div variants={item}>
-                <StatCard title="Active Enrollments" description="Current course enrollments" value={activeEnrollments} icon={Clock} gradient="from-purple-500 to-pink-500"/>
-              </motion.div>
-              <motion.div variants={item}>
-                <StatCard title="Completed" description="Completed enrollments" value={completedEnrollments} icon={CheckCircle} gradient="from-green-500 to-emerald-500"/>
-              </motion.div>
-              <motion.div variants={item}>
-                <StatCard title="Courses Assigned" description="Total courses assigned" value={totalCourses} icon={BookOpen} gradient="from-amber-500 to-orange-500"/>
-              </motion.div>
-            </>)}
-        </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-          <SimpleBarChart title="Enrollment Status Breakdown" data={enrollmentBreakdown} height={150}/>
-        </motion.div>
-      </div>
-    </PageLayout>);
+    const totalUsers = usersArray.length;
+    const activeEnrollments = enrollmentsArray.filter(
+        (e: Enrollment) => e.status === "ACTIVE",
+    ).length;
+    const completedEnrollments = enrollmentsArray.filter(
+        (e: Enrollment) => e.status === "COMPLETED",
+    ).length;
+    const totalCourses = new Set(enrollmentsArray.map((e: Enrollment) => e.courseId)).size;
+
+    const enrollmentBreakdown = [
+        { label: "Active", value: activeEnrollments, color: "bg-[var(--ls-accent)]" },
+        { label: "Completed", value: completedEnrollments, color: "bg-[var(--ls-ok)]" },
+    ];
+
+    return (
+        <LearningSurface width="wide">
+            <LearningPageHeader
+                eyebrow="Company overview and analytics"
+                title="Corporate dashboard"
+                description="Manage your team's learning, track enrollment progress, and monitor analytics."
+            />
+
+            <div className="space-y-6">
+                <section aria-labelledby="totals-heading" className="space-y-3">
+                    <SectionHeading id="totals-heading" title="Company totals" />
+                    {usersLoading || enrollmentsLoading ? (
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            <StatsCardSkeleton />
+                            <StatsCardSkeleton />
+                            <StatsCardSkeleton />
+                            <StatsCardSkeleton />
+                        </div>
+                    ) : (
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            <MetricTile
+                                label="Total users"
+                                value={totalUsers.toLocaleString()}
+                                hint="Employees in your company"
+                            />
+                            <MetricTile
+                                label="Active enrolments"
+                                value={activeEnrollments.toLocaleString()}
+                                hint="Current course enrollments"
+                            />
+                            <MetricTile
+                                label="Completed"
+                                value={completedEnrollments.toLocaleString()}
+                                hint="Completed enrollments"
+                            />
+                            <MetricTile
+                                label="Courses assigned"
+                                value={totalCourses.toLocaleString()}
+                                hint="Total courses assigned"
+                            />
+                        </div>
+                    )}
+                </section>
+
+                <section aria-labelledby="breakdown-heading" className="space-y-3">
+                    <SectionHeading
+                        id="breakdown-heading"
+                        title="Enrolment status breakdown"
+                    />
+                    <Panel className="p-4">
+                        <SimpleBarChart data={enrollmentBreakdown} height={150} noCard />
+                    </Panel>
+                </section>
+            </div>
+        </LearningSurface>
+    );
 }

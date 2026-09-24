@@ -51,38 +51,38 @@ function CourseCreationContent() {
         { title: "Review" },
     ];
     return (<PageTransition>
-      <div className="min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-8 p-4 md:p-8 max-w-[1600px] mx-auto">
+      <div className="learning-surface min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-8 bg-[var(--ls-canvas)] p-4 md:p-8 max-w-[1600px] mx-auto text-[var(--ls-ink)]">
         
         <div className="hidden lg:block lg:col-span-3 xl:col-span-2 relative">
            <div className="sticky top-8 space-y-8">
               <div>
                 <BackButton href="/instructor/courses" className="mb-4"/>
-                <h1 className="text-2xl font-bold tracking-tight mb-2">Create Course</h1>
-                <p className="text-muted-foreground text-sm">
+                <h1 className="text-2xl font-semibold tracking-tight mb-2 text-[var(--ls-ink)]">Create course</h1>
+                <p className="text-sm text-[var(--ls-ink-quiet)]">
                    {courseTitle || "Untitled Course"}
                 </p>
               </div>
               
-              <div className="relative border-l-2 border-muted pl-4 space-y-6">
+              <ol className="relative border-l-2 border-[var(--ls-divider)] pl-4 space-y-6">
                  {steps.map((step, index) => {
             const stepNum = index + 1;
             const isActive = stepNum === currentStep;
             const isCompleted = stepNum < currentStep;
-            return (<div key={index} className="relative group">
+            return (<li key={index} className="relative group">
                            
-                           {(isActive || isCompleted) && (<motion.div layoutId="activeStepLine" className={cn("absolute -left-[18px] top-0 h-full w-[2px]", isCompleted ? "bg-primary" : "bg-primary")} transition={{ duration: 0.3 }}/>)}
+                           {(isActive || isCompleted) && (<motion.div layoutId="activeStepLine" className={cn("absolute -left-[18px] top-0 h-full w-[2px]", isCompleted ? "bg-[var(--ls-accent)]" : "bg-[var(--ls-accent)]")} transition={{ duration: 0.3 }}/>)}
                            
-                           <div className={cn("flex items-center gap-3 text-sm transition-colors duration-200", isActive ? "text-primary font-semibold" :
-                    isCompleted ? "text-foreground" : "text-muted-foreground")}>
-                               <span className={cn("flex items-center justify-center w-6 h-6 rounded-full border text-[10px] bg-background", isActive ? "border-primary text-primary" :
-                    isCompleted ? "border-primary bg-primary text-primary-foreground" : "border-muted")}>
+                           <div className={cn("flex items-center gap-3 text-sm transition-colors duration-200", isActive ? "text-[var(--ls-accent-ink)] font-semibold" :
+                    isCompleted ? "text-[var(--ls-ink)]" : "text-[var(--ls-ink-quiet)]")}>
+                               <span className={cn("flex items-center justify-center w-6 h-6 rounded-full border text-[10px] bg-[var(--ls-paper)]", isActive ? "border-[var(--ls-accent)] text-[var(--ls-accent-ink)]" :
+                    isCompleted ? "border-[var(--ls-accent)] bg-[var(--ls-accent)] text-white" : "border-[var(--ls-divider-strong)]")}>
                                    {isCompleted ? "✓" : stepNum}
                                </span>
                                {step.title}
                            </div>
-                        </div>);
+                        </li>);
         })}
-              </div>
+              </ol>
            </div>
         </div>
 
@@ -91,7 +91,7 @@ function CourseCreationContent() {
             <div className="lg:hidden mb-6">
                 <div className="flex justify-between items-center mb-4">
                   <BackButton href="/instructor/courses"/>
-                  <span className="text-sm font-medium text-muted-foreground">Step {currentStep} of {totalSteps}</span>
+                  <span className="ls-nums text-sm font-medium text-[var(--ls-ink-quiet)]">Step {currentStep} of {totalSteps}</span>
                 </div>
                 
             </div>

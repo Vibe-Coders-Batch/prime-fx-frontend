@@ -185,3 +185,81 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Learning surface
+   Scoped visual layer for the authenticated LMS screens only. Everything here
+   is namespaced under .learning-surface so public/marketing output is
+   untouched. Plain custom properties (not @theme aliases) so the nested .dark
+   override resolves correctly under Tailwind v4.
+   --------------------------------------------------------------------------- */
+.learning-surface {
+  --ls-canvas: #f6f5f2;
+  --ls-paper: #ffffff;
+  --ls-paper-quiet: #faf9f7;
+  --ls-ink: #172033;
+  --ls-ink-quiet: #5e6878;
+  --ls-divider: #d9ddd8;
+  --ls-divider-strong: #c3c9c2;
+
+  --ls-accent: #276ef1;
+  --ls-accent-ink: #1a56c4;
+  --ls-accent-tint: #e8f0fe;
+
+  --ls-ok: #16794a;
+  --ls-ok-tint: #e7f4ec;
+  --ls-warn: #a86600;
+  --ls-warn-tint: #fbf1de;
+  --ls-risk: #b42318;
+  --ls-risk-tint: #fdeceb;
+  --ls-neutral-tint: #eeefec;
+}
+
+.dark .learning-surface {
+  --ls-canvas: #0a192f;
+  --ls-paper: #112240;
+  --ls-paper-quiet: #0e1c33;
+  --ls-ink: #f8fafc;
+  --ls-ink-quiet: #a3b1c6;
+  --ls-divider: #1e293b;
+  --ls-divider-strong: #2c3a4f;
+
+  --ls-accent: #6ba4ff;
+  --ls-accent-ink: #9cc2ff;
+  --ls-accent-tint: #16305a;
+
+  --ls-ok: #4ade80;
+  --ls-ok-tint: #10331f;
+  --ls-warn: #fbbf4a;
+  --ls-warn-tint: #38290c;
+  --ls-risk: #fca5a5;
+  --ls-risk-tint: #3d1615;
+  --ls-neutral-tint: #16223a;
+}
+
+/* Tabular numerals keep dates, counts and percentages aligned across rows. */
+.ls-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reading measure for learner prose columns. */
+.ls-measure {
+  max-width: 50rem;
+}
+
+.learning-surface :focus-visible {
+  outline: 2px solid var(--ls-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-surface *,
+  .learning-surface *::before,
+  .learning-surface *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

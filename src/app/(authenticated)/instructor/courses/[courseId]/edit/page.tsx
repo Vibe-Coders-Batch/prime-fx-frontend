@@ -1,8 +1,13 @@
 "use client";
 import { use, useState, useEffect } from "react";
-import { PageLayout } from "@/components/layout/page-layout";
+import {
+    LearningPageHeader,
+    LearningSurface,
+    Panel,
+} from "@/components/learning/learning-surface";
+import { StatusPill } from "@/components/learning/status-pill";
+import { sentenceCaseEnum } from "@/components/learning/format";
 import { PageTransition } from "@/components/page-transition";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { useCourse, useUpdateCourse, useSubmitCourseForReview, } from "@/features/courses/hooks/use-courses";
 import { EmptyState } from "@/components/ui/empty-state";
 import { BookOpen as BookIcon } from "lucide-react";
@@ -128,16 +133,20 @@ export default function CourseEditPage({ params, }: {
         return <CourseLoading type="edit"/>;
     }
     if (!course) {
-        return (<PageLayout header="Course Not Found">
-        <EmptyState title="Course not found" description="The course you're looking for doesn't exist." icon={<BookIcon className="h-12 w-12"/>}/>
-      </PageLayout>);
+        return (<LearningSurface width="wide">
+        <LearningPageHeader title="Course not found"/>
+        <Panel>
+          <EmptyState title="Course not found" description="The course you're looking for doesn't exist." icon={<BookIcon className="h-12 w-12"/>}/>
+        </Panel>
+      </LearningSurface>);
     }
     return (<PageTransition>
-      <PageLayout header={`Edit Course: ${course.title}`} subtitle="Course Management" description="Update your course details, curriculum, and settings." enableTransition={false} actions={<BackButton href="/instructor/courses"/>}>
+      <LearningSurface width="wide">
+        <LearningPageHeader eyebrow="Course management" title={`Edit course: ${course.title}`} description="Update your course details, curriculum, and settings." actions={<BackButton href="/instructor/courses"/>}/>
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <Badge variant="outline">{course.reviewStatus || "DRAFT"}</Badge>
-            {course.status === "PUBLISHED" && (<Badge className="bg-green-500">Published</Badge>)}
+            <StatusPill tone="neutral">{sentenceCaseEnum(course.reviewStatus || "DRAFT")}</StatusPill>
+            {course.status === "PUBLISHED" && (<StatusPill tone="ok">Published</StatusPill>)}
           </div>
           <div className="flex gap-2">
             <Button variant="secondary" disabled={submitForReview.isPending ||
@@ -161,17 +170,17 @@ export default function CourseEditPage({ params, }: {
           </TabsList>
 
           <TabsContent value="details">
-            <Card>
-              <CardHeader>
-                <CardTitle>Course Details</CardTitle>
-                <CardDescription>
+            <Panel className="p-5">
+              <div className="mb-4 space-y-1">
+                <h2 className="text-base font-semibold text-[var(--ls-ink)]">Course details</h2>
+                <p className="text-sm text-[var(--ls-ink-quiet)]">
                   Update your course information
-                </CardDescription>
-                {course.rejectionReason && (<div className="mt-2 p-2 bg-destructive/10 text-destructive text-sm rounded-md">
-                    <strong>Rejection Reason:</strong> {course.rejectionReason}
+                </p>
+                {course.rejectionReason && (<div className="mt-2 rounded-md border border-[var(--ls-divider)] bg-[var(--ls-risk-tint)] p-2 text-sm text-[var(--ls-risk)]">
+                    <strong>Rejection reason:</strong> {course.rejectionReason}
                   </div>)}
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   
                   <input type="hidden" {...register("categoryId")} value={watch("categoryId") || ""}/>
@@ -187,7 +196,7 @@ export default function CourseEditPage({ params, }: {
 
                   <div className="space-y-2">
                     <Label>Course Thumbnail</Label>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-[var(--ls-ink-quiet)]">
                       Upload or change the image shown for this course. This appears on the course card and detail page. Save changes to update it.
                     </p>
                     <div className="border-2 border-dashed border-muted-foreground/20 rounded-xl p-4 max-w-xl">
@@ -195,7 +204,7 @@ export default function CourseEditPage({ params, }: {
                         {watch("thumbnail") ? (
                           <SecureImage src={watch("thumbnail")!} alt="Course thumbnail" className="w-full h-full object-cover"/>
                         ) : (
-                          <span className="text-muted-foreground text-sm">No thumbnail. Upload one below.</span>
+                          <span className="text-sm text-[var(--ls-ink-quiet)]">No thumbnail. Upload one below.</span>
                         )}
                       </div>
                       <div className="flex flex-wrap items-center gap-3">
@@ -266,8 +275,8 @@ export default function CourseEditPage({ params, }: {
                     </Button>
                   </div>
                 </form>
-              </CardContent>
-            </Card>
+              </div>
+            </Panel>
           </TabsContent>
 
           <TabsContent value="curriculum">
@@ -275,14 +284,14 @@ export default function CourseEditPage({ params, }: {
           </TabsContent>
 
           <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Course Settings</CardTitle>
-                <CardDescription>
+            <Panel className="p-5">
+              <div className="mb-4 space-y-1">
+                <h2 className="text-base font-semibold text-[var(--ls-ink)]">Course settings</h2>
+                <p className="text-sm text-[var(--ls-ink-quiet)]">
                   Manage publication status and other settings.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
+                </p>
+              </div>
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="status">Publication Status</Label>
                   {mounted ? (<Select value={watch("status") || "DRAFT"} onValueChange={async (value: "DRAFT" | "PUBLISHED" | "ARCHIVED") => {
@@ -302,15 +311,15 @@ export default function CourseEditPage({ params, }: {
                         <SelectItem value="ARCHIVED">Archived</SelectItem>
                       </SelectContent>
                     </Select>) : (<div className="h-10 w-full bg-muted animate-pulse rounded-md"/>)}
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-[var(--ls-ink-quiet)]">
                     Note: Publishing a course will make it visible to students
                     immediately if approved.
                   </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </Panel>
           </TabsContent>
         </Tabs>
-      </PageLayout>
+      </LearningSurface>
     </PageTransition>);
 }
